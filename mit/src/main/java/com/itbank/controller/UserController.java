@@ -1,0 +1,75 @@
+package com.itbank.controller;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.itbank.model.UserDTO;
+import com.itbank.service.Hash;
+import com.itbank.service.UserService;
+
+@Controller
+@RequestMapping("/user")
+public class UserController {
+	
+	@Autowired private UserService us;
+	
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "home";
+	}
+	
+	@GetMapping("/login")
+	public void login() {}
+	
+	@GetMapping("/join")
+	public void join() {}
+	
+	@GetMapping("/mypage")
+	public void mypage() {}
+	
+	@GetMapping("/userDelete")
+	public void userDelete() {}
+	
+	@GetMapping("/userInfo")
+	public void userInfo() {}
+	
+	@PostMapping("/join")
+	public ModelAndView join(ModelAndView mav, UserDTO dto, String userbirth_1, String userbirth_2, String userbirth_3 ) {
+		int row = 0;
+		// 생년월일 8자리로 만들기
+		dto.setUserbirth(userbirth_1+userbirth_2+userbirth_3);
+		
+		// 비밀번호 해쉬처리
+		String hashUserPw = Hash.getHash(dto.getUserpw());
+		dto.setUserpw(hashUserPw);
+		
+		row =  us.join(dto);
+		mav.setViewName("user/join");
+		mav.addObject("row", row);
+		return mav;
+	}
+	
+	@PostMapping("/login")
+	public String login(Model model, UserDTO dto, HttpSession session) {
+		// 로그인 창에서 입력한 비밀번호 해쉬로 만들기
+		String hashUserPw = Hash.getHash(dto.getUserpw());
+		dto.setUserpw(hashUserPw);
+		
+		UserDTO login =  us.login(dto);
+		if(login != null) {
+			model.addAttribute("loginResult", 1);			
+		}else {
+			model.addAttribute("loginResult", 0);
+		}
+		session.setAttribute("login", login);
+		return "user/login";
+	}
+}
