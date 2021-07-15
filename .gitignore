@@ -11,6 +11,8 @@ tmp/
 *.swp
 *~.nib
 local.properties
+pom.properties
+MANIFEST.MF
 .settings/
 .loadpath
 .recommenders
