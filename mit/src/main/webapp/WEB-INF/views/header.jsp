@@ -120,7 +120,7 @@
 		test동연
 		test동연 노트북
 		다시 메인 테스트
-		뭐 먹을까?
+		점심 뭐 먹을까?
 	-->
 	 <header>
         <div class="logo"><a href="${cpath }">MIT.</a></div>
