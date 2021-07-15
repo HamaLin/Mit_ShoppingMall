@@ -18,26 +18,26 @@ import org.springframework.stereotype.Service;
 @Service
 public class MailService {
 
-public String getAuthNumber() {
-	// 임시 비밀번호 만들기
-	String authNumber = "";
+	public String getAuthNumber() {
+		// 임시 비밀번호 만들기
+		String authNumber = "";
+		
+		StringBuffer buffer = new StringBuffer();
 	
-	StringBuffer buffer = new StringBuffer();
-
-	Random random = new Random();
+		Random random = new Random();
+		
+		// 숫자, 영어 대소문자로 구성
+		String chars[] = "A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,0,1,2,3,4,5,6,7,8,9".split(",");
 	
-	// 숫자, 영어 대소문자로 구성
-	String chars[] = "A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,0,1,2,3,4,5,6,7,8,9".split(",");
-
-	// 10자리로 만들기
-	for (int i = 0; i < 10; i++) {	
-		buffer.append(chars[random.nextInt(chars.length)]);
+		// 10자리로 만들기
+		for (int i = 0; i < 10; i++) {	
+			buffer.append(chars[random.nextInt(chars.length)]);
+		}
+		authNumber += buffer.toString();
+	
+		return authNumber;
 	}
-	authNumber += buffer.toString();
-
-	return authNumber;
-}
-
+	
 	public String sendMail(String mailAddress, String authNumber, String account) {
 		
 		// 메일 발송하는 코드

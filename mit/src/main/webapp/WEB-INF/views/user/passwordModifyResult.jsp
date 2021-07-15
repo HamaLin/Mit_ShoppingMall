@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-	.userDelete {
+	.passwordModifyResult {
 		width: 300px;
 		height: 400px;
 		margin: 150px auto;
@@ -16,22 +16,22 @@
 		width: 280px;
 	    height: 80px;
 	}
-	.userDelete input[type="password"]  {
+	.passwordModifyResult input[type="password"]  {
 	    width: 250px;
 	    height: 40px;
 	    border: 1px solid rgb(65, 65, 65);
 	    padding-left: 15px;
 	}
-	.userDelete input[type="submit"], button {
+	.passwordModifyResult input[type="submit"], button {
 		cursor: pointer;
 		border: 1px solid rgb(65, 65, 65);
 		width: 269px;
 	    height: 44px;
 	}
-	.userDelete input[type="submit"]:hover, button:hover {
+	.passwordModifyResult input[type="submit"]:hover, button:hover {
 		color: grey;
 	} 
-	.userDelete input[type="submit"] {
+	.passwordModifyResult input[type="submit"] {
 		background-color: white;
 	}
 	button {
@@ -49,7 +49,7 @@
 	</script>
 </c:if>
 
-<div class="userDelete">
+<div class="passwordModifyResult">
 	<div class="inform">
 		<h2>비밀번호 변경하기</h2>
 		새로운 비밀번호를 입력해주세요.
