@@ -38,6 +38,9 @@ public class UserController {
 	@GetMapping("/passwordModify")
 	public void passwordModify() {}
 	
+	@GetMapping("/passwordFind")
+	public void passwordFind() {}
+	
 	@GetMapping("/passwordModifyResult")
 	public void passwordModifyResult() {}
 	

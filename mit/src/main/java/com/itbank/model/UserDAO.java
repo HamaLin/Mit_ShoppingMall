@@ -28,5 +28,8 @@ public interface UserDAO {
 	
 	@Update("update usertable set userpw = #{userpw} where userid = #{userid}")
 	int passwordModify(UserDTO dto);
+	
+	@Select("select count(*) from usertable where userid = #{userid} and usermail = #{usermail}")
+	int findUser(UserDTO dto);
 
 }

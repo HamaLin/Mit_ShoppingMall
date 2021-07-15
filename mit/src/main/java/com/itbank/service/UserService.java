@@ -84,4 +84,9 @@ public class UserService {
 		return dao.passwordModify(dto);
 	}
 
+	public int findUser(UserDTO dto) {
+		
+		return dao.findUser(dto);
+	}
+
 }

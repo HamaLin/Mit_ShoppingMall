@@ -43,7 +43,7 @@
 	</form>
 	<div>
 		<p><button><a href="${cpath }/user/join">회원가입</a></button></p>
-		<p><button><a href="">비밀번호 찾기</a></button></p>
+		<p><button><a href="${cpath }/user/passwordFind">비밀번호 찾기</a></button></p>
 	</div>
 </div>
 

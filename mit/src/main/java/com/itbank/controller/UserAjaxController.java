@@ -59,6 +59,14 @@ public class UserAjaxController {
 		}
 	}
 	
+	@PostMapping("/passwordFind")
+	public int passwordFind(UserDTO dto) {
+		// 입력한 정보로 회원 조회 
+		int row = us.findUser(dto);	
+			
+		return row;
+	}
+	
 	@PostMapping("/passwordModifyResult")
 	public int passwordModifyResult(UserDTO dto, String password, HttpSession session) {
 		String hashUserPw = Hash.getHash(password);
