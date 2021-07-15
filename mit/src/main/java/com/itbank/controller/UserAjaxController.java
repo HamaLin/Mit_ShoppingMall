@@ -30,7 +30,9 @@ public class UserAjaxController {
 	}
 	
 	@PostMapping("/userInfo")
-	public int userModify(UserDTO dto, HttpSession session) {
+	public int userModify(UserDTO dto, String postcode, String address, HttpSession session) {
+		dto.setUseraddress(postcode+"/"+address);
+		
 		int row = us.userModify(dto);
 		if (row == 1) {
 			session.invalidate();
