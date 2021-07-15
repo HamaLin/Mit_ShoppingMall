@@ -33,12 +33,15 @@
             <p><input type="number" name="pdprice" placeholder="상품 가격" >
             <input type="number" name="pdcount" placeholder="상품 재고" ><p>
             <p><input type="text" name="pdcolor" placeholder="색깔" ></p>
-            <p><div id="categoryDiv" onclick="addcategory(this)">1</div></p>
-            <p><input type="text" name="pdcode" id="category" placeholder="카테고리" ></p>
+            <p><div id="categoryDiv" onclick="addcategory(this)">1
+            </div></p>
+            <p><input type="text" name="pdcode" style="display: none;" id="category" placeholder="카테고리" ></p>
             
             <h2>상품 상세 정보</h2>
         	<hr>
-            <p><input type="file" id="test" name="files" accept="image/*" onchange="getchanged(this)" multiple></p>
+        	<div id="filelist">
+	            <p><input type="file" id="test" name="files" accept="image/*" onchange="getchanged(this)" multiple></p>
+        	</div>
             <div id="borderbox" style="display:flex border: 1px solid red; height: 500px; overflow: scroll; align-content:center; justify-content: center;">
     <!-- 			<div style="border: 1px solid blue;" id="showBox"></div> -->
                 <div id="showBox" style="width:90%; height:auto; border:1px solid blue;"></div>
@@ -65,9 +68,9 @@
         const test = document.getElementById('test')
         const borderbox = document.getElementById('borderbox')
         const result = document.getElementById('result')
+        const filelist = document.getElementById('filelist')
         const categoryDiv = document.getElementById('categoryDiv')
         const category = document.getElementById('category')
-        const filearr = new Array()
         
         function getinfodto() {
         	var link = document.location.search
@@ -138,7 +141,16 @@
 //         }
         
         function getchanged(event){
-        	filearr.push(test.files)
+        	
+        	var input = document.createElement('input')
+        	input.type = 'file'
+        	input.setAttribute('multiple', 'multiple')
+        	input.setAttribute('onchange', 'getchanged(this)')
+        	input.accept = 'image/*'
+        	input.name = 'files'
+        	filelist.appendChild(input)
+        	
+        	event.style.display = 'none'
         	
             if(event.files && event.files[0]){
                 var fileArray = Array.from(event.files)
@@ -270,11 +282,6 @@
             createcontent()
             createpdcode()
             const formData = new FormData(event.target)
-//             formData.delete('files')
-//             console.log(filearr)
-//             for(let i = 0; i < filearr.length ; i++){
-//             	formData.append('files', filearr[i], filearr[i].name)
-//             }
             
             for(let test of formData.entries()){
                 console.log(test)
@@ -302,10 +309,6 @@
             createcontent()
             createpdcode()
             const formData = new FormData(event.target)
-//             formData.delete('files')
-//             for(let i = 0; i < filearr.length ; i++){
-//             	formData.append('files',filearr[i],filearr[i].name)
-//             }
             
             const url = '${cpath}/store/modifyItem'
             const opt = {
@@ -342,18 +345,6 @@
                 }
                 content.innerText = content.textContent + '<p>' + showbox.children[i].textContent + '</p>'
             }
-//             var msg = content.textContent
-
-//             while(msg.length > 0) {
-//                 console.log(msg.length)
-//                 if(msg.indexOf('<img src="">') >= 0) {
-
-//                 }
-//                 if(msg.indexOf('</p>') >= 0) {
-//                     result.innerHTML += msg.substr(0, msg.indexOf('</p>')+4)
-//                     msg = msg.substr(msg.indexOf('</p>')+4)
-//                 }
-//             }
         }
         
         

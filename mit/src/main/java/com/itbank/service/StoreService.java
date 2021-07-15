@@ -30,16 +30,15 @@ public class StoreService {
 
 	public List<StoreDTO> getList() {
 		List<StoreDTO> list = dao.getList();
+		ArrayList<String> list2 = new ArrayList<String>();
+		
 		for(StoreDTO dto : list) {
 			if(dto.getPdimg() != null){
-				ArrayList<String> list2 = new ArrayList<String>();
-				String imgString = dto.getPdimg();
-				
-				for(int i = 0; i < imgString.length()-1 ; i++) {
-					list2.add(imgString.substring(0,dto.getPdimg().indexOf(",")));
-					imgString = imgString.substring(dto.getPdimg().indexOf(",") + 1);
-				}
-				dto.setFilename(list2);
+			File dir = new File(uploadPath + "\\" + dto.getPdcolor());
+			File[] files = dir.listFiles();
+			
+			list2.add(files[0].getName());
+			dto.setFilename(list2);
 			}
 		}
 		return list;
@@ -61,6 +60,9 @@ public class StoreService {
 		String fileName = "";
 		
 		for (MultipartFile f : files) {
+			if(f.getSize() == 0) {
+				break;
+			}
 			UUID uuid = UUID.randomUUID();
 	        String fileName2 = uuid.toString() + "_" + f.getOriginalFilename();
 			
@@ -92,12 +94,12 @@ public class StoreService {
 
 	public StoreDTO selectOne(int idx) {
 		StoreDTO dto = dao.SelecOne(idx);
-		if (dto.getPdimg() != null) {
-			ArrayList<String> list2 = new ArrayList<String>();
-			String imgString = dto.getPdimg();
-			for (int i = 0; i < imgString.length(); i++) {
-				list2.add(imgString.substring(0, dto.getPdimg().indexOf(",")));
-				imgString = imgString.substring(dto.getPdimg().indexOf(",") + 1);
+		ArrayList<String> list2 = new ArrayList<String>();
+		if(dto.getPdimg() != null){
+			File dir = new File(uploadPath + "\\" + dto.getPdcolor());
+			File[] files = dir.listFiles();
+			for(File f : files) {
+				list2.add(f.getName());
 			}
 			dto.setFilename(list2);
 		}
