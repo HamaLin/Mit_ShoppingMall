@@ -112,7 +112,6 @@
 	}
 </style>
 </head>
-<!-- 동연 Test -->
 <body>
 	 <header>
         <div class="logo"><a href="${cpath }">MIT.</a></div>
@@ -123,17 +122,19 @@
                 <a href="${cpath }/store/store">SHOP</a>
                 <a href="${cpath }/community/com">LOOK</a>
                 <span>|</span>
-                <c:if test="${not empty login }">
+                <c:if test="${not empty login || not empty admin}">
 	                <a href="${cpath }/user/logout">LOGOUT</a> 
+                </c:if>
+                 <c:if test="${not empty login}">
 	                <a href="${cpath }/user/mypage">MYPAGE</a>
                 </c:if>
-                <c:if test="${empty login }">
+                <c:if test="${empty login && empty admin }">
 	                <a href="${cpath }/user/login">LOGIN</a> 
                 </c:if>
                 <a href="">Q&A</a>
             </nav>
-            <c:if test="${not empty login }">
-            		<span>|</span><div class="miniinfo"></div><span>${login.username }님</span>
+            <c:if test="${not empty login || not empty admin}">
+            		<span>|</span><div class="miniinfo"></div><span>${login.username} ${admin.username }님</span>
             </c:if>
         </div>
         <input class="search"type="search" placeholder="검색">

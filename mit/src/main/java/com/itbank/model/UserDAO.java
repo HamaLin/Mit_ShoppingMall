@@ -25,5 +25,8 @@ public interface UserDAO {
 	
 	@Select("select count(*) from usertable where userid = #{userid}")
 	int checkId(String userid);
+	
+	@Update("update usertable set userpw = #{userpw} where userid = #{userid}")
+	int passwordModify(UserDTO dto);
 
 }

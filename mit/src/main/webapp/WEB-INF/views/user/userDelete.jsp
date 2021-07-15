@@ -58,6 +58,7 @@
 		<p><input type="password" name="password" placeholder="비밀번호"></p>
 		<p><input type="hidden" name="userid" value="${login.userid }"></p>
 		<p><input type="hidden" name="userpw" value="${login.userpw }"></p>
+		<p><input type="hidden" name="userimg" value="${login.userimg }"></p>
 		<p><input type="submit" value="탈퇴하기"></p>
 		<p><button class="return" type="button" onclick="redirect();">돌아가기</button></p>
 	</form>

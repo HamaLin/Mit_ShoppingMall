@@ -35,6 +35,12 @@ public class UserController {
 	@GetMapping("/mypage")
 	public void mypage() {}
 	
+	@GetMapping("/passwordModify")
+	public void passwordModify() {}
+	
+	@GetMapping("/passwordModifyResult")
+	public void passwordModifyResult() {}
+	
 	@GetMapping("/userDelete")
 	public void userDelete() {}
 	
@@ -59,17 +65,31 @@ public class UserController {
 	
 	@PostMapping("/login")
 	public String login(Model model, UserDTO dto, HttpSession session) {
-		// 로그인 창에서 입력한 비밀번호 해쉬로 만들기
-		String hashUserPw = Hash.getHash(dto.getUserpw());
-		dto.setUserpw(hashUserPw);
 		
-		UserDTO login =  us.login(dto);
-		if(login != null) {
-			model.addAttribute("loginResult", 1);			
-		}else {
-			model.addAttribute("loginResult", 0);
+		if(dto.getUserid().length() <= 4) {	// 아이디가 4글자 이하이면 관리자
+			UserDTO adminLogin =  us.login(dto);
+			if(adminLogin != null) {
+				model.addAttribute("loginResult", 1);			
+			}else {
+				model.addAttribute("loginResult", 0);
+			}
+			session.setAttribute("admin", adminLogin);
+			return "user/login";
+			
+		} else { // 아이디가 5글자 이상이면 일반 유저
+			// 로그인 창에서 입력한 비밀번호 해쉬로 만들기
+			String hashUserPw = Hash.getHash(dto.getUserpw());
+			dto.setUserpw(hashUserPw);
+			
+			UserDTO login =  us.login(dto);
+			if(login != null) {
+				model.addAttribute("loginResult", 1);			
+			}else {
+				model.addAttribute("loginResult", 0);
+			}
+			session.setAttribute("login", login);
+			return "user/login";
 		}
-		session.setAttribute("login", login);
-		return "user/login";
+		
 	}
 }

@@ -47,7 +47,7 @@
 	</div>
 </div>
 
-<c:if test="${not empty login }">
+<c:if test="${not empty login || not empty admin }">
 	<script> 
 	alert("로그인 되었습니다.")
 	location.href = '${cpath}'

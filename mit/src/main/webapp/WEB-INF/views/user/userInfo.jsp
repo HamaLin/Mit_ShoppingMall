@@ -28,7 +28,7 @@
 	.modify {
 		background-color: white;
 	}
-	.return {
+	.return, .password {
 		background-color: #e9e9e9;
 	}
 	.userImg {
@@ -55,6 +55,7 @@
 		<p><input class="gender" type="text" name="usergender" placeholder="성별" readonly></p>
 		<p><button class="modify" type="submit">정보수정</button></p>
 		<p><button class="return" type="button" onclick="redirect();">돌아가기</button></p>
+		<p><button class="password" type="button" onclick="passwordModify();">비밀번호 변경하기</button></p>
 	</form>
 
 </div>
@@ -107,10 +108,14 @@
 	}
 </script>
 
-<!-- 돌아가기 버튼 -->
+<!-- 돌아가기, 비밀번호 변경하기 버튼 -->
 <script>
 	const redirect = function() {
 		location.replace("${cpath}/user/mypage")
+	}
+	
+	const passwordModify = function() {
+		location.replace("${cpath}/user/passwordModify")
 	}
 </script>
 

@@ -32,18 +32,25 @@ public class UserService {
 		return dao.login(dto);
 	}
 
-	public int userModify(UserDTO dto) {		
-		if (dto.getImg().isEmpty()) {
-			return dao.userModify(dto);
-		} 
-		else {
+	public int userModify(UserDTO dto) {	
+		// 등록한 파일이 있으면
+		if (!dto.getImg().isEmpty()) {
+			// 이전 프로필 사진이 default.jpg가 아니면 이전 프사는 삭제 
+			if(!dto.getUserimg().equals("default.jpg")) {	
+				// 이전 프사 삭제
+				String oldImgName = dto.getUserimg();
+				File delete = new File(uploadPath, oldImgName);	
+				delete.delete();
+			}
+			// 새로운 프로필 사진으로 업데이트
 			MultipartFile file = dto.getImg();
 			
 			// 랜덤 파일명 만들기
 			UUID uuid = UUID.randomUUID();
 			String fileName = uuid.toString() + "_" + file.getOriginalFilename();
 			
-			File dest = new File(uploadPath, fileName);	// 파일 객체를 생성
+			// 파일 객체를 생성 후 등록
+			File dest = new File(uploadPath, fileName);	
 			try {
 				file.transferTo(dest);
 			} catch (IllegalStateException | IOException e) {
@@ -51,15 +58,30 @@ public class UserService {
 			} 
 			dto.setUserimg(fileName);
 			return dao.userModify_file(dto);
+		} 
+		// 등록한 파일이 없으면
+		else {
+			return dao.userModify(dto);
 		}
 	}
 
 	public int userDelete(UserDTO dto) {
+		// 탈퇴하면 프로필 사진 삭제  // 단 이전 프로필 사진이 default.jpg가 아닐 때만 삭제
+		if(!dto.getUserimg().equals("default.jpg")) {	
+			// 이전 프사 삭제
+			String oldImgName = dto.getUserimg();
+			File delete = new File(uploadPath, oldImgName);	
+			delete.delete();
+		}
 		return dao.userDelete(dto);
 	}
 
 	public int checkId(String userid) {
 		return dao.checkId(userid);
+	}
+
+	public int passwordModify(UserDTO dto) {
+		return dao.passwordModify(dto);
 	}
 
 }

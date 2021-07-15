@@ -49,4 +49,26 @@ public class UserAjaxController {
 		}
 	}
 	
+	@PostMapping("/passwordModify")
+	public int passwordModify(UserDTO dto, String password) {
+		String hashUserPw = Hash.getHash(password);
+		if(dto.getUserpw().equals(hashUserPw)) {
+			return 1;
+		} else {
+			return 0;
+		}
+	}
+	
+	@PostMapping("/passwordModifyResult")
+	public int passwordModifyResult(UserDTO dto, String password, HttpSession session) {
+		String hashUserPw = Hash.getHash(password);
+		dto.setUserpw(hashUserPw);
+		int row = us.passwordModify(dto);
+		if (row == 1) {
+			session.invalidate();
+		}
+		return row;
+		
+	}
+	
 }
