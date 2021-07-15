@@ -16,6 +16,7 @@ MANIFEST.MF
 .settings/
 .loadpath
 .recommenders
+*.xml
 
 # External tool builders
 .externalToolBuilders/
