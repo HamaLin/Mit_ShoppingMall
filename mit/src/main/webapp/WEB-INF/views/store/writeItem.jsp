@@ -26,6 +26,7 @@
         <form id="writeItem">
         	<h2>상품명</h2>
         	<hr>
+            <p><input type="hidden" name="pdwriter" value="${admin.userid }"></p>
             <p><input type="text" name="pdtitle" placeholder="상품명 제목 입력(ㅁㅁㅁ  + ㅁㅁㅁ)" ></p>
             <p><input type="text" name="pdname" placeholder="제품 이름 입력 (제품 코드 + 고유 명사)" ></p>
             <h2>상품 옵션</h2>
@@ -136,9 +137,6 @@
         }
         
 		window.onload = getinfodto()
-//         borderbox.onclick = function() {
-//             writebox.focus()
-//         }
         
         function getchanged(event){
         	

@@ -7,8 +7,15 @@ import org.springframework.web.multipart.MultipartFile;
 public class StoreDTO {
 
 	private int idx, pdprice, pdcount;
-	private String pdtitle, pdcontent, pdcode, pdname, pdcolor, pddate, pdimg;
+	private String pdtitle, pdcontent, pdcode, pdname, pdcolor, pddate, pdimg, pdwriter;
 	private List<MultipartFile> files;
+	
+	public String getPdwriter() {
+		return pdwriter;
+	}
+	public void setPdwriter(String pdwriter) {
+		this.pdwriter = pdwriter;
+	}
 	private List<String> filename, pdcodename;
 
 	public List<String> getPdcodename() {

@@ -6,6 +6,7 @@
 		padding: 100px 50px;
 	}
 	.head{
+		width: 100%;
 		display: flex;
 	}
 	#showitem {
@@ -28,9 +29,11 @@
 		text-align: center;
 	}
 	#mainImg {
-		width: 100%;
 		align-items: center;
 		justify-content: center;
+	}
+	img {
+		width: 900px;
 	}
 </style>
 
@@ -54,9 +57,14 @@
 	</div>
 </div>
 
-
+<c:if test="${not empty admin }"> 
 <button id="modifyBtn">수정</button>
 <button id="deleteBtn">삭제</button>
+</c:if>
+<c:if test="${empty admin }"> 
+<button id="modifyBtn"></button>
+<button id="deleteBtn"></button>
+</c:if>
 </div>
 
 <script>

@@ -16,7 +16,6 @@
 	}
 	
 	.content{
-		border: 1px solid black;
 		padding: 50px;
 		fontSize: 100px;
 		fontWeight: bold;
@@ -31,7 +30,9 @@
 <div class="store">
 	<div id="getItems"></div>
 </div>
+<c:if test="${not empty admin }"> 
 	<a href="${cpath}/store/writeItem"><button>상품 등록</button></a>
+</c:if>
 <script>
 	const getItems = document.getElementById('getItems')
 	
@@ -88,20 +89,6 @@
 		
 		div.className = 'content'						
 		return div						
-	}
-	
-	// 상품 클릭시 제품 페이지로 이동
-	function getdivcontent(event) {
-		location.replace("${cpath}/store/storeDetale/"+select)
-// 		const target = event.target.className === 'content' ? event.target : event.target.parentNode
-// 		const select = target.querySelector('input[name="idx"]').value
-// 		const url = '${cpath}/store/storeDetale/' + select
-// 		const opt = {
-// 				method: 'GET',
-// 		}
-// 		fetch(url, opt).then(
-// 			location.replace("${cpath}/store/storeDetale/"+select)
-// 		)
 	}
 
 	getItems.onclick = getdivcontent

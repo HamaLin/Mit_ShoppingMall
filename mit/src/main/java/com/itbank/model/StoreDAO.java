@@ -9,8 +9,8 @@ import org.apache.ibatis.annotations.Update;
 
 public interface StoreDAO {
 
-	@Insert("insert into pdtable (pdtitle, pdprice, pdcount, pdcontent, pdcode, pdname, pdcolor, pdimg) "
-			+ "values (#{pdtitle}, #{pdprice}, #{pdcount}, #{pdcontent}, #{pdcode}, #{pdname}, #{pdcolor}, #{pdimg} )")
+	@Insert("insert into pdtable (pdtitle, pdprice, pdcount, pdcontent, pdcode, pdname, pdcolor, pdimg, pdwriter) "
+			+ "values (#{pdtitle}, #{pdprice}, #{pdcount}, #{pdcontent}, #{pdcode}, #{pdname}, #{pdcolor}, #{pdimg} , #{pdwriter})")
 	int getInsertItem(StoreDTO dto);
 
 	@Select("select * from pdtable order by idx")
