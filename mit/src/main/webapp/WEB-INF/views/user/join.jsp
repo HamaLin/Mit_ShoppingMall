@@ -205,6 +205,11 @@ userid.oninput = function() {
     		checkPasswordMsg.innerText = ''
    			passwordmsg.classList.remove('false')
    			passwordmsg.classList.add('hidden')	
+    	}else if (userpw.value == '') {
+    		checkPasswordMsg.innerText = ''
+       		checkPasswordMsg.innerText = '비밀번호를 입력해주세요.'
+   			passwordmsg.classList.add('false')
+      		passwordmsg.classList.remove('hidden')
     	}
     	else {
     		checkPasswordMsg.innerText = ''
