@@ -49,9 +49,11 @@
 		color: grey;
 	}
 	.idmsg, .phonemsg, .passwordmsg {
-		width: 275px;
-	    height: 27px;
+		width: 270px;
 	    font-size: 10pt;
+	}
+	.passwordmsg  {
+		width: 250px;
 	}
 	.hidden {
 		display: none;
@@ -218,9 +220,6 @@ userid.oninput = function() {
    			passwordmsg.classList.remove('hidden')
     	}
     }
-
-
-
 </script>
 
 <script>
