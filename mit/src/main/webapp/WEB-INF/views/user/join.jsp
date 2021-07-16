@@ -48,9 +48,9 @@
 		background-color: white;
 		color: grey;
 	}
-	.idmsg, .phonemsg {
-		width: 270px;
-	    height: 20px;
+	.idmsg, .phonemsg, .passwordmsg {
+		width: 275px;
+	    height: 27px;
 	    font-size: 10pt;
 	}
 	.hidden {
@@ -72,6 +72,7 @@
 		<p><input type="text" name="userid" placeholder="아이디" keypress="checkId()"></p>
 		<p id ="checkIdMsg" class="idmsg hidden"></p> <!-- 아이디 중복확인 메시지 -->
 		<p><input type="password" name="userpw" placeholder="비밀번호"></p>
+		<p id ="checkPasswordMsg" class="passwordmsg hidden"></p> <!-- 비밀번호 유효성 메시지 -->
 		<p><input type="text" name="username" placeholder="이름"></p>
 		<p><input type="text" name="usermail" placeholder="이메일"></p>
 		<p><input type="text" name="userphone" placeholder="연락처( -제외 숫자만 입력 )"></p>
@@ -191,6 +192,33 @@ userid.oninput = function() {
 </script>
 
 <script>
+// 비밀번호 유효성
+// 비밀번호 규칙 정규식
+// : 숫자, 특문 각 1회 이상, 영문은 2개 이상 사용하여 8자리 이상 입력
+    const password = /(?=.*\d{1,50})(?=.*[~`!@#$%\^&*()-+=]{1,50})(?=.*[a-zA-Z]{1,50}).{8,50}$/;
+    const userpw = document.querySelector('input[name="userpw"]')
+    const checkPasswordMsg = document.getElementById('checkPasswordMsg')
+	const passwordmsg = document.querySelector('.passwordmsg')
+	
+	userpw.oninput = function() {
+    	if(password.test(userpw.value)) {
+    		checkPasswordMsg.innerText = ''
+   			passwordmsg.classList.remove('false')
+   			passwordmsg.classList.add('hidden')	
+    	}
+    	else {
+    		checkPasswordMsg.innerText = ''
+    		checkPasswordMsg.innerText = '비밀번호는 영문, 숫자, 특수문자를  포함하여 8자 이상으로 입력해주세요.'
+			passwordmsg.classList.add('false')
+   			passwordmsg.classList.remove('hidden')
+    	}
+    }
+
+
+
+</script>
+
+<script>
 	//연락처는 숫자만! 
 	const userphone = document.querySelector('input[name="userphone"]')
 	const checkPhoneMsg = document.getElementById('checkPhoneMsg')
@@ -205,7 +233,7 @@ userid.oninput = function() {
 		}
 		else {
 			checkPhoneMsg.innerText = ''
-			checkPhoneMsg.innerText = '숫자만 입력해주세요.'
+			checkPhoneMsg.innerText = '연락처는 숫자만 입력해주세요.'
 			phonemsg.classList.add('false')
 			phonemsg.classList.remove('hidden')
 		}
@@ -226,6 +254,7 @@ function joinform_check(event) {
 	// 빨간색 메시지 여부 체크용
 	const idmsg = document.querySelector('.idmsg')
 	const phonemsg = document.querySelector('.phonemsg')
+	const passwordmsg = document.querySelector('.passwordmsg')
 	
 	// 빨간색 메시지 있으면 통과 불가
 	if(idmsg.classList.contains("false")) {
@@ -240,6 +269,15 @@ function joinform_check(event) {
 		userid.focus();
 		return false;
 	}
+	
+	// 빨간색 메시지 있으면 통과 불가
+	if(passwordmsg.classList.contains("false")) {
+		alert("비밀번호를 다시 입력해주세요.");
+		userpw.value = ""
+		userpw.focus();
+		return false;
+	}
+	
 	if(userpw.value == "") {
 		alert("비밀번호를 입력하세요.");
 		userpw.focus();
