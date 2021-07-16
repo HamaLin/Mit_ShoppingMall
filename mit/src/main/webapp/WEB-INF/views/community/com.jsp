@@ -5,7 +5,7 @@
 <h1>커뮤니티</h1>
 
 <a href="${cpath }/community/writing">글쓰기</a>
-
+<%-- 깃 테스트 히히 --%>
 <div id="com">
 <ul>
 <c:forEach var="list" items="${list }">
