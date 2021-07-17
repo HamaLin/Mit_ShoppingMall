@@ -2,51 +2,183 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../header.jsp" %>
 <style>
-	.store {
-		padding: 100px 50px;
-	}
-	#test2 {
-		border: 1px solid black; 
-	}
-	#categoryDiv {
-		display: flex;
-		background-color: yellow;
-		width: 40%;
-	}
-	.categoryDivTag{
-		width: 100px;
-		background-color: gray;
-	}
-</style>
+        .store {
+            padding: 100px 50px;
+        }
+        .showwritestore{
+            padding: 100px 50px;
+            background-color: grey;
+        }
+        .showwritestore > form >fieldset > div{
+            display: flex;
+            width: 100%;
+            text-align: left;
+            background-color: honeydew;
+            border-bottom: 1px solid black;
+            height: 100px;
+            transition-delay: 0.5s;
+            transition-duration: 2s;
+        }
+        #showmethefile{
+            border: 1px solid black;
+            width: 100%;
+            height: 100px;
+            display: flex;
+        }
+        #test2 {
+            border: 1px solid black; 
+        }
+        #categoryDiv {
+            display: flex;
+            /* background-color: yellow; */
+            width: 40%;
+        }
+        .categoryDivTag{
+            width: 100px;
+            /* background-color: gray; */
+        }
 
-
+        #nomalsetting{
+            display: flow-root;
+        }
+        .divwrap{
+            margin: 80px 45px;
+            display: flex;
+            /* border: 1px solid black; */
+            justify-content: center;
+            height: 50px;
+            border-bottom: 1px solid black;
+        }
+        .divwrap > div{
+            width: 10%;
+            font-size: 18px;
+            text-align: center;
+            line-height: 40px;
+        }
+        input{
+            width: 90%;
+            border: none;
+        }
+        input:focus {
+            outline: none;
+        }
+        .categoryDivTag:focus {
+            outline: 1px solid black;
+        }
+        p:focus {
+            outline: none;
+            border-bottom: 1px solid black;
+        }
+        #selectCheck {
+            display: flex;
+            padding: 80px 45px;
+            text-align: center;
+            width: 100%;
+        }
+        #selectCheck > p{
+            width: 100px;
+            line-height: 200%;
+        }
+        .divcheckbox{
+            width: 20px;
+            height: 20px;
+            margin: 25px;
+            cursor: pointer;
+        }
+        #borderbox{
+            display:flex; 
+            border: 2px solid black; 
+            height: 500px; 
+            overflow: scroll; 
+            align-content:center; 
+            justify-content: center;
+        }
+        #showBox{
+            width:90%; 
+            height:auto; 
+            /* border:1px solid blue; */
+        }
+        #selectImg{
+            width: 200px;
+            height: 100px;
+            border: 1px solid black;
+            cursor: pointer;
+        }
+    </style>
 
 <div class="store">
         <fieldset>
         <form id="writeItem">
-        	<h2>상품명</h2>
+        	<h2>상품 등록</h2>
         	<hr>
-            <p><input type="hidden" name="pdwriter" value="${admin.userid }"></p>
-            <p><input type="text" name="pdtitle" placeholder="상품명 제목 입력(ㅁㅁㅁ  + ㅁㅁㅁ)" ></p>
-            <p><input type="text" name="pdname" placeholder="제품 이름 입력 (제품 코드 + 고유 명사)" ></p>
+            <!-- 히든 무시 -->
+            <input type="hidden" name="pdwriter" value="${admin.userid }"> 
+
+            <div class="divwrap">
+                <div>상품명</div>
+                <input type="text" name="pdtitle" placeholder="상품명 제목 입력(ㅁㅁㅁ  + ㅁㅁㅁ)" >
+            </div>
+
+            <div class="divwrap">
+                <div>상품 코드</div>
+            <input type="text" name="pdname" placeholder="제품 이름 입력 (제품 코드 + 고유 명사)" >
+            </div>
+            <br><br>
             <h2>상품 옵션</h2>
         	<hr>
-            <p><input type="number" name="pdprice" placeholder="상품 가격" >
-            <input type="number" name="pdcount" placeholder="상품 재고" ><p>
-            <p><input type="text" name="pdcolor" placeholder="색깔" ></p>
-            <p><div id="categoryDiv" onclick="addcategory(this)">1
+
+            <div class="divwrap">
+                <div style="width: 400px;">상품 가격 / 재고</div>
+            <input type="number" name="pdprice" placeholder="상품 가격" >
+            <input type="number" name="pdcount" placeholder="상품 재고" >
+            </div>
+
+            <div id="selectCheck">
+                <p>색</p>
+
+                <div class="divcheckbox" onclick="selectcolor(this)" id="red" style="background-color: red;"></div>
+                <div class="divcheckbox" onclick="selectcolor(this)" id="blue" style="background-color: blue;"></div>
+                <div class="divcheckbox" onclick="selectcolor(this)" id="skyblue" style="background-color: skyblue;"></div>
+                <div class="divcheckbox" onclick="selectcolor(this)" id="green" style="background-color: green;"></div>
+                <div class="divcheckbox" onclick="selectcolor(this)" id="chocolate" style="background-color: chocolate;"></div>
+                <div class="divcheckbox" onclick="selectcolor(this)" id="yellow" style="background-color: yellow;"></div>
+                <div class="divcheckbox" onclick="selectcolor(this)" id="silver" style="background-color: silver;"></div>
+                <div class="divcheckbox" onclick="selectcolor(this)" id="black" style="background-color: black;"></div>
+                <div class="divcheckbox" onclick="selectcolor(this)" id="brown" style="background-color: brown;"></div>
+                <div class="divcheckbox" onclick="selectcolor(this)" id="pink" style="background-color: pink;"></div>
+                <div class="divcheckbox" onclick="selectcolor(this)" id="darkviolet" style="background-color: darkviolet;"></div>
+                <div class="divcheckbox" onclick="selectcolor(this)" id="white" style="background-color: white;"></div>
+                <div class="divcheckbox" onclick="selectcolor(this)" id="grey" style="background-color: grey;"></div>
+            </div>
+            <p><input type="hidden" name="pdcolor" value=""></p>
+
+            <div class="divwrap" style="justify-content: left;">
+                <div>카테고리</div>
+            <p><div id="categoryDiv">
+                <div class="categoryDivTag" contenteditable="true" onkeydown="addcategoryEnter(this)"></div>
             </div></p>
+            </div>
+
+            <!-- 히든 무시 -->
             <p><input type="text" name="pdcode" style="display: none;" id="category" placeholder="카테고리" ></p>
+            
+            <input type="text" name="mainimg" value="">
             
             <h2>상품 상세 정보</h2>
         	<hr>
-        	<div id="filelist">
-	            <p><input type="file" id="test" name="files" accept="image/*" onchange="getchanged(this)" multiple></p>
+            <div>
+                <div id="selectImg" onclick="selectMainImg(this)">대문 이미지</div>
+            </div>
+            <div id="filelist">
+                <p><input type="file" id="test" name="files" accept="image/*" onchange="getchanged(this)" multiple></p>
         	</div>
-            <div id="borderbox" style="display:flex border: 1px solid red; height: 500px; overflow: scroll; align-content:center; justify-content: center;">
-    <!-- 			<div style="border: 1px solid blue;" id="showBox"></div> -->
-                <div id="showBox" style="width:90%; height:auto; border:1px solid blue;"></div>
-                <div id="writeBox" onkeydown="getenter()" contenteditable="true" style="height:40px;"></div>
+
+            <div id="showmethefile"></div>
+
+            <div id="borderbox">
+                <div id="showBox" onchange="getStatus(this)">
+                	<p id="conetent1" contenteditable="true" onkeydown="penter(this)"></p>
+                </div>
             </div>
             
             <p><textarea name="pdcontent" id="content" style="display: none;"></textarea></p>
@@ -72,7 +204,12 @@
         const filelist = document.getElementById('filelist')
         const categoryDiv = document.getElementById('categoryDiv')
         const category = document.getElementById('category')
+        const conetent1 = document.getElementById('conetent1')
+        const showmethefile = document.getElementById('showmethefile')
+        const divcheckbox = document.getElementsByClassName('divcheckbox')
+        const selectImg = document.getElementsByClassName('selectImg')
         
+        // 수정버튼을 눌렀을때 각 input에 value넣는 과정
         function getinfodto() {
         	var link = document.location.search
         	var params = new URLSearchParams(link)
@@ -135,19 +272,69 @@
         			writeItem.id = 'modifyItem'
         	}
         }
-        
+
+        function selectMainImg(event) {
+            showmethefile.style.border = '3px solid black'
+            for(let i = 0; i < divcheckbox.length ; i++){
+                console.log(showmethefile.children[i])
+                showmethefile.children[i].setAttribute('onclick','thisismain(this)')
+            }
+            
+        }
+
+        function thisismain(event) {
+            showmethefile.style.border = '1px solid black'
+            writeItem.mainimg.value = event.id
+            for(let i = 0; i < divcheckbox.length ; i++){
+                console.log(showmethefile.children[i])
+                showmethefile.children[i].setAttribute('onclick','')
+            }
+        }
+
+        // 색 선택시 맞는 색에 border and pdcolor에 값 넣어주는것
+        function selectcolor(e) {
+            
+            for(let i = 0; i < divcheckbox.length ; i++){
+                if(divcheckbox[i].id === e.id){
+                    divcheckbox[i].style.border = '5px solid black'
+                    writeItem.pdcolor.value = e.id
+                }
+                else{
+                    divcheckbox[i].style.border = ''
+                }
+            }
+        }
+
+        // 미리보기 만드는중....
+        // showmethefile.onclick = function() {
+        //     for(let i = 0; i < filelist.childElementCount; i++){
+        //             console.log(filelist.children[i])
+        //         }
+        // }
+ 
+        // 수정으로 들어왔는지 확인하기 위해 로드 될때마다 체크
 		window.onload = getinfodto()
         
+		// 이미지가 바뀔때 마다 이벤트 추가
         function getchanged(event){
-        	
         	var input = document.createElement('input')
+            console.log(filelist.childElementCount)
+            var msgid = Math.random()
         	input.type = 'file'
+            input.id = msgid
         	input.setAttribute('multiple', 'multiple')
         	input.setAttribute('onchange', 'getchanged(this)')
         	input.accept = 'image/*'
         	input.name = 'files'
+
         	filelist.appendChild(input)
-        	
+
+            for(let i = 0; i < filelist.childElementCount; i++){
+                    if(filelist.children[i].id === event.id){
+                        filelist.insertBefore(input,filelist.children[i+2])
+                    }
+            }
+            
         	event.style.display = 'none'
         	
             if(event.files && event.files[0]){
@@ -159,9 +346,16 @@
                     reader.onload = function(e2) {
                         var div = document.createElement('div')
                         var img = document.createElement('img')
+                        var img2 = document.createElement('img')
                         img.src = e2.target.result
+                        img2.src = e2.target.result
+                        img2.id = event.files[0].name
                         img.style.width = 'auto'
                         img.style.height = 'auto'
+                        img2.style.width = '100px'
+                        img2.style.height = '100px'
+                        showmethefile.appendChild(img2)
+                        img.id = msgid
                         div.id = Math.random()
                         div.setAttribute('onclick', 'getthisfocus(this)')
                         div.setAttribute('onkeydown', 'getthiskeys(this)')
@@ -174,11 +368,20 @@
                 })
             }
         }
-
+		
+        // 미리보기에서 이미지에 특수키 (enter, backspace)가 입력을 받았을때 이벤트 수행
         function getthiskeys(e) {
-            if(event.keyCode == 46){
+            if(event.keyCode == 46 || event.keyCode == 8){
                 for(let i = 0; i < showbox.childElementCount; i++){
                     if(showbox.children[i].id === e.id){
+                        console.log(showbox.children[i])
+                        for(let j=0; j < filelist.childElementCount; j++){
+                            if(filelist.childElementCount <= 1){
+                            }
+                            if(filelist.children[j].id === showbox.children[i].children[0].id){
+                                filelist.children[j-1].remove(showbox.children[i].children[0].id)
+                            }
+                        }
                         showbox.children[i].remove(e.id)
                     }
                 }
@@ -200,18 +403,8 @@
                 event.preventDefault()
             }
         }
-
-        function addcategory(e) {
-        	console.log(categoryDiv.children[0] == null)
-        	if(categoryDiv.children[0] == null){
-        		var div = document.createElement('div')
-        		div.setAttribute('contenteditable', 'true')
-        		div.setAttribute('onkeydown', 'addcategoryEnter(this)')
-        		div.className = 'categoryDivTag'
-        		categoryDiv.appendChild(div)
-        	}
-        }
         
+		// 카테고리에서 엔터 눌렀을때 이벤트 발생
         function addcategoryEnter(e) {
         	if(event.keyCode == 13){
         		event.preventDefault()
@@ -223,6 +416,7 @@
             }
         }
         
+		// 미리보기에서 어디에 focus둘건지 체크하기 위한 함수
         function getthisfocus(e) {
             for(let i = 0; i < showbox.childElementCount; i++){
                     if(showbox.children[i].id === e.id){
@@ -236,6 +430,7 @@
                 }
         }
 
+		// 미리보기에서 글작성후 특수키(enter, backspace)입력을 확인
         function penter(e) {
             if(event.keyCode == 8 && e.textContent === ''){
                 for(let i = 0; i < showbox.childElementCount; i++){
@@ -245,8 +440,7 @@
                     }
                 }
             }
-
-            if(event.keyCode == 13){
+            else if(event.keyCode == 13){
                 event.preventDefault()
                 const p = document.createElement('p')
                 p.id = Math.random()
@@ -261,6 +455,8 @@
             }
         }
         
+        
+		// 엔터누를떄 마다 창 늘어나게
         function getenter() {
             if(event.keyCode == 13){
                 event.preventDefault()
@@ -274,7 +470,7 @@
             }
         }
         
-        
+        // 글작성버튼을 클릭시
         writeItem.onsubmit = function(event){
             event.preventDefault()
             createcontent()
@@ -302,6 +498,7 @@
             })
         }
         
+     	// 수정버튼을 클릭시
         modifyItem.onsubmit = function(event){
             event.preventDefault()
             createcontent()
@@ -326,6 +523,7 @@
             })
         }
         
+     	// 지금까지 작성된 카테고리를 모아서 제출하기 위한 함수
         function createpdcode() {
         	var result = ''
         	for(let i = 0; i < categoryDiv.childElementCount; i++){
@@ -336,6 +534,7 @@
         	category.value = result
         }
         
+     	// 지금까지 작성된 내용을 모아서 제출하기 위한 함수
         function createcontent() {
             for(let i = 0; i < showbox.childElementCount; i++){
                 if(showbox.children[i].nodeName === 'DIV'){

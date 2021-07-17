@@ -93,8 +93,8 @@
 			
 			
 			var img = document.createElement('img')
-			if(json.filename[0] != ''){
-				img.src = '${cpath}/image/'+ json.pdcolor + '/'+ json.filename[0]
+			if(json.mainimg != ''){
+				img.src = '${cpath}/image/'+ json.pdcolor + '/'+ json.mainimg
 			}
 			else{
 				img.src = '${cpath}/image/Default.jpg'
@@ -103,7 +103,7 @@
 			
 			var msg = json.pdcontent
 			var idx = 1
-			while(msg.length > 0){
+			while(msg.length-1 > 0){
 				
 				if(msg.indexOf('</p>') >= 0) {
 					mainContent.innerHTML += msg.substr(0, msg.indexOf('</p>')+4)

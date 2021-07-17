@@ -62,16 +62,13 @@
 		
 		div.innerHTML = '<input type="hidden" name="idx" value="' + dto.idx + '">'
 		
-		if(dto.pdimg != null){
-// 			for(let i = 0; i < dto.filename.length; i++){
+		if(dto.mainimg != null){
 				const img = document.createElement('img')
 				img.style.width = '200px'
 				img.style.height = '350px'
 				
 				div.innerHTML += '<a href="${cpath}/store/storeDetale/?id=' + dto.idx + '"><img src = ' + 
-								'${cpath}/image/'+ dto.pdcolor + '/' + dto.filename[0]+' style="width: 300px; height: 300px;"></a> '
-// 				div.appendChild(img)	
-// 			}
+								'${cpath}/image/'+ dto.pdcolor + '/' + dto.mainimg+' style="width: 300px; height: 300px;"></a> '
 		}
 		else{
 			const img = document.createElement('img')

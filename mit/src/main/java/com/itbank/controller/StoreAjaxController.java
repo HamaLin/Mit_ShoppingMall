@@ -24,9 +24,6 @@ public class StoreAjaxController {
 	
 	@PostMapping("/writeItem")
 	public int write(StoreDTO dto) {
-		for(MultipartFile f : dto.getFiles()) {
-			System.out.println(f.getOriginalFilename());
-		}
 		int row = ss.getInsert(dto);
 		return (row >= 1) ? 1 : 0;
 	}
@@ -53,9 +50,7 @@ public class StoreAjaxController {
 	
 	@PostMapping("/modifyItem")
 	public int modify(StoreDTO dto) {
-		System.out.println(dto.getIdx());
 		int row = ss.getModify(dto);
-		System.out.println(row);
 		return (row >= 1) ? 1 : 0;
 	}
 	
