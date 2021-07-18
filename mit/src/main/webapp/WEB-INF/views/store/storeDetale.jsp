@@ -4,6 +4,8 @@
 <style>
 	.store {
 		padding: 100px 50px;
+		height: auto;
+		justify-content: center;
 	}
 	.head{
 		width: 100%;
@@ -26,6 +28,7 @@
 		height: 100%;
 	}
 	#mainContent{
+		width: 80%;
 		text-align: center;
 	}
 	#mainImg {
@@ -33,7 +36,62 @@
 		justify-content: center;
 	}
 	img {
-		width: 900px;
+		width: 800px;
+	}
+	.selectoption{
+		display: flex;
+		width: 100%;
+		height: 100px; 
+	}
+	.selectoption > button{
+		line-height: 200%;
+		width: 150px;
+		height: 50px;
+		font-size: 20px;
+		background-color: white;
+		margin-right: 120px;
+	}
+	.selectmenu {
+		display: flex;
+		width: 100%;
+		height: 80px;
+		justify-content: center;
+	}
+	.selectmenu > ul {
+		list-style: none;
+		display: flex;
+		font-size: 25px;
+		width: 100%;
+		justify-content: center;
+	}
+	.selectmenu > ul > li{
+		width: 15%;
+		text-align: center;
+		cursor: pointer;
+	}
+	#reply{
+		display: inline-block;
+		width: 60%;
+		height: 1000px;
+		border: 1px solid black;
+	}
+	#qna {
+		display: inline-block;
+		width: 60%;
+		height: 300px;
+		border: 1px solid black;
+	}
+	#releaseitem{
+		display: inline-block;
+		width: 60%;
+		height: 500px;
+		border: 1px solid black;
+	}
+	.wrapstuf{
+		width: 100%;
+		text-align: center;
+		border: 1px solid black;
+		margin: auto;
 	}
 </style>
 
@@ -44,28 +102,56 @@
 		<div class="subcontent">
 			<div id="jsoncontent"></div>
 			<br><br><br>
-			<button>구매하기</button>
-			<button>장바구니</button>
+			
+			<div class="selectoption">
+				<button >구매하기</button>
+				<button >장바구니</button>
+			</div>
 			<hr>
 		</div>
 	</div>
 	<br><br><br><br><br><br>
+	
+			<div class="selectmenu">
+				<ul>
+					<li id="explain">상품 설명</li>
+					<li id="review">후기</li>
+					<li id="question">질문</li>
+					<li id="releaseItem">관련 상품</li>
+				</ul>
+			</div>
 	<hr>
 	<br><br><br>
 	<div id="mainContent">
 	
 	</div>
+	<hr>
+	<div class="wrapstuf">
+	
+	<div id="reply">
+	댓글 적는곳
+	</div>
+	<hr>
+	
+	<div id="qna">
+	질문 적는곳
+	</div>
+	<hr>
+	
+	<div id="showmetheitem">
+	관련 상품 보여주는 곳
+	</div>
+	
+	</div>
+	
+	<hr>
+</div>
 </div>
 
-<c:if test="${not empty admin }"> 
-<button id="modifyBtn">수정</button>
+<c:if test="${not empty admin }">
 <button id="deleteBtn">삭제</button>
+<button id="modifyBtn">수정</button>
 </c:if>
-<c:if test="${empty admin }"> 
-<button id="modifyBtn"></button>
-<button id="deleteBtn"></button>
-</c:if>
-</div>
 
 <script>
 	const showitem = document.getElementById('showitem')
@@ -74,10 +160,31 @@
 	const mainImg = document.getElementById('mainImg')
 	const jsoncontent = document.getElementById('jsoncontent')
 	const mainContent = document.getElementById('mainContent')
+    const explain = document.getElementById('explain')
+    const review = document.getElementById('review')
+    const question = document.getElementById('question')
+    const reply = document.getElementById('reply')
+    const qna = document.getElementById('qna')
+    const showmetheitem = document.getElementById('showmetheitem')
 	const link = document.location.search
 	const params = new URLSearchParams(link)
 	const idx = params.get('id')
 	
+    explain.onclick = function() {
+        mainContent.scrollIntoView()
+    }
+
+    review.onclick = function() {
+        reply.scrollIntoView()
+    }
+
+    question.onclick = function() {
+        qna.scrollIntoView()
+    }
+
+    releaseItem.onclick = function() {
+        showmetheitem.scrollIntoView()
+    }
 	
 	function getShowitem() {
 		const url = '${cpath}/store/showitem/'+idx
@@ -102,27 +209,28 @@
 			mainImg.appendChild(img)
 			
 			var msg = json.pdcontent
-			var idx = 1
-			while(msg.length-1 > 0){
-				
-				if(msg.indexOf('</p>') >= 0) {
-					mainContent.innerHTML += msg.substr(0, msg.indexOf('</p>')+4)
-                    msg = msg.substr(msg.indexOf('</p>')+4)
-                }
+			var idx = 0
+			while(msg.length > 0){
 				
 				if(msg.indexOf('<img src="">') == 0) {
-					console.log(idx)
 					var img = document.createElement('img')
 					img.src = '${cpath}/image/'+ json.pdcolor + '/' + json.filename[idx]
 					mainContent.appendChild(img)
 					msg = msg.substr(msg.indexOf('<img src="">')+12)
 					idx += 1
                 }
+				else if(msg.indexOf('</p>') >= 0) {
+					mainContent.innerHTML += msg.substr(0, msg.indexOf('</p>')+4)
+                    msg = msg.substr(msg.indexOf('</p>')+4)
+                }
 			}
 		})
 	}
 	
-	deleteBtn.onclick = function(){
+	window.onload = getShowitem()
+	
+	deleteBtn.onclick = function() {
+		event.preventDefault()
 		if(confirm(idx + '게시글을 삭제하시겠습니까?')){
 		const url = '${cpath}/store/deleteitem/'+idx
 		const opt = {
@@ -143,12 +251,14 @@
 	}
 	
 	modifyBtn.onclick = function() {
+		event.preventDefault()
 		console.log('a')
 		location.href = '${cpath}/store/writeItem/?id=' + idx
 	}
 	
-	window.onload = getShowitem()
+	
 
 </script>
+
 
 <%@ include file="../footer.jsp" %>

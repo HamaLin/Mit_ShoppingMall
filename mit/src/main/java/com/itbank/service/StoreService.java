@@ -102,8 +102,13 @@ public class StoreService {
          
          for(File f : files) {
         	String msg = (String) filelistname.subSequence(0, filelistname.indexOf(","));
-            list2.add(msg);
-            filelistname = filelistname.substring(filelistname.indexOf(",")+1);
+        	if(msg.equals(dto.getMainimg())) {
+        		
+        	}
+        	else {
+        		list2.add(msg);
+        	}
+        	filelistname = filelistname.substring(filelistname.indexOf(",")+1);        
          }
          dto.setFilename(list2);
       }

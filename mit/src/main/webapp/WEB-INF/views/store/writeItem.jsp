@@ -239,7 +239,6 @@
         			var msg = json.pdcontent
         			var idx2 = 0
         			while(msg.length > 0){
-        				
         				if(msg.indexOf('<img src="">') == 0) {
         					var div = document.createElement('div')
         					var img = document.createElement('img')
@@ -251,12 +250,11 @@
                         	div.style.cursor = 'pointer'
                         	div.style.color = 'white'
                         	div.appendChild(img)
-        					showbox.appendChild(img)
+        					showbox.appendChild(div)
         					msg = msg.substr(msg.indexOf('<img src="">')+12)
         					idx2 += 1
                         }
-        				
-						if(msg.indexOf('</p>') >= 0) {
+						else if(msg.indexOf('</p>') >= 0) {
         					
         					var p = document.createElement('p')
         	                p.id = Math.random()
@@ -273,20 +271,43 @@
         	}
         }
 
+        // 메인 이미지 버튼 클릭시 함수 부여
         function selectMainImg(event) {
             showmethefile.style.border = '3px solid black'
             for(let i = 0; i < divcheckbox.length ; i++){
-                console.log(showmethefile.children[i])
                 showmethefile.children[i].setAttribute('onclick','thisismain(this)')
             }
             
         }
 
+        //이미지 클릭시 메인 이미지 지정해주고 미리보기에서 제거
         function thisismain(event) {
+            if(event.childElementCount >1) {
+                alert('다중 이미지는 선택하실 수 없습니다.')
+                showmethefile.style.border = '1px solid black'
+                for(let i = 0; i < showmethefile.childElementCount ; i++){
+                    showmethefile.children[i].setAttribute('onclick','')
+                }
+                return
+            }
             showmethefile.style.border = '1px solid black'
             writeItem.mainimg.value = event.id
-            for(let i = 0; i < divcheckbox.length ; i++){
-                console.log(showmethefile.children[i])
+            for(let i = 0; i < showmethefile.childElementCount ; i++){
+            	if(showmethefile.children[i].id === event.id){
+                    var checkidx = 0
+            		for(let j = 0; j < showbox.childElementCount; j++){
+                        if(showbox.children[j].nodeName === 'DIV'){
+                            
+                            console.log('현제 : ' + checkidx)
+            				if(i == checkidx){
+            					showbox.children[j].remove()
+            				}
+
+                            checkidx += 1
+
+                        }   
+            		}
+            	}
                 showmethefile.children[i].setAttribute('onclick','')
             }
         }
@@ -304,13 +325,6 @@
                 }
             }
         }
-
-        // 미리보기 만드는중....
-        // showmethefile.onclick = function() {
-        //     for(let i = 0; i < filelist.childElementCount; i++){
-        //             console.log(filelist.children[i])
-        //         }
-        // }
  
         // 수정으로 들어왔는지 확인하기 위해 로드 될때마다 체크
 		window.onload = getinfodto()
@@ -318,7 +332,6 @@
 		// 이미지가 바뀔때 마다 이벤트 추가
         function getchanged(event){
         	var input = document.createElement('input')
-            console.log(filelist.childElementCount)
             var msgid = Math.random()
         	input.type = 'file'
             input.id = msgid
@@ -340,21 +353,25 @@
             if(event.files && event.files[0]){
                 var fileArray = Array.from(event.files)
                 
-                fileArray.forEach(e => {
+                if(fileArray.length == 1){
+                    fileArray.forEach(e => {
                     var reader = new FileReader()
                     reader.readAsDataURL(e)
                     reader.onload = function(e2) {
+
                         var div = document.createElement('div')
+                        var div2 = document.createElement('div')
                         var img = document.createElement('img')
                         var img2 = document.createElement('img')
                         img.src = e2.target.result
                         img2.src = e2.target.result
-                        img2.id = event.files[0].name
+                        div2.id = event.files[0].name
                         img.style.width = 'auto'
                         img.style.height = 'auto'
                         img2.style.width = '100px'
                         img2.style.height = '100px'
-                        showmethefile.appendChild(img2)
+                        div2.appendChild(img2)
+                        showmethefile.appendChild(div2)
                         img.id = msgid
                         div.id = Math.random()
                         div.setAttribute('onclick', 'getthisfocus(this)')
@@ -364,25 +381,64 @@
                         div.style.color = 'white'
                         div.appendChild(img)
                         showbox.appendChild(div)
+                        }
+                    })
+                }
+                else{
+                    var div = document.createElement('div')
+                    var div2 = document.createElement('div')
+                    div2.id = event.files[0].name
+                    fileArray.forEach(e => {
+                        var reader = new FileReader()
+                        reader.readAsDataURL(e)
+                        
+                        reader.onload = function(e2) {
+                        var img = document.createElement('img')
+                        var img2 = document.createElement('img')
+                        img.src = e2.target.result
+                        img2.src = e2.target.result
+                        img.style.width = 'auto'
+                        img.style.height = 'auto'
+                        img2.style.width = '100px'
+                        img2.style.height = '100px'
+                        img.style.display = 'block'
+                        img.id = msgid
+                        div.id = Math.random()
+                        div.setAttribute('onclick', 'getthisfocus(this)')
+                        div.setAttribute('onkeydown', 'getthiskeys(this)')
+                        div.setAttribute('contenteditable', 'true')
+                        div.style.cursor = 'pointer'
+                        div.style.color = 'white'
+                        div.appendChild(img)
+                        div2.appendChild(img2)
                     }
                 })
+                showmethefile.appendChild(div2)
+                showbox.appendChild(div)
             }
         }
+    }
 		
         // 미리보기에서 이미지에 특수키 (enter, backspace)가 입력을 받았을때 이벤트 수행
         function getthiskeys(e) {
             if(event.keyCode == 46 || event.keyCode == 8){
+                var checkidx = 0
+
                 for(let i = 0; i < showbox.childElementCount; i++){
                     if(showbox.children[i].id === e.id){
-                        console.log(showbox.children[i])
+                        showmethefile.children[checkidx].remove()
+
                         for(let j=0; j < filelist.childElementCount; j++){
-                            if(filelist.childElementCount <= 1){
-                            }
+                            
                             if(filelist.children[j].id === showbox.children[i].children[0].id){
                                 filelist.children[j-1].remove(showbox.children[i].children[0].id)
                             }
                         }
                         showbox.children[i].remove(e.id)
+                    }
+
+                    if(showbox.children[i].nodeName === 'DIV'){
+                        checkidx += 1
                     }
                 }
             }
@@ -538,9 +594,18 @@
         function createcontent() {
             for(let i = 0; i < showbox.childElementCount; i++){
                 if(showbox.children[i].nodeName === 'DIV'){
-                    content.innerText = content.textContent + '<img src="">'
+                    if(showbox.children[i].childElementCount == 1){
+                        content.innerText = content.textContent + '<img src="">'
+                    }
+                    else{
+                        for(let j = 0; j < showbox.children[i].childElementCount; j++){
+                            content.innerText = content.textContent + '<img src="">'
+                        }
+                    }
                 }
-                content.innerText = content.textContent + '<p>' + showbox.children[i].textContent + '</p>'
+                else{
+               		content.innerText = content.textContent + '<p>' + showbox.children[i].textContent + '</p>'	
+                }
             }
         }
         
