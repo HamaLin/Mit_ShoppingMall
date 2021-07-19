@@ -121,7 +121,7 @@
                 <a href="">BEST</a>
                 <a href="">NEW</a>
                 <a href="${cpath }/store/store">SHOP</a>
-                <a href="${cpath }/community/com">LOOK</a>
+                <a href="">Q&A</a>
                 <span>|</span>
                 <c:if test="${not empty login || not empty admin}">
 	                <a href="${cpath }/user/logout">LOGOUT</a> 
@@ -132,7 +132,6 @@
                 <c:if test="${empty login && empty admin }">
 	                <a href="${cpath }/user/login">LOGIN</a> 
                 </c:if>
-                <a href="">Q&A</a>
             </nav>
             <c:if test="${not empty login || not empty admin}">
             		<span>|</span><div class="miniinfo"></div><span>${login.username} ${admin.username }님</span>
