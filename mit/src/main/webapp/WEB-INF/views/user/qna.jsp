@@ -16,7 +16,7 @@
 button {
 	cursor: pointer;
 	border: 1px solid rgb(65, 65, 65);
-	background-color: #e9e9e9;
+	background-color: white;
 	width: 80px;
     height: 35px;
 }

@@ -34,7 +34,7 @@ textarea {
 .qnabutton {
 	cursor: pointer;
 	border: 1px solid rgb(65, 65, 65);
-	background-color: #e9e9e9;
+	background-color: white;
 	width: 80px;
     height: 35px;
     right: 0;
@@ -48,7 +48,13 @@ textarea {
 	background-color: #e9e9e9;
 	width: 221px;
     height: 35px;
-	
+}
+.return {
+	cursor: pointer;
+	border: 1px solid rgb(65, 65, 65);
+	background-color: #e9e9e9;
+	width: 80px;
+    height: 35px;
 }
 .productMsg {
 	width: 500px;
@@ -92,6 +98,7 @@ textarea {
 		<p><textarea name="qnacontent" placeholder="문의하실 내용을 입력해주세요."></textarea></p>
 		<!-- <p><input type="file" multiple name="qnaImgs" accept="image/*" ></p> -->
 	<p class="qnap"><button class="qnabutton" type="button" onclick="qnaform_check();">질문 등록</button></p>
+	<p class="qnap"><button class="return" type="button" onclick="redirect();">돌아가기</button></p>
 	</form>
 </div>
 
@@ -154,6 +161,13 @@ function qnaform_check(event) {
 
 	document.qna_form.submit();
 }
+</script>
+
+<!-- 돌아가기 버튼 -->
+<script>
+	const redirect = function() {
+		location.replace("${cpath}/user/qna")
+	}
 </script>
 
 <%@ include file="../footer.jsp" %>

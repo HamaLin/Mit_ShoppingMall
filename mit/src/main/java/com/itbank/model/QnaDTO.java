@@ -1,5 +1,7 @@
 package com.itbank.model;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 public class QnaDTO {
@@ -7,7 +9,7 @@ public class QnaDTO {
 	private int idx, qnaproductidx;
 	private String qnawriter, qnatitle, qnacontent, qnaimg, qnaresult, qnadate, qnamenu;
 
-	private MultipartFile qnaImgs;
+	private List<MultipartFile> files;
 
 	public int getIdx() {
 		return idx;
@@ -81,11 +83,11 @@ public class QnaDTO {
 		this.qnamenu = qnamenu;
 	}
 
-	public MultipartFile getQnaImgs() {
-		return qnaImgs;
+	public List<MultipartFile> getFiles() {
+		return files;
 	}
 
-	public void setQnaImgs(MultipartFile qnaImgs) {
-		this.qnaImgs = qnaImgs;
+	public void setFiles(List<MultipartFile> files) {
+		this.files = files;
 	}
 }
