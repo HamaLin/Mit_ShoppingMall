@@ -121,7 +121,7 @@
                 <a href="">BEST</a>
                 <a href="">NEW</a>
                 <a href="${cpath }/store/store">SHOP</a>
-                <a href="">Q&A</a>
+                <a href="${cpath }/user/qna">Q&A</a>
                 <span>|</span>
                 <c:if test="${not empty login || not empty admin}">
 	                <a href="${cpath }/user/logout">LOGOUT</a> 
