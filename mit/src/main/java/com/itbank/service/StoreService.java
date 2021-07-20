@@ -12,11 +12,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.itbank.model.StoreDAO;
 import com.itbank.model.StoreDTO;
+import com.itbank.model.writingDAO;
+import com.itbank.model.writingDTO;
 
 @Service
 public class StoreService {
    
    @Autowired private StoreDAO dao;
+   @Autowired private writingDAO wdao;
    
    private final String uploadPath = "C:\\mitImg";
    
@@ -167,5 +170,24 @@ public class StoreService {
    public List<StoreDTO> searchItems(String search) {
 		return dao.searchItems(search);
 	}
+   
+
+	public int insert(writingDTO dto) {
+		if(dto.getPassword1().equals(dto.getPassword2())) {
+		return wdao.insert(dto);
+		
+		}
+		return 0;
+	}
+
+
+	public List<writingDTO> select() {
+		return wdao.select();
+	}
+
+
+   
+   
+   
 
 }

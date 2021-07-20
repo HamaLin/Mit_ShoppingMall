@@ -69,12 +69,11 @@
 		text-align: center;
 		cursor: pointer;
 	}
-	#reply{
-		display: inline-block;
-		width: 60%;
-		height: 1000px;
-		border: 1px solid black;
-	}
+ 	#reply{ 
+ 		display: inline-block; 
+ 		width: 100%; 
+ 		border: 1px solid black; 
+ 	} 
 	#qna {
 		display: inline-block;
 		width: 60%;
@@ -89,9 +88,12 @@
 	}
 	.wrapstuf{
 		width: 100%;
-		text-align: center;
-		border: 1px solid black;
-		margin: auto;
+/* 		text-align: center; */
+/* 		border: 1px solid black; */
+ 		margin: auto; 
+	}
+	.hidden{
+		display: none;
 	}
 </style>
 
@@ -129,7 +131,61 @@
 	<div class="wrapstuf">
 	
 	<div id="reply">
-	댓글 적는곳
+	
+<div id="review">
+	<hr>
+	<div>후기</div>
+	<div>
+		<form class="writing hidden" method="post">
+		<div class="comment">
+			<div>
+				<div>이메일</div>
+				<input type="text" name="email">
+			</div>
+			<div>
+				<div>글쓴이</div>
+				<input type="text" name="writer">
+			</div>
+			
+		</div>
+		<div class="comment">
+			<div>
+				<div>비밀번호</div>
+				<input type="password" name="password1">
+			</div>
+			<div>
+				<div>비밀번호 확인</div>
+				<input type="password" name="password2">
+			</div>
+		</div>
+		<textarea rows="5" cols="80" name="wr" style="resize: none;">
+		
+		</textarea>
+		<div>
+		<select name="scope">
+			<option selected>별점주기</option>
+			<option value="5">★★★★★</option>
+			<option value="4">★★★★☆</option>
+			<option value="3">★★★☆☆</option>
+			<option value="2">★★☆☆☆</option>
+			<option value="1">★☆☆☆☆</option>
+		</select>
+		<input type="submit" value="저장하기">
+		</div>
+		</form>
+
+	</div>
+	<hr>
+	<div id="reviewlist">
+	<c:forEach var="list" items="${ list}">
+		<p>${list.scope}/5   ${list.writer }</p>
+		<p>${list.wr }</p>
+		<hr>
+	</c:forEach>
+	</div>
+</div>
+<button id="writingBtn">후기 쓰기</button>
+
 	</div>
 	<hr>
 	
@@ -146,12 +202,19 @@
 	
 	<hr>
 </div>
+
+
+
+
 </div>
 
 <c:if test="${not empty admin }">
 <button id="deleteBtn">삭제</button>
 <button id="modifyBtn">수정</button>
 </c:if>
+
+
+
 
 <script>
 	const showitem = document.getElementById('showitem')
@@ -259,6 +322,26 @@
 	
 
 </script>
+
+<script>
+	const writingBtn = document.getElementById('writingBtn')
+	const writing = document.querySelector('.writing')
+	writingBtn.onclick=function(){
+		event.preventDefault()
+		if(writing.classList.contains('hidden')){
+			writing.classList.remove('hidden')
+        }else{
+        	writing.classList.add('hidden')
+        }
+		
+	}
+	const toedit=document.getElementById('toedit')
+	
+</script>
+
+
+
+
 
 
 <%@ include file="../footer.jsp" %>
