@@ -39,7 +39,7 @@
     .menu {
         display: flex;
         width: 900px;
-        justify-content: center;
+        justify-content: flex-end;
     }
     a {
 	   	 text-decoration: none;
@@ -65,18 +65,13 @@
         background-repeat: no-repeat;
         background-size: 100%;
     }
-    #getSearch {
-    	border: 1px solid black;
-    	border-radius: 8px;
+    .search {
         width: 200px;
         height: 40px;
+        border-radius: 10px;
+        border: 2px solid grey;
+        outline: none;
     }
-    #submit {
-		padding-top: 5px;
-        background-color: white;
-        border: none;
-        cursor: pointer;
-	}
 	.banner {
 	    width: 100%;
 	    height: 600px;
@@ -145,15 +140,12 @@
             		<span>|</span><div class="miniinfo"></div><span>${login.username} ${admin.username }님</span>
             </c:if>
         </div>
-        <p id="getSearch" contenteditable="true"></p>
-        <button id="submit">검색</button>
+         <input type="search" id="getSearch" class="search" placeholder="검색">
     </header>
     
     <script>
         const getSearch = document.getElementById('getSearch')
-        const submit = document.getElementById('submit')
-
-        submit.onclick = function() {
+        getSearch.onsubmit = function() {
             console.log(getSearch.textContent)
             location.href = '${cpath}/store/storeSearch/?search=' + getSearch.textContent
         }
