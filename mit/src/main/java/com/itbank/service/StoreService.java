@@ -164,5 +164,8 @@ public class StoreService {
       int row = dao.getModify(dto);
       return row;
    }
+   public List<StoreDTO> searchItems(String search) {
+		return dao.searchItems(search);
+	}
 
 }

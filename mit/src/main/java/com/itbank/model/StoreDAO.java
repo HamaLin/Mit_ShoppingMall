@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -29,4 +30,11 @@ public interface StoreDAO {
 			+ "pdcode = #{pdcode},"
 			+ "pdname = #{pdname}, pdcolor = #{pdcolor}, pdimg = #{pdimg} where idx = #{idx}")
 	int getModify(StoreDTO dto);
+	
+	@Select("select idx, pdimg, pdtitle, pdprice from pdtable"
+			+ " where pdtitle like '%'||#{search}||'%'"
+			+ " or pdname like '%'||#{search}||'%'"
+			+ " or pdcolor like '%'||#{search}||'%'"
+			+ "")
+	List<StoreDTO> searchItems(@Param("search") String search);
 }

@@ -65,10 +65,18 @@
         background-repeat: no-repeat;
         background-size: 100%;
     }
-    .search {
+    #getSearch {
+    	border: 1px solid black;
+    	border-radius: 8px;
         width: 200px;
         height: 40px;
     }
+    #submit {
+		padding-top: 5px;
+        background-color: white;
+        border: none;
+        cursor: pointer;
+	}
 	.banner {
 	    width: 100%;
 	    height: 600px;
@@ -137,7 +145,17 @@
             		<span>|</span><div class="miniinfo"></div><span>${login.username} ${admin.username }님</span>
             </c:if>
         </div>
-        <input class="search"type="search" placeholder="검색">
+        <p id="getSearch" contenteditable="true"></p>
+        <button id="submit">검색</button>
     </header>
-    <!-- 테스트 -->
-    <!-- 테스트2 수현 -->
+    
+    <script>
+        const getSearch = document.getElementById('getSearch')
+        const submit = document.getElementById('submit')
+
+        submit.onclick = function() {
+            console.log(getSearch.textContent)
+            location.href = '${cpath}/store/storeSearch/?search=' + getSearch.textContent
+        }
+
+    </script>

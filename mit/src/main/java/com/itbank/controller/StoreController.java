@@ -33,4 +33,6 @@ public class StoreController {
 //		mav.addObject("imgname", imgname);
 		return "/store/storeDetale";
 	}
+	@GetMapping("/storeSearch")
+    public void storeSearch() {}
 }

@@ -53,5 +53,9 @@ public class StoreAjaxController {
 		int row = ss.getModify(dto);
 		return (row >= 1) ? 1 : 0;
 	}
+	@GetMapping("/SearchItems/{search}")
+	public List<StoreDTO> SearchItems(@PathVariable String search) {
+		return ss.searchItems(search);
+	}
 	
 }
