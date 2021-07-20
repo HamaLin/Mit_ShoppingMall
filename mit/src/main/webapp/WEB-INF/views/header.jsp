@@ -32,6 +32,11 @@
         box-shadow: 0 1px 25px rgba(65, 65, 65, 0.05);
         z-index: 15;
     }
+    .guard {
+    	width: 100%;
+    	height: 80px;
+    }
+    
     .logo{
     	width: 100px;
     	text-align: center;
@@ -66,13 +71,18 @@
         background-repeat: no-repeat;
         background-size: 100%;
     }
-    .search {
-        width: 200px;
-        height: 40px;
-        border-radius: 10px;
-        border: 2px solid grey;
-        outline: none;
-    }
+    #getSearch {
+	   border: 1px solid black;
+	   border-radius: 8px;
+	   width: 200px;
+	   height: 40px;
+	}	
+    #submit {
+      padding-top: 5px;
+       background-color: white;
+       border: none;
+       cursor: pointer;
+   }
 	.banner {
 	    width: 100%;
 	    height: 600px;
@@ -141,14 +151,18 @@
             		<span>|</span><div class="miniinfo"></div><span>${login.username} ${admin.username }님</span>
             </c:if>
         </div>
-         <input type="search" id="getSearch" class="search" placeholder="검색">
+       <p id="getSearch" contenteditable="true"></p>
+        <button id="submit">검색</button>
     </header>
     
     <script>
         const getSearch = document.getElementById('getSearch')
-        getSearch.onsubmit = function() {
+        const submit = document.getElementById('submit')
+
+        submit.onclick = function() {
             console.log(getSearch.textContent)
-            location.href = '${cpath}/store/storeSearch/?search=' + getSearch.value
+            location.href = '${cpath}/store/storeSearch/?search=' + getSearch.textContent
         }
 
     </script>
+
