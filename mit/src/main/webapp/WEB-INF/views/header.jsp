@@ -30,6 +30,7 @@
         padding: 0 20px;
         box-sizing: border-box;
         box-shadow: 0 1px 25px rgba(65, 65, 65, 0.05);
+        z-index: 15;
     }
     .logo{
     	width: 100px;
