@@ -7,25 +7,28 @@
 		background-color: silver;
 	}
 	.store {
+		margin: 150px;
 		padding: 100px 50px;
 		display: flex;
 		width: 100%;
 		height: auto;
 	}
 	#getItems{
+		width: 300px;
+		height: 400px;
 		display: flex;
 	}
-	.content{
-		padding: 50px;
+	#getItems > .content{
+		
+		padding: 10px;
 		fontSize: 100px;
 		fontWeight: bold;
-		width: 450px;
-		height: 650px;
 		text-align: center;
-		margin: 80px;
+		margin: 0;
 	}
-	img {
-		width: 400px;
+	.content > a > img{
+		width: 290px;
+		
 	}
 </style>
 
@@ -67,19 +70,13 @@
 		
 		if(dto.mainimg != null){
 				const img = document.createElement('img')
-				img.style.width = '200px'
-				img.style.height = '350px'
-				
 				div.innerHTML += '<a href="${cpath}/store/storeDetale/?id=' + dto.idx + '"><img src = ' + 
-								'${cpath}/image/'+ dto.pdcolor + '/' + dto.mainimg+' "></a> '
+								'${cpath}/image/'+ dto.pdcode + dto.pdwriter + '/' + dto.mainimg+' "></a> ' + '<br>'
 		}
 		else{
 			const img = document.createElement('img')
-			img.style.width = '200px'
-			img.style.height = '350px'
-			
 			div.innerHTML += '<a href="${cpath}/store/storeDetale/?id=' + dto.idx + '"><img src = ' + 
-							'${cpath}/image/Default.jpg "></a> '
+							'${cpath}/image/Default.jpg "></a> ' + '<br>'
 		}
 		
 		div.innerHTML += '<br>' + '<a href="${cpath}/store/storeDetale/?id=' + dto.idx + '">' + dto.pdtitle +'</a> ' + 

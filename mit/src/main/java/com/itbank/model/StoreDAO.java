@@ -37,4 +37,7 @@ public interface StoreDAO {
 			+ " or pdcolor like '%'||#{search}||'%'"
 			+ "")
 	List<StoreDTO> searchItems(@Param("search") String search);
+
+	@Insert("insert into wltable (pdidx, userid, usergender) values (#{pdidx}, #{userid}, #{usergender})")
+	int wishInsert(WishListDTO dto);
 }

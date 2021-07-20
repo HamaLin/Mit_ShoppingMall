@@ -27,45 +27,20 @@ public class StoreController {
 	@GetMapping("/writeItem")
 	public void writeItem() {}
 	
-//	@GetMapping("/storeDetale")
-//	public String gotopage() {
-////		ModelAndView mav = new ModelAndView("/store/storeDetale");
-////		StoreDTO dto = ss.selectOne(idx);
-////		List<String> imgname = dto.getFilename();
-////		mav.addObject("test", dto);
-////		mav.addObject("imgname", imgname);
-//		List<writingDTO> list= new ArrayList<writingDTO>();
-//		list=ss.select();
-//		ModelAndView mav=new ModelAndView("/store/storeDetale");
-//		mav.addObject("list", list);
-//		return "/store/storeDetale";
-//	}
 	@GetMapping("/storeSearch")
     public void storeSearch() {}
 	
 
 	@GetMapping("/storeDetale")
 	public ModelAndView gotopage() {
-//		ModelAndView mav = new ModelAndView("/store/storeDetale");
-//		StoreDTO dto = ss.selectOne(idx);
-//		List<String> imgname = dto.getFilename();
-//		mav.addObject("test", dto);
-//		mav.addObject("imgname", imgname);
 		List<writingDTO> list= new ArrayList<writingDTO>();
 		list=ss.select();
 		ModelAndView mav=new ModelAndView("/store/storeDetale");
 		mav.addObject("list", list);
 		return mav;
 	}
-	@PostMapping("/storeDetale")
-	public ModelAndView writing(writingDTO dto) {
-		int row=ss.insert(dto);
-		List<writingDTO> list= new ArrayList<writingDTO>();
-		list=ss.select();
-		ModelAndView mav=new ModelAndView("/store/storeDetale");
-		mav.addObject("list", list);
-		return mav;
-	}
+	
+	
 
 	
 	

@@ -104,6 +104,12 @@
             border: 1px solid black;
             cursor: pointer;
         }
+        .buttons{
+            display: flex;
+        }
+        .buttons > input{
+            width: 5%;
+        } 
     </style>
 
 <div class="store">
@@ -175,6 +181,16 @@
 
             <div id="showmethefile"></div>
 
+			<div class="buttons">
+                <input type="button" class="BOLD" value="B" onclick="document.execCommand('bold')" />
+                <input type="button" class="ITALIC" value="Italic" onclick="document.execCommand('Italic')" />
+                <input type="button" class="UNDERBAR" value="abc" onclick="document.execCommand('Underline')" />
+                <input type="button" class="BAR" value="abc" onclick="document.execCommand('StrikeThrough')" />
+                <input type="button" class="aignLeft" value="왼쪽 정렬" onclick="document.execCommand('justifyleft')" />
+                <input type="button" class="aignCenter" value="가운데 정렬" onclick="document.execCommand('justifycenter')" />
+                <input type="button" class="aignRight" value="오른쪽 정렬" onclick="document.execCommand('justifyright')" />
+            </div>
+            
             <div id="borderbox">
                 <div id="showBox" onchange="getStatus(this)">
                 	<p id="conetent1" contenteditable="true" onkeydown="penter(this)"></p>

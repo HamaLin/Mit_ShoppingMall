@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.itbank.model.StoreDAO;
 import com.itbank.model.StoreDTO;
+import com.itbank.model.WishListDTO;
 import com.itbank.model.writingDAO;
 import com.itbank.model.writingDTO;
 
@@ -37,7 +38,7 @@ public class StoreService {
       
       for(StoreDTO dto : list) {
          if(dto.getPdimg() != null){
-         File dir = new File(uploadPath + "\\" + dto.getPdcolor());
+         File dir = new File(uploadPath + "\\" + dto.getPdcode() + dto.getPdwriter());
          String[] files = dir.list();
          System.out.println(files[0]);
          list2.add(files[0]);            
@@ -58,7 +59,7 @@ public class StoreService {
       }
       
       // id이름에 따라서 폴더 생성
-      String newdir = uploadPath + "\\" + dto.getPdcolor();
+      String newdir = uploadPath + "\\" + dto.getPdcode() + dto.getPdwriter();
       String fileName = "";
       
       for (MultipartFile f : files) {
@@ -99,7 +100,7 @@ public class StoreService {
       StoreDTO dto = dao.SelecOne(idx);
       ArrayList<String> list2 = new ArrayList<String>();
       if(dto.getPdimg() != null){
-         File dir = new File(uploadPath + "\\" + dto.getPdcolor());
+         File dir = new File(uploadPath + "\\" + dto.getPdcode() + dto.getPdwriter());
          File[] files = dir.listFiles();
          String filelistname = dto.getPdimg();
          
@@ -121,7 +122,7 @@ public class StoreService {
 
    public int delete(int idx) {
       StoreDTO dto = selectOne(idx);
-      String newdir = uploadPath + "\\" + dto.getPdcolor();
+      String newdir = uploadPath + "\\" + dto.getPdcode() + dto.getPdwriter();
       File delfolder = new File(newdir);
       
       File[] delfolderList = delfolder.listFiles();
@@ -140,7 +141,7 @@ public class StoreService {
          dto.setPdimg("");
          return dao.getModify(dto);
       }
-      String newdir = uploadPath + "\\" + dto.getIdx();
+      String newdir = uploadPath + "\\" + dto.getPdcode() + dto.getPdwriter();
       
       List<MultipartFile> files = dto.getFiles();
       for (MultipartFile f : files) {         
@@ -180,14 +181,16 @@ public class StoreService {
 		return 0;
 	}
 
-
-	public List<writingDTO> select() {
-		return wdao.select();
+	public int wishInsert(WishListDTO dto) {
+		return dao.wishInsert(dto);
 	}
 
 
-   
-   
+	public List<writingDTO> select() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
    
 
 }

@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.itbank.model.StoreDTO;
+import com.itbank.model.WishListDTO;
+import com.itbank.model.writingDTO;
 import com.itbank.service.StoreService;
 
 @RestController
@@ -56,6 +58,13 @@ public class StoreAjaxController {
 	@GetMapping("/SearchItems/{search}")
 	public List<StoreDTO> SearchItems(@PathVariable String search) {
 		return ss.searchItems(search);
+	}
+	
+	@PostMapping("/insertwishlist")
+	public int writing(WishListDTO dto) {
+		int row = ss.wishInsert(dto);
+		System.out.println(row);
+		return row;
 	}
 	
 }

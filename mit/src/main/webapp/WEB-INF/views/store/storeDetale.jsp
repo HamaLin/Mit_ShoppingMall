@@ -13,6 +13,8 @@
 	}
 	#showitem {
 		margin: 100px;
+		justify-content: center;
+		text-align: center;
 	}
 	#title{
 		font-size: 25px;
@@ -106,8 +108,8 @@
 			<br><br><br>
 			
 			<div class="selectoption">
-				<button >구매하기</button>
-				<button >장바구니</button>
+				<button id="gotoBuyItem">구매하기</button>
+				<button id="gotoWishList">장바구니</button>
 			</div>
 			<hr>
 		</div>
@@ -213,6 +215,15 @@
 <button id="modifyBtn">수정</button>
 </c:if>
 
+<c:if test="${not empty login }">
+<form id="SubmitUserInfo">
+	<input type="hidden" name="userid" value="${login.userid }">
+	<input type="hidden" name="usergender" value="${login.usergender }">
+	<input type="hidden" name="pdidx" id="getpdidx" value="">
+</form>
+
+</c:if>
+
 
 
 
@@ -227,6 +238,9 @@
     const review = document.getElementById('review')
     const question = document.getElementById('question')
     const reply = document.getElementById('reply')
+    const gotoWishList = document.getElementById('gotoWishList')
+    const SubmitUserInfo = document.getElementById('SubmitUserInfo')
+    const gotoBuyItem = document.getElementById('gotoBuyItem')
     const qna = document.getElementById('qna')
     const showmetheitem = document.getElementById('showmetheitem')
 	const link = document.location.search
@@ -264,7 +278,7 @@
 			
 			var img = document.createElement('img')
 			if(json.mainimg != ''){
-				img.src = '${cpath}/image/'+ json.pdcolor + '/'+ json.mainimg
+				img.src = '${cpath}/image/'+ json.pdcode + json.pdwriter + '/'+ json.mainimg
 			}
 			else{
 				img.src = '${cpath}/image/Default.jpg'
@@ -277,7 +291,7 @@
 				
 				if(msg.indexOf('<img src="">') == 0) {
 					var img = document.createElement('img')
-					img.src = '${cpath}/image/'+ json.pdcolor + '/' + json.filename[idx]
+					img.src = '${cpath}/image/'+ json.pdcode + json.pdwriter + '/' + json.filename[idx]
 					mainContent.appendChild(img)
 					msg = msg.substr(msg.indexOf('<img src="">')+12)
 					idx += 1
@@ -287,39 +301,67 @@
                     msg = msg.substr(msg.indexOf('</p>')+4)
                 }
 			}
+			SubmitUserInfo.pdidx.value = json.idx
 		})
 	}
 	
 	window.onload = getShowitem()
 	
-	deleteBtn.onclick = function() {
-		event.preventDefault()
-		if(confirm(idx + '게시글을 삭제하시겠습니까?')){
-		const url = '${cpath}/store/deleteitem/'+idx
-		const opt = {
-				method: 'DELETE'
-		}
-		fetch(url, opt).then(resp => resp.text())
-		.then(text => {
-			if(text == 1) {
-				alert('게시글 삭제 성공')
-				
-				location.replace("${cpath}/store/store")
+	gotoWishList.onclick = function() {
+		
+		if(confirm('장바구니에 등록하시겠습니까?')){
+			var formData = new FormData(SubmitUserInfo)
+			
+			var url = '${cpath}/store/insertwishlist'
+			var opt = {
+					method: 'POST',
+					body: formData,
 			}
-			else{
-				alert('게시글 삭제 실패')
-			}
-		})
+			fetch(url, opt).then(resp => resp.text())
+			.then(text => {
+				if(text == 1){
+					alert('장바구니에 추가 되었습니다!')
+				}
+				else{
+					alert('실패 ㅜㅜ')
+				}
+			})
 		}
 	}
 	
-	modifyBtn.onclick = function() {
-		event.preventDefault()
-		console.log('a')
-		location.href = '${cpath}/store/writeItem/?id=' + idx
+	gotoBuyItem.onclick = function() {
+		location.href('${cpath}/')
+		
 	}
 	
-	
+	if(${not empty admin}){
+		deleteBtn.onclick = function() {
+			event.preventDefault()
+			if(confirm(idx + '게시글을 삭제하시겠습니까?')){
+			const url = '${cpath}/store/deleteitem/'+idx
+			const opt = {
+					method: 'DELETE'
+			}
+			fetch(url, opt).then(resp => resp.text())
+			.then(text => {
+				if(text == 1) {
+					alert('게시글 삭제 성공')
+					
+					location.replace("${cpath}/store/store")
+				}
+				else{
+					alert('게시글 삭제 실패')
+				}
+			})
+			}
+		}
+		
+		modifyBtn.onclick = function() {
+			event.preventDefault()
+			console.log('a')
+			location.href = '${cpath}/store/writeItem/?id=' + idx
+		}
+	}
 
 </script>
 
