@@ -32,11 +32,6 @@
         box-shadow: 0 1px 25px rgba(65, 65, 65, 0.05);
         z-index: 15;
     }
-    .guard {
-    	width: 100%;
-    	height: 80px;
-    }
-    
     .logo{
     	width: 100px;
     	text-align: center;

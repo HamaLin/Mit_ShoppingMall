@@ -42,28 +42,12 @@ textarea {
 .qnap {
 	text-align: right;
 }
-.productSelect {
-	cursor: pointer;
-	border: 1px solid rgb(65, 65, 65);
-	background-color: #e9e9e9;
-	width: 221px;
-    height: 35px;
-}
 .return {
 	cursor: pointer;
 	border: 1px solid rgb(65, 65, 65);
 	background-color: #e9e9e9;
 	width: 80px;
     height: 35px;
-}
-.productMsg {
-	width: 500px;
-    height: 30px;
-    font-size: 10pt;
-    border-bottom: 1px solid grey; 
-}
-.hidden {
-	display: none;
 }
 
 </style>
@@ -80,7 +64,7 @@ textarea {
 <div class="qna">
 	<h2>Q&A</h2>
 	<h4>질문하기</h4>
-	<form method="POST" name="qna_form">
+	<form method="POST" name="qna_form" enctype="multipart/form-data">
 		<p><input type="text" class="qnawriter" name="qnawriter" placeholder="글쓴이" value="${login.userid }"></p>
 		<p>
 			<select class="selectMenu" name="qnamenu">
@@ -91,12 +75,10 @@ textarea {
 				<option value="기타">기타</option>
 			</select>
 		</p>
-		<p><button type ="button" class="productSelect" onclick="product_select();">상품 검색</button>
-		<p id ="product" class="productMsg ">고른 상품</p> <!-- 선택한 상품 보여주기 -->
 	<!-- <p><input type="hidden" name="qnaproductidx" placeholder="qnaproductidx"></p> -->	
 		<p><input type="text" class="qnatitle" name="qnatitle" placeholder="제목"></p>
 		<p><textarea name="qnacontent" placeholder="문의하실 내용을 입력해주세요."></textarea></p>
-		<!-- <p><input type="file" multiple name="qnaImgs" accept="image/*" ></p> -->
+		<p><input type="file" multiple="multiple" name="files" accept="image/*" ></p>
 	<p class="qnap"><button class="qnabutton" type="button" onclick="qnaform_check();">질문 등록</button></p>
 	<p class="qnap"><button class="return" type="button" onclick="redirect();">돌아가기</button></p>
 	</form>
@@ -114,21 +96,6 @@ textarea {
 		alert("다시 시도해주세요.")
 	</script>
 </c:if>
-
-<script>
-// 상품 검색
-const qnaproductidx = document.querySelector('input[name="qnaproductidx"]')
-const productMsg = document.querySelector('.productMsg')
-const product = document.getElementById('product')
-
-function product_select(event) {
-	
-	
-	
-	
-}
-
-</script>
 
 <script>
 //질문 등록
