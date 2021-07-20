@@ -148,7 +148,7 @@
         const getSearch = document.getElementById('getSearch')
         getSearch.onsubmit = function() {
             console.log(getSearch.textContent)
-            location.href = '${cpath}/store/storeSearch/?search=' + getSearch.textContent
+            location.href = '${cpath}/store/storeSearch/?search=' + getSearch.value
         }
 
     </script>
