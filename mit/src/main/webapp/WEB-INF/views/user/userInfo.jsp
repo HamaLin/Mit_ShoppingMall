@@ -63,10 +63,10 @@
 <c:set var="address" value="${fn:substringAfter(addressAll, '/') }" />
 
 <div class="userInfo">
-	<form id="userInfo">
+	<form id="userInfo" enctype="multipart/form-data">
 		<img src="${cpath}/image/${login.userimg} " class="userImg" >
 		<h3>${login.username }님의 회원 정보</h3>
-		<p><input type="file" name="img" accept="image/*" multiple></p>
+		<p><input type="file" name="img" accept="image/*"></p>
 		<p><input type="hidden" name="userimg" value="${login.userimg }"></p>
 		<p><input type="hidden" name="userid" value="${login.userid }"></p>
 		<p><input type="text" name="usernick" value="${login.usernick }" placeholder="닉네임"></p>

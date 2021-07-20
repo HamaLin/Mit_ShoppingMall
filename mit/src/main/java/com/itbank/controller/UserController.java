@@ -108,7 +108,6 @@ public class UserController {
 	@PostMapping("/qnaWrite")
 	public ModelAndView qnaWrite(ModelAndView mav, QnaDTO dto) {
 		int row = 0;
-
 		row =  qs.qnaWrite(dto);
 		mav.setViewName("user/qnaWrite");
 		mav.addObject("row", row);
