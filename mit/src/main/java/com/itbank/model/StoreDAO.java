@@ -1,5 +1,6 @@
 package com.itbank.model;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Delete;
@@ -40,7 +41,8 @@ public interface StoreDAO {
 			+ "")
 	List<StoreDTO> searchItems(@Param("search") String search);
 
-	@Insert("insert into wltable (pdidx, userid, usergender, count) values (#{pdidx}, #{userid}, #{usergender}, #{count})")
+	@Insert("insert into wltable (pdidx, userid, usergender, count, price, mainimg, usersize) values "
+			+ "(#{pdidx}, #{userid}, #{usergender}, #{count}, #{price}, #{mainimg}, #{usersize})")
 	int wishInsert(WishListDTO dto);
 
 	@Insert("insert into buytable (userid, pdidx, usergender, userage, count, usersize) values"
@@ -58,4 +60,14 @@ public interface StoreDAO {
 
 	@Update("update pdtable set pdxlcount = ${pdxlcount} where idx = ${idx}")
 	void setxlcountmodifycount(@Param("pdxlcount") int pdscount,@Param("idx") int idx);
+
+	@Insert("insert into wltable (pdidx, userid, usergender, count, price, mainimg, usersize, buythis) values "
+			+ "(#{pdidx}, #{userid}, #{usergender}, #{count}, #{price}, #{mainimg}, #{usersize}, #{buythis})")
+	int modifywishlist(WishListDTO dto);
+
+	@Select("select * from wltable where userid = #{userid} and buythis = 1")
+	List<WishListDTO> getpurchaselist(@Param("userid") String userid);
+
+	@Update("update wltable set buythis = 0 where userid = #{userid}")
+	int resetidset(@Param("userid") String userid);
 }

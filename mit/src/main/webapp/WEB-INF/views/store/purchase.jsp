@@ -78,16 +78,10 @@ h2 {
 	<h2>주문하기</h2>
 	<div class="itemList">
 		<h3>주문 목록</h3>
-		<div class="img"></div>
-		<div class="pdtitle"></div>
-		<div class="pdInfo">
-			<div class="pdSize"></div>
-			<div class="pdPrice"></div>
-			<div class="pdCount"></div>
-		</div>
+		<div id="showbuylist"></div>
 	</div>
 	
-	<h3 class="total">주문 합계 : </h3>
+	<h3 class="total" id="totalprice">주문 합계 : </h3>
 	
 	<div class="userInfo">
 	<h3>주문자 정보</h3> <!-- 이름, 이메일, 연락처 -->
@@ -114,14 +108,79 @@ h2 {
 
 
 <script>
+	window.onbeforeunload = function(e) {
+		event.preventDefault()
+		
+		var url= '${cpath}/store/reset/${login.userid}'
+		var opt = {
+			method: 'POST'
+		}
+		fetch(url,opt).then(resp => resp.text())
+		.then(text => {
+			console.log(text)
+		})
+		
+		console.log('a')
+	}
+
+	const showbuylist = document.getElementById('showbuylist')
+	const totalprice = document.getElementById('totalprice')
+	function createbuylist() {
 	var url= '${cpath}/store/showmethepurchase'+ document.location.search
 	var opt = {
 			method: 'GET'
 	}
-	fetch(url,opt).then(resp => resp.text())
-	.then(text => {
-		console.log(text)
+	fetch(url,opt).then(resp => resp.json())
+	.then(arr => {
+		for(let i = 0; i< arr.length ; i++){
+			
+			var dto = arr[i]
+			var div = creatediv(dto)
+			showbuylist.appendChild(div)
+		}
+		
+// 		var tr = document.createElement('tr')
+// 		var tdidx = document.createElement('td')
+// 		var tdmainimg = document.createElement('td')
+// 		var tdsize = document.createElement('td')
+// 		var tdcount = document.createElement('td')
+		
+// 		tdidx.innerText = json.idx
+// 		tdmainimg.innerHTML = '<a href="${cpath}/store/storeDetale/?id=' + dto.idx + '"><img src = ' + 
+// 							  '${cpath}/image/'+ dto.pdcode + dto.pdwriter + '/' + dto.mainimg+' "></a> '
+
 	})
+	}
+	function creatediv(dto){
+		var div = document.createElement('div')
+		var divimg = document.createElement('img')
+		var divtitle = document.createElement('p')
+		var divsize = document.createElement('p')
+		var divcount = document.createElement('p')
+		var divprice = document.createElement('p')
+		
+		divimg.src = '${cpath}/image/'+ dto.mainimg
+		divimg.style.height = '100px'
+		div.appendChild(divimg)
+		
+// 		divtitle.innerText = dto.title
+// 		div.appendchild(divimg)
+
+		divsize.innerText = '사이즈 : '+dto.usersize
+		div.appendChild(divsize)
+		
+		divcount.innerText = dto.count
+		div.appendChild(divcount)
+		
+		divprice.innerText = dto.price
+		div.appendChild(divprice)
+		
+		totalprice.innerText = '주문 합계 : ' + dto.count * dto.price
+		
+		return div
+	}
+	
+	window.onload = createbuylist()
 </script>
 
 <!-- 결제하기 -->

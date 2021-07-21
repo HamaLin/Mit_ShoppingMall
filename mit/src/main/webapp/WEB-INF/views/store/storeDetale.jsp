@@ -256,6 +256,9 @@
 	<input type="hidden" name="usergender" value="${login.usergender }">
 	<input type="hidden" name="pdidx">
 	<input type="hidden" name="count">
+	<input type="hidden" name="price">
+	<input type="hidden" name="mainimg">
+	<input type="hidden" name="usersize">
 </form>
 
 </c:if>
@@ -325,9 +328,11 @@ const idx = params.get('id')
 			var img = document.createElement('img')
 			if(json.mainimg != ''){
 				img.src = '${cpath}/image/'+ json.pdcode + json.pdwriter + '/'+ json.mainimg
+				SubmitUserInfo.mainimg.value = json.pdcode + json.pdwriter + '/'+ json.mainimg
 			}
 			else{	
 				img.src = '${cpath}/image/Default.jpg'
+					SubmitUserInfo.mainimg.value = '${cpath}/image/Default.jpg'
 			}
 			mainImg.appendChild(img)
 			
@@ -348,7 +353,19 @@ const idx = params.get('id')
                 }
 			}
 			SubmitUserInfo.pdidx.value = idx
+			SubmitUserInfo.price.value = json.pdprice
 		})
+	}
+	
+	function getsize(idx) {
+		var size = ''
+			switch(idx) {
+			case 1: size = 's'; break;
+			case 2: size = 'm'; break;
+			case 3: size = 'l'; break;
+			case 4: size = 'xl'; break;
+			}
+		return size
 	}
 	
 	function getqnalist() {
@@ -411,15 +428,14 @@ const idx = params.get('id')
 			location.replace('${cpath}/user/login')
 			return
 		}
+		if(selectSize.options.selectedIndex == 0 || document.getElementById('count').value == ''){
+			alert('수량과 사이즈를 정해주세요')
+			return
+		}
 		if(confirm('장바구니에 등록하시겠습니까?')){
-			
 			SubmitUserInfo.count.value = document.getElementById('count').value
-			
+			SubmitUserInfo.usersize.value = getsize(selectSize.options.selectedIndex)
 			var formData = new FormData(SubmitUserInfo)
-			
-			for(let test of formData.entries()){
-                console.log(test)
-            }
 			
 			var url = '${cpath}/store/insertwishlist'
 			var opt = {
@@ -437,33 +453,33 @@ const idx = params.get('id')
 			})
 		}
 	}
-	
 	gotoBuyItem.onclick = function() {
-		
-		const url = '${cpath}/store/showitem/'+idx
-		const opt = {
-				method: 'GET'
+		if(${empty login}){
+			alert('로그인부터 해주세요')
+			location.replace('${cpath}/user/login')
+			return
 		}
-		fetch(url, opt).then(resp => resp.json())
-		.then(json => {
-			var size = ''
-			switch(selectSize.options.selectedIndex) {
-			case 1: size = 's'; break;
-			case 2: size = 'm'; break;
-			case 3: size = 'l'; break;
-			case 4: size = 'xl'; break;
-			}
-			var age = ${login.userbirth}
-			age = parseInt(age/10000)
-			age = 2021 - age
-			location.href = '${cpath}/store/purchase/?idx=' + json.idx + 
-							'&count=' + document.getElementById('count').value +
-							'&usersize=' + size +
-							'&userid=' + '${login.userid}' +
-							'&usergender=' + '${login.usergender}' +
-							'&userage=' + age
-		})
+		if(selectSize.options.selectedIndex == 0 || document.getElementById('count').value == ''){
+			alert('수량과 사이즈를 정해주세요')
+			return
+		}
+		SubmitUserInfo.count.value = document.getElementById('count').value
+		SubmitUserInfo.usersize.value = getsize(selectSize.options.selectedIndex)
+		var formData = new FormData(SubmitUserInfo)
 		
+		var url = '${cpath}/store/modifywishlist'
+		var opt = {
+					method: 'POST',
+					body: formData,
+			}
+			fetch(url, opt)
+			.then(resp => resp.text())
+			.then(text => {
+				if(text == 1){
+					location.href = '${cpath}/store/purchase/?userid='+ '${login.userid }'
+				}
+				
+			})
 	}
 	}
 	
@@ -488,6 +504,7 @@ const idx = params.get('id')
 			})
 			}
 		}
+		
 		
 		modifyBtn.onclick = function() {
 			event.preventDefault()

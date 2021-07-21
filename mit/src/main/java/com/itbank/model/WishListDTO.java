@@ -2,10 +2,34 @@ package com.itbank.model;
 
 public class WishListDTO {
 	
-	private int idx, pdidx, count;
-	private String userid, usergender, wldate;
+	private int idx, pdidx, count, price, buythis;
+	private String userid, usergender, wldate, mainimg, usersize;
 	
 	
+	public int getBuythis() {
+		return buythis;
+	}
+	public void setBuythis(int buythis) {
+		this.buythis = buythis;
+	}
+	public int getPrice() {
+		return price;
+	}
+	public void setPrice(int price) {
+		this.price = price;
+	}
+	public String getMainimg() {
+		return mainimg;
+	}
+	public void setMainimg(String mainimg) {
+		this.mainimg = mainimg;
+	}
+	public String getUsersize() {
+		return usersize;
+	}
+	public void setUsersize(String usersize) {
+		this.usersize = usersize;
+	}
 	public int getCount() {
 		return count;
 	}

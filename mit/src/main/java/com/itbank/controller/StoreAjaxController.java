@@ -1,13 +1,17 @@
 package com.itbank.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -66,25 +70,43 @@ public class StoreAjaxController {
 	@PostMapping("/insertwishlist")
 	public int writing(WishListDTO dto) {
 		int row = ss.wishInsert(dto);
+		return row;
+	}
+	
+	@PostMapping("/modifywishlist")
+	public int modifywishlist(WishListDTO dto) {
+		
+		return ss.modifywishlist(dto);
+	}
+	
+	@GetMapping("/showmethepurchase")
+	public List<WishListDTO> purchaselist(@RequestParam("userid") String userid) {	
+		List<WishListDTO> list = ss.getpurchaselist(userid);
+		return list;
+	}
+	
+	@PostMapping("/reset/{userid}")
+	public int reset(@PathVariable String userid) {
+		int row = ss.resetidset(userid);
 		System.out.println(row);
 		return row;
 	}
 	
-	@GetMapping("/showmethepurchase")
-	public BuyTableDTO purchase(@RequestParam("idx") int idx, @RequestParam("count") int count,
-			@RequestParam("usersize") String usersize, @RequestParam("userid") String userid,
-			@RequestParam("usergender") String usergender, @RequestParam("userage") int userage) {
-
-		BuyTableDTO dto = new BuyTableDTO();
-		
-		dto.setPdidx(idx);
-		dto.setCount(count);
-		dto.setUserage(userage + "세");
-		dto.setUsergender(usergender);
-		dto.setUserid(userid);
-		dto.setUsersize(usersize);
-		return dto;
-	}
+//	@GetMapping("/showmethepurchase")
+//	public BuyTableDTO purchase(@RequestParam("idx") int idx, @RequestParam("count") int count,
+//			@RequestParam("usersize") String usersize, @RequestParam("userid") String userid,
+//			@RequestParam("usergender") String usergender, @RequestParam("userage") int userage) {
+//
+//		BuyTableDTO dto = new BuyTableDTO();
+//		
+//		dto.setPdidx(idx);
+//		dto.setCount(count);
+//		dto.setUserage(userage + "세");
+//		dto.setUsergender(usergender);
+//		dto.setUserid(userid);
+//		dto.setUsersize(usersize);
+//		return dto;
+//	}
 	
 	@GetMapping("/getQna/{idx}")
 	public List<QnaDTO> getQna(@PathVariable int idx) {

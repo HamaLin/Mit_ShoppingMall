@@ -3,6 +3,7 @@ package com.itbank.service;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -209,6 +210,22 @@ public class StoreService {
 
 	public List<QnaDTO> getqnalist(int idx) {
 		return qnadao.getqnalist(idx);
+	}
+
+
+	public int modifywishlist(WishListDTO dto) {
+		dto.setBuythis(1);
+		return dao.modifywishlist(dto);
+	}
+
+
+	public List<WishListDTO> getpurchaselist(String userid) {
+		return dao.getpurchaselist(userid);
+	}
+
+
+	public int resetidset(String userid) {
+		return dao.resetidset(userid);
 	}
    
 
