@@ -70,7 +70,7 @@ public class StoreAjaxController {
 	}
 	
 	@GetMapping("/showmethepurchase")
-	public int purchase(@RequestParam("idx") int idx, @RequestParam("count") int count,
+	public BuyTableDTO purchase(@RequestParam("idx") int idx, @RequestParam("count") int count,
 			@RequestParam("usersize") String usersize, @RequestParam("userid") String userid,
 			@RequestParam("usergender") String usergender, @RequestParam("userage") int userage) {
 
@@ -82,7 +82,7 @@ public class StoreAjaxController {
 		dto.setUsergender(usergender);
 		dto.setUserid(userid);
 		dto.setUsersize(usersize);
-		return ss.insertbuytale(dto);
+		return dto;
 	}
 	
 }
