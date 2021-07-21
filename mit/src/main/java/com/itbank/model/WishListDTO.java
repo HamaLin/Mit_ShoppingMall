@@ -2,9 +2,16 @@ package com.itbank.model;
 
 public class WishListDTO {
 	
-	private int idx, pdidx;
+	private int idx, pdidx, count;
 	private String userid, usergender, wldate;
 	
+	
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
+	}
 	public int getIdx() {
 		return idx;
 	}

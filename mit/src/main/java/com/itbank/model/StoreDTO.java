@@ -6,9 +6,35 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class StoreDTO {
 
-	private int idx, pdprice, pdcount;
+	private int idx, pdprice, pdscount, pdmcount, pdlcount, pdxlcount;
 	private String pdtitle, pdcontent, pdcode, pdname, pdcolor, pddate, pdimg, pdwriter, mainimg;
 	private List<MultipartFile> files;
+	
+	
+	public int getPdscount() {
+		return pdscount;
+	}
+	public void setPdscount(int pdscount) {
+		this.pdscount = pdscount;
+	}
+	public int getPdmcount() {
+		return pdmcount;
+	}
+	public void setPdmcount(int pdmcount) {
+		this.pdmcount = pdmcount;
+	}
+	public int getPdlcount() {
+		return pdlcount;
+	}
+	public void setPdlcount(int pdlcount) {
+		this.pdlcount = pdlcount;
+	}
+	public int getPdxlcount() {
+		return pdxlcount;
+	}
+	public void setPdxlcount(int pdxlcount) {
+		this.pdxlcount = pdxlcount;
+	}
 	
 	public String getMainimg() {
 		return mainimg;
@@ -60,12 +86,6 @@ public class StoreDTO {
 	}
 	public void setPdprice(int pdprice) {
 		this.pdprice = pdprice;
-	}
-	public int getPdcount() {
-		return pdcount;
-	}
-	public void setPdcount(int pdcount) {
-		this.pdcount = pdcount;
 	}
 	public String getPdtitle() {
 		return pdtitle;

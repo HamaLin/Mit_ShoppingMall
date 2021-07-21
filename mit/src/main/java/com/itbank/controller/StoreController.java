@@ -40,10 +40,8 @@ public class StoreController {
 		return mav;
 	}
 	
-	
+	@GetMapping("/purchase")
+	public void purchase() {}
 
-	
-	
-	
 	
 }

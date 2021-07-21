@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.itbank.model.BuyTableDTO;
 import com.itbank.model.StoreDAO;
 import com.itbank.model.StoreDTO;
 import com.itbank.model.WishListDTO;
@@ -189,6 +190,26 @@ public class StoreService {
 	public List<writingDTO> select() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+
+	public int insertbuytale(BuyTableDTO dto) {
+//		switch (dto.getUsersize()) {
+//		case "s" : dao.setscountmodifycount(dto.getCount(),dto.getPdidx());
+//			break;
+//		case "m" : dao.setmcountmodifycount(dto.getCount(),dto.getPdidx());
+//		break;
+//		case "l" : dao.setlcountmodifycount(dto.getCount(),dto.getPdidx());
+//		break;
+//		case "xl" : dao.setxlcountmodifycount(dto.getCount(),dto.getPdidx());
+//		break;
+//		}
+		
+		StoreDTO dto2 = selectOne(dto.getPdidx());
+		
+		dto.setTotal(dto2.getPdprice() * dto.getCount());
+		
+		return dao.insertbuytable(dto);
 	}
 
    

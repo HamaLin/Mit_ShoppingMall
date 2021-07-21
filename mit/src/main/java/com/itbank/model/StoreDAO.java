@@ -10,8 +10,10 @@ import org.apache.ibatis.annotations.Update;
 
 public interface StoreDAO {
 
-	@Insert("insert into pdtable (pdtitle, pdprice, pdcount, pdcontent, pdcode, pdname, pdcolor, pdimg, pdwriter, mainimg) "
-			+ "values (#{pdtitle}, #{pdprice}, #{pdcount}, #{pdcontent}, #{pdcode}, #{pdname}, #{pdcolor}, #{pdimg} , #{pdwriter}, #{mainimg})")
+	@Insert("insert into pdtable (pdtitle, pdprice, pdcontent, pdcode, pdname, pdcolor, "
+			+ "pdimg, pdwriter, mainimg, pdscount, pdmcount, pdlcount, pdxlcount) "
+			+ "values (#{pdtitle}, #{pdprice}, #{pdcontent}, #{pdcode}, #{pdname}, #{pdcolor}, "
+			+ "#{pdimg} , #{pdwriter}, #{mainimg}, #{pdscount}, #{pdmcount}, #{pdlcount}, #{pdxlcount})")
 	int getInsertItem(StoreDTO dto);
 
 	@Select("select * from pdtable order by idx")
@@ -38,6 +40,35 @@ public interface StoreDAO {
 			+ "")
 	List<StoreDTO> searchItems(@Param("search") String search);
 
-	@Insert("insert into wltable (pdidx, userid, usergender) values (#{pdidx}, #{userid}, #{usergender})")
+	@Insert("insert into wltable (pdidx, userid, usergender, count) values (#{pdidx}, #{userid}, #{usergender}, #{count})")
 	int wishInsert(WishListDTO dto);
+
+	@Insert("insert into buytable (userid, pdidx, usergender, userage, count, usersize) values"
+			+ "(#{userid}, #{pdidx}, #{usergender}, #{userage}, #{count}, #{usersize})")
+	int insertbuytable(BuyTableDTO dto);
+
+//	@Update("update pdtable set ${usersize} = "
+//			+ "((select ${usersize} from pdtable where idx = ${pdidx}) - ${count} ) "
+//			+ "where idx = ${pdidx}")
+//	void setmodifycount(String usersize, int count, int pdidx);
+
+//	@Update("update pdtable set pdscount = "
+//			+ "((select pdscount from pdtable where idx = ${idx}) - ${count} ) "
+//			+ "where idx = ${idx}")
+//	void setscountmodifycount(int count, int idx);
+//
+//	@Update("update pdtable set pdmcount = "
+//			+ "((select pdmcount from pdtable where idx = ${idx}) - ${count} ) "
+//			+ "where idx = ${idx}")
+//	void setmcountmodifycount(int count, int idx);
+//
+//	@Update("update pdtable set pdlcount = "
+//			+ "((select pdlcount from pdtable where idx = ${idx}) - ${count} ) "
+//			+ "where idx = ${idx}")
+//	void setlcountmodifycount(int count, int idx);
+//
+//	@Update("update pdtable set pdxlcount = "
+//			+ "((select pdxlcount from pdtable where idx = ${idx}) - ${count} ) "
+//			+ "where idx = ${idx}")
+//	void setxlcountmodifycount(int count, int idx);
 }

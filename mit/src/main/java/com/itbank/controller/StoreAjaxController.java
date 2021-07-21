@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.itbank.model.BuyTableDTO;
 import com.itbank.model.StoreDTO;
 import com.itbank.model.WishListDTO;
 import com.itbank.model.writingDTO;
@@ -65,6 +67,22 @@ public class StoreAjaxController {
 		int row = ss.wishInsert(dto);
 		System.out.println(row);
 		return row;
+	}
+	
+	@GetMapping("/showmethepurchase")
+	public int purchase(@RequestParam("idx") int idx, @RequestParam("count") int count,
+			@RequestParam("usersize") String usersize, @RequestParam("userid") String userid,
+			@RequestParam("usergender") String usergender, @RequestParam("userage") int userage) {
+
+		BuyTableDTO dto = new BuyTableDTO();
+		
+		dto.setPdidx(idx);
+		dto.setCount(count);
+		dto.setUserage(userage + "세");
+		dto.setUsergender(usergender);
+		dto.setUserid(userid);
+		dto.setUsersize(usersize);
+		return ss.insertbuytale(dto);
 	}
 	
 }

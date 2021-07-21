@@ -106,7 +106,18 @@
 		<div class="subcontent">
 			<div id="jsoncontent"></div>
 			<br><br><br>
-			
+			<div>
+				<p>사이즈</p>
+				<select id="selectSize">
+					<option>선택하세요</option>
+					<option>S</option>
+					<option>M</option>
+					<option>L</option>
+					<option>XL</option>
+				</select>
+                <br>
+                <input type="number" id="count" placeholder="수량">
+			</div>
 			<div class="selectoption">
 				<button id="gotoBuyItem">구매하기</button>
 				<button id="gotoWishList">장바구니</button>
@@ -219,7 +230,8 @@
 <form id="SubmitUserInfo">
 	<input type="hidden" name="userid" value="${login.userid }">
 	<input type="hidden" name="usergender" value="${login.usergender }">
-	<input type="hidden" name="pdidx" id="getpdidx" value="">
+	<input type="hidden" name="pdidx">
+	<input type="hidden" name="count">
 </form>
 
 </c:if>
@@ -241,6 +253,7 @@
     const gotoWishList = document.getElementById('gotoWishList')
     const SubmitUserInfo = document.getElementById('SubmitUserInfo')
     const gotoBuyItem = document.getElementById('gotoBuyItem')
+    const selectSize = document.getElementById('selectSize')
     const qna = document.getElementById('qna')
     const showmetheitem = document.getElementById('showmetheitem')
 	const link = document.location.search
@@ -275,12 +288,16 @@
 			jsoncontent.innerHTML += '<p>' + '적립금' + '0%' +'</p>'
 			jsoncontent.innerHTML += '<p>' + '배송비' + json.pdprice + '원' +'</p>'
 			
+			selectSize.children[1].value = json.pdscount
+            selectSize.children[2].value = json.pdmcount
+            selectSize.children[3].value = json.pdlcount
+            selectSize.children[4].value = json.pdxlcount
 			
 			var img = document.createElement('img')
 			if(json.mainimg != ''){
 				img.src = '${cpath}/image/'+ json.pdcode + json.pdwriter + '/'+ json.mainimg
 			}
-			else{
+			else{	
 				img.src = '${cpath}/image/Default.jpg'
 			}
 			mainImg.appendChild(img)
@@ -307,10 +324,22 @@
 	
 	window.onload = getShowitem()
 	
+	if(${not empty login}){
 	gotoWishList.onclick = function() {
-		
+		if(${empty login}){
+			alert('로그인부터 해주세요')
+			location.replace('${cpath}/user/login')
+			return
+		}
 		if(confirm('장바구니에 등록하시겠습니까?')){
+			
+			SubmitUserInfo.count.value = document.getElementById('count').value
+			
 			var formData = new FormData(SubmitUserInfo)
+			
+			for(let test of formData.entries()){
+                console.log(test)
+            }
 			
 			var url = '${cpath}/store/insertwishlist'
 			var opt = {
@@ -330,8 +359,32 @@
 	}
 	
 	gotoBuyItem.onclick = function() {
-		location.href('${cpath}/')
 		
+		const url = '${cpath}/store/showitem/'+idx
+		const opt = {
+				method: 'GET'
+		}
+		fetch(url, opt).then(resp => resp.json())
+		.then(json => {
+			var size = ''
+			switch(selectSize.options.selectedIndex) {
+			case 1: size = 's'; break;
+			case 2: size = 'm'; break;
+			case 3: size = 'l'; break;
+			case 4: size = 'xl'; break;
+			}
+			var age = ${login.userbirth}
+			age = parseInt(age/10000)
+			age = 2021 - age
+			location.href = '${cpath}/store/purchase/?idx=' + json.idx + 
+							'&count=' + document.getElementById('count').value +
+							'&usersize=' + size +
+							'&userid=' + '${login.userid}' +
+							'&usergender=' + '${login.usergender}' +
+							'&userage=' + age
+		})
+		
+	}
 	}
 	
 	if(${not empty admin}){

@@ -136,7 +136,24 @@
             <div class="divwrap">
                 <div style="width: 400px;">상품 가격 / 재고</div>
             <input type="number" name="pdprice" placeholder="상품 가격" >
-            <input type="number" name="pdcount" placeholder="상품 재고" >
+
+            </div>
+
+            <div class="divwrap">
+                <div style="width: 400px;">s / 재고</div>
+            <input type="number" name="pdscount" placeholder="재고 수량" >
+            </div>
+            <div class="divwrap">
+                <div style="width: 400px;">m / 재고</div>
+            <input type="number" name="pdmcount" placeholder="재고 수량" >
+            </div>
+            <div class="divwrap">
+                <div style="width: 400px;">l / 재고</div>
+            <input type="number" name="pdlcount" placeholder="재고 수량" >
+            </div>
+            <div class="divwrap">
+                <div style="width: 400px;">xl / 재고</div>
+            <input type="number" name="pdxlcount" placeholder="재고 수량" >
             </div>
 
             <div id="selectCheck">
@@ -168,7 +185,7 @@
             <!-- 히든 무시 -->
             <p><input type="text" name="pdcode" style="display: none;" id="category" placeholder="카테고리" ></p>
             
-            <input type="text" name="mainimg" value="">
+            <input type="hidden" name="mainimg" value="">
             
             <h2>상품 상세 정보</h2>
         	<hr>
