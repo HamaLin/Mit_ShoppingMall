@@ -47,28 +47,15 @@ public interface StoreDAO {
 			+ "(#{userid}, #{pdidx}, #{usergender}, #{userage}, #{count}, #{usersize})")
 	int insertbuytable(BuyTableDTO dto);
 
-//	@Update("update pdtable set ${usersize} = "
-//			+ "((select ${usersize} from pdtable where idx = ${pdidx}) - ${count} ) "
-//			+ "where idx = ${pdidx}")
-//	void setmodifycount(String usersize, int count, int pdidx);
+	@Update("update pdtable set pdscount = ${pdscount} where idx = ${idx}")
+	void setscountmodifycount(@Param("pdscount") int pdscount,@Param("idx") int idx);
 
-//	@Update("update pdtable set pdscount = "
-//			+ "((select pdscount from pdtable where idx = ${idx}) - ${count} ) "
-//			+ "where idx = ${idx}")
-//	void setscountmodifycount(int count, int idx);
-//
-//	@Update("update pdtable set pdmcount = "
-//			+ "((select pdmcount from pdtable where idx = ${idx}) - ${count} ) "
-//			+ "where idx = ${idx}")
-//	void setmcountmodifycount(int count, int idx);
-//
-//	@Update("update pdtable set pdlcount = "
-//			+ "((select pdlcount from pdtable where idx = ${idx}) - ${count} ) "
-//			+ "where idx = ${idx}")
-//	void setlcountmodifycount(int count, int idx);
-//
-//	@Update("update pdtable set pdxlcount = "
-//			+ "((select pdxlcount from pdtable where idx = ${idx}) - ${count} ) "
-//			+ "where idx = ${idx}")
-//	void setxlcountmodifycount(int count, int idx);
+	@Update("update pdtable set pdmcount = ${pdmcount} where idx = ${idx}")
+	void setmcountmodifycount(@Param("pdmcount") int pdscount,@Param("idx") int idx);
+
+	@Update("update pdtable set pdlcount = ${pdlcount} where idx = ${idx}")
+	void setlcountmodifycount(@Param("pdlcount") int pdscount,@Param("idx") int idx);
+
+	@Update("update pdtable set pdxlcount = ${pdxlcount} where idx = ${idx}")
+	void setxlcountmodifycount(@Param("pdxlcount") int pdscount,@Param("idx") int idx);
 }

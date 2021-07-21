@@ -96,6 +96,7 @@
         #showBox{
             width:90%; 
             height:auto; 
+           	text-align: center;
             /* border:1px solid blue; */
         }
         #selectImg{

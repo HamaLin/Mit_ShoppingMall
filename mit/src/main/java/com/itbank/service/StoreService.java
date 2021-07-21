@@ -11,8 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.itbank.model.BuyTableDTO;
+import com.itbank.model.QnaDAO;
+import com.itbank.model.QnaDTO;
 import com.itbank.model.StoreDAO;
 import com.itbank.model.StoreDTO;
+import com.itbank.model.UserDAO;
 import com.itbank.model.WishListDTO;
 import com.itbank.model.writingDAO;
 import com.itbank.model.writingDTO;
@@ -22,6 +25,7 @@ public class StoreService {
    
    @Autowired private StoreDAO dao;
    @Autowired private writingDAO wdao;
+   @Autowired private QnaDAO qnadao;
    
    private final String uploadPath = "C:\\mitImg";
    
@@ -184,16 +188,16 @@ public class StoreService {
 
 
 	public int insertbuytale(BuyTableDTO dto) {
-//		switch (dto.getUsersize()) {
-//		case "s" : dao.setscountmodifycount(dto.getCount(),dto.getPdidx());
-//			break;
-//		case "m" : dao.setmcountmodifycount(dto.getCount(),dto.getPdidx());
-//		break;
-//		case "l" : dao.setlcountmodifycount(dto.getCount(),dto.getPdidx());
-//		break;
-//		case "xl" : dao.setxlcountmodifycount(dto.getCount(),dto.getPdidx());
-//		break;
-//		}
+		switch (dto.getUsersize()) {
+		case "s" : dao.setscountmodifycount(dto.getCount(),dto.getPdidx());
+			break;
+		case "m" : dao.setmcountmodifycount(dto.getCount(),dto.getPdidx());
+		break;
+		case "l" : dao.setlcountmodifycount(dto.getCount(),dto.getPdidx());
+		break;
+		case "xl" : dao.setxlcountmodifycount(dto.getCount(),dto.getPdidx());
+		break;
+		}
 		
 		StoreDTO dto2 = selectOne(dto.getPdidx());
 		
@@ -202,6 +206,10 @@ public class StoreService {
 		return dao.insertbuytable(dto);
 	}
 
+
+	public List<QnaDTO> getqnalist(int idx) {
+		return qnadao.getqnalist(idx);
+	}
    
 
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.itbank.model.BuyTableDTO;
+import com.itbank.model.QnaDTO;
 import com.itbank.model.StoreDTO;
 import com.itbank.model.WishListDTO;
 import com.itbank.model.writingDTO;
@@ -83,6 +84,12 @@ public class StoreAjaxController {
 		dto.setUserid(userid);
 		dto.setUsersize(usersize);
 		return dto;
+	}
+	
+	@GetMapping("/getQna/{idx}")
+	public List<QnaDTO> getQna(@PathVariable int idx) {
+		List<QnaDTO> list = ss.getqnalist(idx);
+		return list;
 	}
 	
 }

@@ -75,7 +75,7 @@ textarea {
 				<option value="기타">기타</option>
 			</select>
 		</p>
-	<!-- <p><input type="hidden" name="qnaproductidx" placeholder="qnaproductidx"></p> -->	
+	<p><input type="hidden" name="qnaproductidx" placeholder="qnaproductidx"></p>	
 		<p><input type="text" class="qnatitle" name="qnatitle" placeholder="제목"></p>
 		<p><textarea name="qnacontent" placeholder="문의하실 내용을 입력해주세요."></textarea></p>
 		<p><input type="file" multiple="multiple" name="files" accept="image/*" ></p>
@@ -98,12 +98,22 @@ textarea {
 </c:if>
 
 <script>
+
+const link = document.location.search
+const params = new URLSearchParams(link)
+const idx = params.get('idx')
+const qnaproductidx = document.querySelector('input[name="qnaproductidx"]')
+	
+qnaproductidx.value = idx
+	
 //질문 등록
 function qnaform_check(event) {
+	console.log(qnaproductidx.value)
 	const qnawriter = document.querySelector('input[name="qnawriter"]')
 	const qnamenu = document.querySelector('select[name="qnamenu"]')
 	const qnatitle = document.querySelector('input[name="qnatitle"]')
 	const qnacontent = document.querySelector('textarea[name="qnacontent"]')
+	
 	
 	// 필수 사항
 	if(qnawriter.value == "") {
@@ -125,7 +135,7 @@ function qnaform_check(event) {
 		qnacontent.focus();
 		return false;
 	}
-
+	
 	document.qna_form.submit();
 }
 </script>

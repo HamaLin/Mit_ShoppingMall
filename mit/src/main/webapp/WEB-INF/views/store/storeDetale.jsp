@@ -5,16 +5,19 @@
 	.store {
 		padding: 100px 50px;
 		height: auto;
-		justify-content: center;
 	}
 	.head{
 		width: 100%;
 		display: flex;
 	}
+	.wrapcontent {
+		display: flex;
+		justify-content: center;
+		
+		
+	}
 	#showitem {
 		margin: 100px;
-		justify-content: center;
-		text-align: center;
 	}
 	#title{
 		font-size: 25px;
@@ -78,13 +81,21 @@
  	} 
 	#qna {
 		display: inline-block;
-		width: 60%;
+		width: 100%;
 		height: 300px;
 		border: 1px solid black;
 	}
-	#releaseitem{
+	#qna > table {
+		width: 100%;
+		border: 1px solid black;
+		text-align: center;
+	}
+	td {
+		border: 1px solid black;
+	}
+	#showmetheitem{
 		display: inline-block;
-		width: 60%;
+		width: 100%;
 		height: 500px;
 		border: 1px solid black;
 	}
@@ -137,9 +148,11 @@
 			</div>
 	<hr>
 	<br><br><br>
-	<div id="mainContent">
 	
+	<div class="wrapcontent">
+		<div id="mainContent"></div>
 	</div>
+	
 	<hr>
 	<div class="wrapstuf">
 	
@@ -203,7 +216,18 @@
 	<hr>
 	
 	<div id="qna">
-	질문 적는곳
+	<table id="qnalist">
+		<thead>
+			<tr>
+				<td>글번호</td>
+				<td>제목</td>
+				<td>글쓴이</td>
+				<td>등록일</td>
+			</tr>
+		</thead>
+		<tbody></tbody>
+	</table>
+	<button id="qnaBtn">QNA 작성</button>
 	</div>
 	<hr>
 	
@@ -240,26 +264,26 @@
 
 
 <script>
-	const showitem = document.getElementById('showitem')
-	const modifyBtn = document.getElementById('modifyBtn')
-	const deleteBtn = document.getElementById('deleteBtn')
-	const mainImg = document.getElementById('mainImg')
-	const jsoncontent = document.getElementById('jsoncontent')
-	const mainContent = document.getElementById('mainContent')
-    const explain = document.getElementById('explain')
-    const review = document.getElementById('review')
-    const question = document.getElementById('question')
-    const reply = document.getElementById('reply')
-    const gotoWishList = document.getElementById('gotoWishList')
-    const SubmitUserInfo = document.getElementById('SubmitUserInfo')
-    const gotoBuyItem = document.getElementById('gotoBuyItem')
-    const selectSize = document.getElementById('selectSize')
-    const qna = document.getElementById('qna')
-    const showmetheitem = document.getElementById('showmetheitem')
-	const link = document.location.search
-	const params = new URLSearchParams(link)
-	const idx = params.get('id')
-	
+const modifyBtn = document.getElementById('modifyBtn')
+const deleteBtn = document.getElementById('deleteBtn')
+const jsoncontent = document.getElementById('jsoncontent')
+const mainContent = document.getElementById('mainContent')
+const explain = document.getElementById('explain')
+const review = document.getElementById('review')
+const question = document.getElementById('question')
+const reply = document.getElementById('reply')
+const gotoWishList = document.getElementById('gotoWishList')
+const SubmitUserInfo = document.getElementById('SubmitUserInfo')
+const gotoBuyItem = document.getElementById('gotoBuyItem')
+const qnalist = document.getElementById('qnalist')
+const qnaBtn = document.getElementById('qnaBtn')
+const selectSize = document.getElementById('selectSize')
+const qna = document.getElementById('qna')
+const showmetheitem = document.getElementById('showmetheitem')
+const link = document.location.search
+const params = new URLSearchParams(link)
+const idx = params.get('id')
+
     explain.onclick = function() {
         mainContent.scrollIntoView()
     }
@@ -288,7 +312,12 @@
 			jsoncontent.innerHTML += '<p>' + '적립금' + '0%' +'</p>'
 			jsoncontent.innerHTML += '<p>' + '배송비' + json.pdprice + '원' +'</p>'
 			
-			selectSize.children[1].value = json.pdscount
+			selectSize.options[1].text = 's : ' + json.pdscount
+            selectSize.options[2].text = 'm : ' + json.pdmcount
+            selectSize.options[3].text = 'l : ' + json.pdlcount
+            selectSize.options[4].text = 'xl : ' + json.pdxlcount
+            
+            selectSize.children[1].value = json.pdscount
             selectSize.children[2].value = json.pdmcount
             selectSize.children[3].value = json.pdlcount
             selectSize.children[4].value = json.pdxlcount
@@ -318,11 +347,62 @@
                     msg = msg.substr(msg.indexOf('</p>')+4)
                 }
 			}
-			SubmitUserInfo.pdidx.value = json.idx
+			SubmitUserInfo.pdidx.value = idx
 		})
 	}
 	
+	function getqnalist() {
+		
+		const url = '${cpath}/store/getQna/'+idx
+		const opt = {
+				method: 'GET'
+		}
+		fetch(url, opt).then(resp => resp.json())
+		.then(arr => {
+				console.log(arr)
+			for(let i = 0 ; i < arr.length ; i++){
+				var dto = arr[i]
+				var tr = createtr(dto, i)
+				qnalist.appendChild(tr)
+			}
+		})
+		
+	}
+	
+	function createtr(dto, idx) {
+		var tr = document.createElement('tr')
+		var tdIdx = document.createElement('td')
+		var tdtitle = document.createElement('td')
+		var tdwriter = document.createElement('td')
+		var tddate = document.createElement('td')
+		
+		tdIdx.innerText = idx + 1
+		tdIdx.style.width = '5%';
+		tr.appendChild(tdIdx)
+		
+		tdtitle.style.width = '70%';	
+		tdtitle.innerText = dto.qnatitle
+		tr.appendChild(tdtitle)
+		
+		tdwriter.style.width = '10%';
+		tdwriter.innerText = dto.qnawriter
+		tr.appendChild(tdwriter)
+		
+		tddate.style.width = '15%';
+		tddate.innerText = dto.qnadate
+		tr.appendChild(tddate)
+		
+		
+		
+		return tr
+	}
+	
 	window.onload = getShowitem()
+	window.onload = getqnalist()
+	
+	qnaBtn.onclick = function() {
+		location.href='${cpath}/user/qnaWrite?idx=' + idx
+	}
 	
 	if(${not empty login}){
 	gotoWishList.onclick = function() {
