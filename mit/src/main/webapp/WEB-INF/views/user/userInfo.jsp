@@ -161,10 +161,11 @@
 	}
 </script>
 
+
 <!-- 돌아가기, 비밀번호 변경하기 버튼 -->
 <script>
 	const redirect = function() {
-		location.replace("${cpath}/user/mypage")
+		history.back()
 	}
 	
 	const passwordModify = function() {

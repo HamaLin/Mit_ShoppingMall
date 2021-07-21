@@ -12,7 +12,7 @@ public interface QnaDAO {
 	int qnaWrite(QnaDTO dto);
 	
 
-	@Select("select * from qnatable where QNAPRODUCTIDX = #{QNAPRODUCTIDX}")
+	@Select("select * from qnatable where QNAPRODUCTIDX = #{QNAPRODUCTIDX} order by qnadate desc")
 	List<QnaDTO> getqnalist(int QNAPRODUCTIDX);
 
 }

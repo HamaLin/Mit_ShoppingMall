@@ -99,7 +99,7 @@
 <!-- 돌아가기 버튼 -->
 <script>
 	const redirect = function() {
-		location.replace("${cpath}/user/mypage")
+		history.back()
 	}
 </script>
 

@@ -75,7 +75,7 @@ textarea {
 				<option value="기타">기타</option>
 			</select>
 		</p>
-	<p><input type="hidden" name="qnaproductidx" placeholder="qnaproductidx"></p>	
+	<p><input type="hidden" name="qnaproductidx" value="${param.idx }"placeholder="qnaproductidx"></p>	
 		<p><input type="text" class="qnatitle" name="qnatitle" placeholder="제목"></p>
 		<p><textarea name="qnacontent" placeholder="문의하실 내용을 입력해주세요."></textarea></p>
 		<p><input type="file" multiple="multiple" name="files" accept="image/*" ></p>
@@ -87,7 +87,7 @@ textarea {
 <c:if test="${row == 1 }">
 	<script>
 		alert("문의가 등록되었습니다.")
-		location.href = '${cpath}/user/qna'
+		location.href = '${cpath}/user/mypage'
 	</script>
 </c:if>
 
@@ -101,14 +101,9 @@ textarea {
 
 const link = document.location.search
 const params = new URLSearchParams(link)
-const idx = params.get('idx')
-const qnaproductidx = document.querySelector('input[name="qnaproductidx"]')
-	
-qnaproductidx.value = idx
-	
+
 //질문 등록
 function qnaform_check(event) {
-	console.log(qnaproductidx.value)
 	const qnawriter = document.querySelector('input[name="qnawriter"]')
 	const qnamenu = document.querySelector('select[name="qnamenu"]')
 	const qnatitle = document.querySelector('input[name="qnatitle"]')
@@ -143,7 +138,7 @@ function qnaform_check(event) {
 <!-- 돌아가기 버튼 -->
 <script>
 	const redirect = function() {
-		location.replace("${cpath}/user/qna")
+		history.back()
 	}
 </script>
 
