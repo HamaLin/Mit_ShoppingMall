@@ -35,17 +35,7 @@ public class StoreService {
 
    public List<StoreDTO> getList() {
       List<StoreDTO> list = dao.getList();
-      ArrayList<String> list2 = new ArrayList<String>();
-      
-      for(StoreDTO dto : list) {
-         if(dto.getPdimg() != null){
-         File dir = new File(uploadPath + "\\" + dto.getPdcode() + dto.getPdwriter());
-         String[] files = dir.list();
-         System.out.println(files[0]);
-         list2.add(files[0]);            
-         dto.setFilename(list2);
-         }
-      }
+     
       return list;
    }
    
