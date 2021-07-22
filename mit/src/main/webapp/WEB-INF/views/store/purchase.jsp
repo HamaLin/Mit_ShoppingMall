@@ -9,7 +9,7 @@
 <style>
 .purchase {
 	width: 700px;
-	height: 900px;
+	height: auto;
 	margin: 150px auto;
 }
 h2 {
@@ -63,6 +63,9 @@ h2 {
 	border-top: 1px solid grey;
 	border-bottom: 1px solid grey;
 }
+.oneLine {
+	display: flex;
+}
 
 </style>
 </head>
@@ -90,8 +93,7 @@ h2 {
 		<p><input type="text" name="userphone" value="${login.userphone }" placeholder="연락처( -제외 숫자만 입력 )"></p>
 		<div class="address">
 			<h3>배송지</h3> 
-			<button class="addressNew" type="button" onclick="addressNew();">신규 배송지 등록</button>
-			<p><input type="button" onclick="address_execDaumPostcode()" value="우편번호 검색하기"></p>
+			<p><input type="button" onclick="address_execDaumPostcode()" value="신규 배송지 등록"></p>
 			<p><input type="text" name="postcode" id="postcode" value="${postcode }" placeholder="우편번호"></p>
 			<p><input type="text" name="address" id="address" value="${address }" placeholder="주소"></p>
 		</div>
@@ -152,7 +154,7 @@ h2 {
 	})
 	}
 	function creatediv(dto){
-		var div = document.createElement('div')
+		var divItem = document.createElement('div')
 		var divimg = document.createElement('img')
 		var divtitle = document.createElement('p')
 		var divsize = document.createElement('p')
@@ -161,23 +163,25 @@ h2 {
 		
 		divimg.src = '${cpath}/image/'+ dto.mainimg
 		divimg.style.height = '100px'
-		div.appendChild(divimg)
+		divItem.appendChild(divimg)
 		
 // 		divtitle.innerText = dto.title
 // 		div.appendchild(divimg)
 
-		divsize.innerText = '사이즈 : '+dto.usersize
-		div.appendChild(divsize)
+		divsize.innerText = '사이즈 : '+dto.usersize + ' | '
+		divItem.appendChild(divsize)
 		
-		divcount.innerText = dto.count
-		div.appendChild(divcount)
+		divcount.innerText = '수량 : '+dto.count+ ' | '
+		divItem.appendChild(divcount)
 		
-		divprice.innerText = dto.price
-		div.appendChild(divprice)
+		divprice.innerText = '금액 : '+dto.price
+		divItem.appendChild(divprice)
 		
 		totalprice.innerText = '주문 합계 : ' + dto.count * dto.price
 		
-		return div
+		divItem.classList.add('oneLine')
+		
+		return divItem
 	}
 	
 	window.onload = createbuylist()
@@ -195,6 +199,13 @@ h2 {
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
     function address_execDaumPostcode() {
+    	// 배송지 정보 리셋
+   		const postcode = document.querySelector('input[name="postcode"]')
+   		const address = document.querySelector('input[name="address"]')
+   		postcode.value = ''
+   		address.value = ''
+   		
+   		// 신규 배송지 등록
         new daum.Postcode({
             oncomplete: function(data) {
                 // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
@@ -216,16 +227,6 @@ h2 {
             }
         }).open();
     }
-</script>
-
-<!-- 주소 신규 등록 -->
-<script>
-	const addressNew = function() {
-		const postcode = document.querySelector('input[name="postcode"]')
-		const address = document.querySelector('input[name="address"]')
-		postcode.value = ''
-		address.value = ''
-	}
 </script>
 
 <%@ include file="../footer.jsp"%>
