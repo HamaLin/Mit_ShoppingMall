@@ -127,8 +127,8 @@
         <div class="logo"><a href="${cpath }">MIT.</a></div>
         <div class="menu">
             <nav>
-                <a href="">BEST</a>
-                <a href="">NEW</a>
+                <a href="${cpath }/store/best10">BEST</a>
+                <a href="${cpath }/store/new">NEW</a>
                 <a href="${cpath }/store/store">SHOP</a>
                 <a href="${cpath }/user/qna">Q&A</a>
                 <span>|</span>

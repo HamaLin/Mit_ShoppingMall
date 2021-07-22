@@ -70,4 +70,10 @@ public interface StoreDAO {
 
 	@Update("update wltable set buythis = 0 where userid = #{userid}")
 	int resetidset(@Param("userid") String userid);
+	
+	@Select("select pdidx, sum(count) from buytable group by pdidx order by 2 desc")
+	List<StoreDTO> bestList();
+	
+	@Select("select * from pdtable order by pddate desc")
+	List<StoreDTO> newList();
 }

@@ -114,4 +114,15 @@ public class StoreAjaxController {
 		return list;
 	}
 	
+	@GetMapping("/BestItems")
+	public List<StoreDTO> bestItems() {
+		return ss.bestItems();
+	}
+	
+	@GetMapping("/NewItems")
+	public List<StoreDTO> newItems() {
+		return ss.newItems();
+	}
+	
+	
 }

@@ -43,5 +43,9 @@ public class StoreController {
 	@GetMapping("/purchase")
 	public void purchase() {}
 
-	
+	@GetMapping("/best10")
+	public void best10() {}
+
+	@GetMapping("/new")
+	public void newStore() {}
 }

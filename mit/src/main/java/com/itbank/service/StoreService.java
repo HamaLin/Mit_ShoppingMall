@@ -228,5 +228,14 @@ public class StoreService {
 		return dao.resetidset(userid);
 	}
    
+	public List<StoreDTO> bestItems() {
+		return dao.bestList();
+	}
+
+
+	public List<StoreDTO> newItems() {
+	      return dao.newList();
+	}
+	
 
 }
