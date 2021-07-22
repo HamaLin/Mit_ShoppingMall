@@ -65,6 +65,7 @@ h2 {
 }
 .oneLine {
 	display: flex;
+	justify-content: space-between;
 }
 
 </style>
@@ -165,13 +166,13 @@ h2 {
 		divimg.style.height = '100px'
 		divItem.appendChild(divimg)
 		
-// 		divtitle.innerText = dto.title
-// 		div.appendchild(divimg)
+		divtitle.innerText = '상품 : '+dto.title
+		divItem.appendChild(divtitle)
 
-		divsize.innerText = '사이즈 : '+dto.usersize + ' | '
+		divsize.innerText = '사이즈 : '+dto.usersize
 		divItem.appendChild(divsize)
 		
-		divcount.innerText = '수량 : '+dto.count+ ' | '
+		divcount.innerText = '수량 : '+dto.count
 		divItem.appendChild(divcount)
 		
 		divprice.innerText = '금액 : '+dto.price

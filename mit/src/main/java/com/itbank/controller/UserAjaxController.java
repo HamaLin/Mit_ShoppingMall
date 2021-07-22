@@ -8,9 +8,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.itbank.model.QnaDTO;
 import com.itbank.model.UserDTO;
 import com.itbank.service.Hash;
+import com.itbank.service.QnaService;
 import com.itbank.service.UserService;
 
 @RestController
@@ -18,6 +21,7 @@ import com.itbank.service.UserService;
 public class UserAjaxController {
 	 
 	@Autowired private UserService us;
+	@Autowired private QnaService qs;
 	
 	@GetMapping("/checkId/")
 	public int checkIdNull() {
@@ -78,7 +82,13 @@ public class UserAjaxController {
 			session.invalidate();
 		}
 		return row;
-		
+	}
+	
+	@PostMapping("/qnaWrite")
+	public int qnaWrite(QnaDTO dto) {
+		int row = 0;
+		row =  qs.qnaWrite(dto);
+		return row;
 	}
 	
 }

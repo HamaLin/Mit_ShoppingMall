@@ -21,7 +21,6 @@ import com.itbank.service.UserService;
 public class UserController {
 	
 	@Autowired private UserService us;
-	@Autowired private QnaService qs;
 	
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
@@ -37,12 +36,6 @@ public class UserController {
 	
 	@GetMapping("/mypage")
 	public void mypage() {}
-	
-	@GetMapping("/qna")
-	public void qna() {}
-	
-	@GetMapping("/qnaWrite")
-	public void qnaWrite() {}
 	
 	@GetMapping("/passwordModify")
 	public void passwordModify() {}
@@ -105,12 +98,4 @@ public class UserController {
 		
 	}
 	
-	@PostMapping("/qnaWrite")
-	public ModelAndView qnaWrite(ModelAndView mav, QnaDTO dto) {
-		int row = 0;
-		row =  qs.qnaWrite(dto);
-		mav.setViewName("user/qnaWrite");
-		mav.addObject("row", row);
-		return mav;
-	}
 }

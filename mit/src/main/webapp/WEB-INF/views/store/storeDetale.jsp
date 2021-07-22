@@ -82,8 +82,11 @@
 	#qna {
 		display: inline-block;
 		width: 100%;
-		height: 300px;
+		height: auto;
 		border: 1px solid black;
+	}
+	.left {
+		text-align: left;
 	}
 	#qna > table {
 		width: 100%;
@@ -107,6 +110,39 @@
 	}
 	.hidden{
 		display: none;
+	}
+	
+	/* qna css */
+	.qna {
+	width: 100%;
+	height: auto;
+	}
+	.qnawriter {
+	    width: 200px;
+	    height: 30px;
+	    padding-left: 15px;
+	}
+	.qnatitle {
+		width: 500px;
+	    height: 30px;
+	}
+	textarea {
+		width: 500px;
+	    height: 300px;
+	    resize: none;
+	}
+	.selectMenu {
+		width: 221px;
+	    height: 35px;
+	}
+	.qnabutton {
+		cursor: pointer;
+		border: 1px solid rgb(65, 65, 65);
+		background-color: black;
+		color: white;
+		width: 100px;
+	    height: 35px;
+	    right: 0;
 	}
 </style>
 
@@ -215,21 +251,37 @@
 	</div>
 	<hr>
 	
-	<div id="qna">
-	<table id="qnalist">
-		<thead>
-			<tr>
-				<td>글번호</td>
-				<td>제목</td>
-				<td>글쓴이</td>
-				<td>등록일</td>
-			</tr>
-		</thead>
-		<tbody></tbody>
-	</table>
-	<button id="qnaBtn">QNA 작성</button>
+<div id="qna">
+<table id="qnalist">
+	<thead>
+		<tr>
+		</tr>
+	</thead>
+	<tbody></tbody>
+</table>
+<button id="qnaBtn">질문하기</button>
+	<div class="qna hidden">
+	<h3>질문하기</h3>
+	<form method="POST" name="qna_form" enctype="multipart/form-data">
+		<p><input type="text" class="qnawriter" name="qnawriter" placeholder="글쓴이" value="${login.userid }"></p>
+		<p>
+			<select class="selectMenu" name="qnamenu">
+				<option value="">문의 유형</option>
+				<option value="사이즈">사이즈</option>
+				<option value="배송">배송</option>
+				<option value="재입고">재입고</option>
+				<option value="기타">기타</option>
+			</select>
+		</p>
+	<p><input type="hidden" name="qnaproductidx" value="${param.id }"placeholder="qnaproductidx"></p>	
+		<p><input type="text" class="qnatitle" name="qnatitle" placeholder="제목"></p>
+		<p><textarea name="qnacontent" placeholder="문의하실 내용을 입력해주세요."></textarea></p>
+		<p><input type="file" multiple="multiple" name="files" accept="image/*" ></p>
+	<p class="qnap"><button class="qnabutton" type="button" onclick="qnaform_check();">질문 등록</button></p>
+	</form>
 	</div>
-	<hr>
+</div>
+<hr>
 	
 	<div id="showmetheitem">
 	관련 상품 보여주는 곳
@@ -394,23 +446,24 @@ const idx = params.get('id')
 	function createtr(dto, idx) {
 		var tr = document.createElement('tr')
 		var tdIdx = document.createElement('td')
+		var tdmenu = document.createElement('td')
 		var tdtitle = document.createElement('td')
 		var tdwriter = document.createElement('td')
 		var tddate = document.createElement('td')
 		
-		tdIdx.innerText = idx + 1
-		tdIdx.style.width = '5%';
+		tdIdx.innerText = dto.idx
 		tr.appendChild(tdIdx)
 		
-		tdtitle.style.width = '70%';	
-		tdtitle.innerText = dto.qnatitle
+		tdmenu.innerText = dto.qnamenu
+		tr.appendChild(tdmenu)
+		
+		tdtitle.innerText = '[' +dto.qnaresult + ']' +dto.qnatitle
+		tdtitle.classList.add('left')
 		tr.appendChild(tdtitle)
 		
-		tdwriter.style.width = '10%';
 		tdwriter.innerText = dto.qnawriter
 		tr.appendChild(tdwriter)
 		
-		tddate.style.width = '15%';
 		tddate.innerText = dto.qnadate
 		tr.appendChild(tddate)
 		
@@ -423,7 +476,14 @@ const idx = params.get('id')
 	window.onload = getqnalist()
 	
 	qnaBtn.onclick = function() {
-		location.href='${cpath}/user/qnaWrite?idx=' + idx
+		const qna = document.querySelector('.qna')
+		if(qna.classList.contains("hidden")) {
+			qna.classList.remove('hidden')
+			return;
+		}else {
+			qna.classList.add('hidden')
+			return;
+		}
 	}
 	
 	gotoWishList.onclick = function() {
@@ -535,8 +595,58 @@ const idx = params.get('id')
 </script>
 
 
+<!--  qna 글쓰기 스크립트  -->
+<script>
 
-
-
+//질문 등록
+function qnaform_check(event) {
+	const qnawriter = document.querySelector('input[name="qnawriter"]')
+	const qnamenu = document.querySelector('select[name="qnamenu"]')
+	const qnatitle = document.querySelector('input[name="qnatitle"]')
+	const qnacontent = document.querySelector('textarea[name="qnacontent"]')
+	
+	
+	// 필수 사항
+	if(qnawriter.value == "") {
+		location.replace("${cpath}/user/login")
+		return false;
+	}
+	if(qnamenu.value == "") {
+		alert("문의 유형을 선택해주세요.");
+		qnamenu.focus();
+		return false;
+	}
+	if(qnatitle.value == "") {
+		alert("제목을 입력해주세요.");
+		qnatitle.focus();
+		return false;
+	}
+	if(qnacontent.value == "") {
+		alert("내용을 입력해주세요.");
+		qnacontent.focus();
+		return false;
+	}
+	
+	const qna_form = document.querySelector('form[name="qna_form"]')
+	const formData = new FormData(qna_form)
+	
+	const url = '${cpath}/user/qnaWrite/'
+	const opt = {
+			method: 'POST',
+			body: formData,
+	}
+	fetch(url, opt).then(resp => resp.text())
+	.then(text => {
+		if(text == 1) {
+			alert('질문이 정상적으로 등록되었습니다.')
+			location.reload();
+			qna.scrollIntoView()
+		}
+		else{
+			alert('다시 시도해주세요')
+		}
+	})
+}
+</script>
 
 <%@ include file="../footer.jsp" %>
