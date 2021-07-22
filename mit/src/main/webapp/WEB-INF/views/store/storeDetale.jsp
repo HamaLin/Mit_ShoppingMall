@@ -259,6 +259,7 @@
 	<input type="hidden" name="price">
 	<input type="hidden" name="mainimg">
 	<input type="hidden" name="usersize">
+	<input type="hidden" name="title">
 </form>
 
 </c:if>
@@ -328,11 +329,10 @@ const idx = params.get('id')
 			var img = document.createElement('img')
 			if(json.mainimg != ''){
 				img.src = '${cpath}/image/'+ json.pdcode + json.pdwriter + '/'+ json.mainimg
-				SubmitUserInfo.mainimg.value = json.pdcode + json.pdwriter + '/'+ json.mainimg
 			}
 			else{	
 				img.src = '${cpath}/image/Default.jpg'
-					SubmitUserInfo.mainimg.value = '${cpath}/image/Default.jpg'
+				SubmitUserInfo.mainimg.value = '${cpath}/image/Default.jpg'
 			}
 			mainImg.appendChild(img)
 			
@@ -352,8 +352,13 @@ const idx = params.get('id')
                     msg = msg.substr(msg.indexOf('</p>')+4)
                 }
 			}
-			SubmitUserInfo.pdidx.value = idx
-			SubmitUserInfo.price.value = json.pdprice
+			
+			if(${not empty login}){
+				SubmitUserInfo.pdidx.value = idx
+				SubmitUserInfo.price.value = json.pdprice
+				SubmitUserInfo.mainimg.value = json.pdcode + json.pdwriter + '/'+ json.mainimg
+				SubmitUserInfo.title.value = json.pdtitle
+			}
 		})
 	}
 	
@@ -421,7 +426,6 @@ const idx = params.get('id')
 		location.href='${cpath}/user/qnaWrite?idx=' + idx
 	}
 	
-	if(${not empty login}){
 	gotoWishList.onclick = function() {
 		if(${empty login}){
 			alert('로그인부터 해주세요')
@@ -480,7 +484,6 @@ const idx = params.get('id')
 				}
 				
 			})
-	}
 	}
 	
 	if(${not empty admin}){

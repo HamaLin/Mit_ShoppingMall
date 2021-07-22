@@ -3,9 +3,15 @@ package com.itbank.model;
 public class WishListDTO {
 	
 	private int idx, pdidx, count, price, buythis;
-	private String userid, usergender, wldate, mainimg, usersize;
+	private String userid, usergender, wldate, mainimg, usersize, title;
 	
 	
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
 	public int getBuythis() {
 		return buythis;
 	}
