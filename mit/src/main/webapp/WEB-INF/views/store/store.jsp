@@ -28,7 +28,6 @@
 	.content > a > img{
 		width: 250px;
 		height: 300px;
-		
 	}
 </style>
 

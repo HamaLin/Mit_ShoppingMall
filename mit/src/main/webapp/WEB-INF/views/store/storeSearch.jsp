@@ -7,22 +7,26 @@
 		background-color: silver;
 	}
 	.store {
+		margin: 150px;
 		padding: 100px 50px;
 		display: flex;
 		width: 100%;
+		height: auto;
 	}
-	#getItems{
+	#SearchItems{
 		display: flex;
 	}
-	
-	.content{
-		padding: 50px;
+	#SearchItems > .content{
+		width: 300px;
+		height: 400px;
 		fontSize: 100px;
 		fontWeight: bold;
-		width: 350px;
-		height: 350px;
 		text-align: center;
-		margin: 50px;
+		margin: 25px;
+	}
+	.content > a > img{
+		width: 250px;
+		height: 300px;
 	}
 </style>
 <h1>상품 찾기</h1>
@@ -77,22 +81,14 @@
 	// div의 스타일 및 내용을 추가
 	function createDiv(dto) {
 	    const div = document.createElement('div')
-	
+	    
 	    div.innerHTML = '<input type="hidden" name="idx" value="' + dto.idx + '">'
-	
+	    const img = document.createElement('img')
 	    if(dto.mainimg != null) {
-	   		const img = document.createElement('img')
-	        img.style.width = '200px'
-	        img.style.height = '350px'
-	
 	        div.innerHTML += '<a href="${cpath}/store/storeDetale/?id=' + dto.idx + '"><img src = ' + 
 	        				 '${cpath}/image/'+ dto.pdcode + dto.pdwriter + '/' + dto.mainimg+' "></a> '
 	    }
 	    else {
-	        const img = document.createElement('img')
-	        img.style.width = '200px'
-	        img.style.height = '350px'
-	
 	        div.innerHTML += '<a href="${cpath}/store/storeDetale/?id=' + dto.idx + '"><img src = ' + 
 	                         '${cpath}/image/Default.jpg "></a> '
 	    }
