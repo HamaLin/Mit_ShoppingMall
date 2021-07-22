@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.itbank.model.QnaDTO;
 import com.itbank.model.UserDAO;
 import com.itbank.model.UserDTO;
 
@@ -87,6 +88,10 @@ public class UserService {
 	public int findUser(UserDTO dto) {
 		
 		return dao.findUser(dto);
+	}
+
+	public QnaDTO qnaSelect(int idx) {
+		return dao.qnaSelect(idx);
 	}
 
 }

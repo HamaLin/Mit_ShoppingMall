@@ -1,5 +1,7 @@
 package com.itbank.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.itbank.model.QnaDTO;
 import com.itbank.model.UserDTO;
@@ -89,6 +90,12 @@ public class UserAjaxController {
 		int row = 0;
 		row =  qs.qnaWrite(dto);
 		return row;
+	}
+	
+	@GetMapping("/getQnaList/{userid}")
+	public List<QnaDTO> SearchItems(@PathVariable String userid) {
+		List<QnaDTO> list = qs.myqnalist(userid);
+		return list;
 	}
 	
 }

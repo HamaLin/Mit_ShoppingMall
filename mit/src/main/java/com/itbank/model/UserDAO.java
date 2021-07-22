@@ -31,5 +31,8 @@ public interface UserDAO {
 	
 	@Select("select count(*) from usertable where userid = #{userid} and usermail = #{usermail}")
 	int findUser(UserDTO dto);
+	
+	@Select("select * from qnatable where idx = #{idx}")
+	QnaDTO qnaSelect(int idx);
 
 }

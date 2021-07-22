@@ -90,4 +90,5 @@ public class QnaDTO {
 	public void setFiles(List<MultipartFile> files) {
 		this.files = files;
 	}
+
 }

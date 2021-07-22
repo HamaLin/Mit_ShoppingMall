@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -93,9 +94,22 @@ public class UserController {
 				model.addAttribute("loginResult", 0);
 			}
 			session.setAttribute("login", login);
+			session.setAttribute("userid", login.getUserid());
 			return "user/login";
 		}
 		
+	}
+	
+	@GetMapping("/qna/{idx}")
+	public ModelAndView qnaSelect(@PathVariable int idx,ModelAndView mav) {
+		QnaDTO qna = us.qnaSelect(idx);
+		if (qna.getQnaimg() != null) {
+			String[] imgs = qna.getQnaimg().split(",");
+			mav.addObject("imgs", imgs);
+		}
+		mav.setViewName("user/qnaDetail");
+		mav.addObject("qna", qna);
+		return mav;
 	}
 	
 }

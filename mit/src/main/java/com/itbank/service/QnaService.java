@@ -64,5 +64,9 @@ public class QnaService {
 	      dto.setQnaimg(fileName);
 	      return dao.qnaWrite(dto);
 	}
+
+	public List<QnaDTO> myqnalist(String userid) {
+		return dao.myqnalist(userid);
+	}
 	
 }

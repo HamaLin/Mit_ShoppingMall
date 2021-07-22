@@ -27,7 +27,7 @@
 	    height: 44px;
 	}
 	.policy {
-		color: grey;
+		color: black;
 		font-size: 9.7pt;
 	}
 	.gender {
@@ -35,7 +35,7 @@
 		cursor: pointer;
 		border: 1px solid rgb(65, 65, 65);
 		background-color: white;
-		color: grey;
+		color: black;
 		width: 289px;
 	    height: 44px;
 	}
@@ -46,7 +46,7 @@
 		cursor: pointer;
 		border: 1px solid rgb(65, 65, 65);
 		background-color: white;
-		color: grey;
+		color: black;
 	}
 	.idmsg, .phonemsg, .passwordmsg {
 		width: 270px;

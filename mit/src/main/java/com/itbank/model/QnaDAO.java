@@ -15,4 +15,7 @@ public interface QnaDAO {
 	@Select("select * from qnatable where QNAPRODUCTIDX = #{QNAPRODUCTIDX} order by idx desc")
 	List<QnaDTO> getqnalist(int QNAPRODUCTIDX);
 
+	@Select("select * from qnatable where qnawriter = #{userid} order by idx desc")
+	List<QnaDTO> myqnalist(String userid);
+
 }
