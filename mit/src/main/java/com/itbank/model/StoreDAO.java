@@ -72,8 +72,17 @@ public interface StoreDAO {
 	int resetidset(@Param("userid") String userid);
 	
 	@Select("select pdidx, sum(count) from buytable group by pdidx order by 2 desc")
-	List<StoreDTO> bestList();
+	List<BuyTableDTO> bestList();
 	
 	@Select("select * from pdtable order by pddate desc")
 	List<StoreDTO> newList();
+	
+	@Insert("insert into buytable (pdidx, userid, usergender, total, count, usersize, userinfo, "
+			+ "useraddress) "
+			+ "values (#{pdidx}, #{userid}, #{usergender}, #{total}, #{count}, #{usersize}, "
+			+ "#{userinfo}, #{useraddress})")
+	int purchase(BuyTableDTO dto);
+
+	@Delete("delete from wltable where userid = #{userid} and buythis = 1")
+	void deletewishlist(@Param("userid") String userid);
 }

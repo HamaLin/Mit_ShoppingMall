@@ -186,28 +186,7 @@ public class StoreService {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
-	public int insertbuytale(BuyTableDTO dto) {
-		switch (dto.getUsersize()) {
-		case "s" : dao.setscountmodifycount(dto.getCount(),dto.getPdidx());
-			break;
-		case "m" : dao.setmcountmodifycount(dto.getCount(),dto.getPdidx());
-		break;
-		case "l" : dao.setlcountmodifycount(dto.getCount(),dto.getPdidx());
-		break;
-		case "xl" : dao.setxlcountmodifycount(dto.getCount(),dto.getPdidx());
-		break;
-		}
-		
-		StoreDTO dto2 = selectOne(dto.getPdidx());
-		
-		dto.setTotal(dto2.getPdprice() * dto.getCount());
-		
-		return dao.insertbuytable(dto);
-	}
-
-
+	
 	public List<QnaDTO> getqnalist(int idx) {
 		return qnadao.getqnalist(idx);
 	}
@@ -229,7 +208,12 @@ public class StoreService {
 	}
    
 	public List<StoreDTO> bestItems() {
-		return dao.bestList();
+		List<BuyTableDTO> buylist = dao.bestList();
+		ArrayList<StoreDTO> dto = new ArrayList<StoreDTO>();
+		for(BuyTableDTO buy : buylist) {
+			dto.add(dao.SelecOne(buy.getPdidx()));
+		}
+		return dto;
 	}
 
 
@@ -237,5 +221,20 @@ public class StoreService {
 	      return dao.newList();
 	}
 	
-
+	public int purchase(BuyTableDTO dto) {
+		StoreDTO sdto = dao.SelecOne(dto.getPdidx());
+		switch (dto.getUsersize()) {
+		case "s" : dao.setscountmodifycount(sdto.getPdscount() - dto.getCount(),dto.getPdidx());
+		break;
+		case "m" : dao.setmcountmodifycount(sdto.getPdmcount() - dto.getCount(),dto.getPdidx());
+		break;
+		case "l" : dao.setlcountmodifycount(sdto.getPdlcount() - dto.getCount(),dto.getPdidx());
+		break;
+		case "xl" : dao.setxlcountmodifycount(sdto.getPdxlcount() - dto.getCount(),dto.getPdidx());
+		break;
+		}
+		dao.deletewishlist(dto.getUserid());
+		
+		return dao.purchase(dto);
+	}
 }

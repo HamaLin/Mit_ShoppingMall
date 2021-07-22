@@ -406,7 +406,7 @@ const idx = params.get('id')
 			}
 			
 			if(${not empty login}){
-				SubmitUserInfo.pdidx.value = idx
+				SubmitUserInfo.pdidx.value = json.idx
 				SubmitUserInfo.price.value = json.pdprice
 				SubmitUserInfo.mainimg.value = json.pdcode + json.pdwriter + '/'+ json.mainimg
 				SubmitUserInfo.title.value = json.pdtitle

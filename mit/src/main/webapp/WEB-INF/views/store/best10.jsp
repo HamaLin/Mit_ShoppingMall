@@ -43,7 +43,7 @@
 	function loaditems(){
 	const url = '${cpath}/store/BestItems'
 	const opt = {
-			method: 'GET',
+			method: 'GET'
 	}
 	fetch(url, opt).then(resp => resp.json())
 	.then(arr =>{

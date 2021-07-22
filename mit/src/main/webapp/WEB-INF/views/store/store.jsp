@@ -14,20 +14,20 @@
 		height: auto;
 	}
 	#getItems{
-		width: 300px;
-		height: 400px;
+		
 		display: flex;
 	}
 	#getItems > .content{
-		
-		padding: 10px;
+		width: 300px;
+		height: 400px;
 		fontSize: 100px;
 		fontWeight: bold;
 		text-align: center;
-		margin: 0;
+		margin: 25px;
 	}
 	.content > a > img{
-		width: 290px;
+		width: 250px;
+		height: 300px;
 		
 	}
 </style>
@@ -88,7 +88,6 @@
 		return div						
 	}
 
-	getItems.onclick = getdivcontent
 	
 </script>
 

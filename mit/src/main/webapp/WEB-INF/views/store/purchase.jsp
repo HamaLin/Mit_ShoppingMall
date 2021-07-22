@@ -105,7 +105,7 @@ h2 {
 		
 	</div>
 	
-	<p><button class="buy" type="button" onclick="addPurchase();">결제하기</button></p>
+	<p><button class="buy" type="button" onclick="addPurchase()">결제하기</button></p>
 </form>
 </div>
 
@@ -141,17 +141,6 @@ h2 {
 			var div = creatediv(dto)
 			showbuylist.appendChild(div)
 		}
-		
-// 		var tr = document.createElement('tr')
-// 		var tdidx = document.createElement('td')
-// 		var tdmainimg = document.createElement('td')
-// 		var tdsize = document.createElement('td')
-// 		var tdcount = document.createElement('td')
-		
-// 		tdidx.innerText = json.idx
-// 		tdmainimg.innerHTML = '<a href="${cpath}/store/storeDetale/?id=' + dto.idx + '"><img src = ' + 
-// 							  '${cpath}/image/'+ dto.pdcode + dto.pdwriter + '/' + dto.mainimg+' "></a> '
-
 	})
 	}
 	function creatediv(dto){
@@ -191,7 +180,50 @@ h2 {
 <!-- 결제하기 -->
 <script>
 	const userInfo = document.getElementById('userInfo')
-	const addPurchase = function() {
+	function addPurchase() {
+		var url= '${cpath}/store/showmethepurchase'+ document.location.search
+		var opt = {
+				method: 'GET'
+		}
+		fetch(url,opt).then(resp => resp.json())
+		.then(arr => {
+			for(let i = 0; i< arr.length ; i++){
+				var formData = new FormData()
+				formData.append('userid', arr[i].userid)
+				formData.append('pdidx', arr[i].pdidx)
+				formData.append('usergender', arr[i].usergender)
+				formData.append('count', arr[i].count)
+				formData.append('totla', arr[i].count * arr[i].price)
+				formData.append('usersize', arr[i].usersize)
+				formData.append('userinfo', document.querySelector('input[name=username]').value + '/' +
+							document.querySelector('input[name=usermail]').value + '/' +
+							document.querySelector('input[name=userphone]').value)
+				formData.append('useraddress', document.querySelector('input[name=postcode]').value + '/' +
+							document.querySelector('input[name=address]').value)
+				
+				for(let test of formData.entries()){
+	                console.log(test)
+	            }
+				
+				var url2 = '${cpath}/store/purchase'
+				var opt2 = {
+						method: 'POST',
+						body: formData,
+				}
+				fetch(url2,opt2)
+				.then(resp => resp.text())
+				.then(text => {
+					if(text == 1){
+						alert('주문 되었습니다')
+						location.href = '${cpath}/user/mypage'
+					}
+					else{
+						alert('주문 실패 ㅠㅠ')
+					}
+					
+				})
+			}
+		})
 		
 	}
 </script>

@@ -3,8 +3,20 @@ package com.itbank.model;
 public class BuyTableDTO {
 	
 	private int idx, pdidx, count, total;
-	private String userid, usergender, buydate, usersize, userage;
+	private String userid, usergender, buydate, usersize, userage, userinfo, useraddress;
 	
+	public String getUserinfo() {
+		return userinfo;
+	}
+	public void setUserinfo(String userinfo) {
+		this.userinfo = userinfo;
+	}
+	public String getUseraddress() {
+		return useraddress;
+	}
+	public void setUseraddress(String useraddress) {
+		this.useraddress = useraddress;
+	}
 	public int getIdx() {
 		return idx;
 	}

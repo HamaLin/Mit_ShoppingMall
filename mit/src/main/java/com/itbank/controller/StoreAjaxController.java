@@ -92,22 +92,6 @@ public class StoreAjaxController {
 		return row;
 	}
 	
-//	@GetMapping("/showmethepurchase")
-//	public BuyTableDTO purchase(@RequestParam("idx") int idx, @RequestParam("count") int count,
-//			@RequestParam("usersize") String usersize, @RequestParam("userid") String userid,
-//			@RequestParam("usergender") String usergender, @RequestParam("userage") int userage) {
-//
-//		BuyTableDTO dto = new BuyTableDTO();
-//		
-//		dto.setPdidx(idx);
-//		dto.setCount(count);
-//		dto.setUserage(userage + "세");
-//		dto.setUsergender(usergender);
-//		dto.setUserid(userid);
-//		dto.setUsersize(usersize);
-//		return dto;
-//	}
-	
 	@GetMapping("/getQna/{idx}")
 	public List<QnaDTO> getQna(@PathVariable int idx) {
 		List<QnaDTO> list = ss.getqnalist(idx);
@@ -124,5 +108,9 @@ public class StoreAjaxController {
 		return ss.newItems();
 	}
 	
+	@PostMapping("/purchase")
+	public int purchase(BuyTableDTO dto){
+		return ss.purchase(dto);
+	}
 	
 }
