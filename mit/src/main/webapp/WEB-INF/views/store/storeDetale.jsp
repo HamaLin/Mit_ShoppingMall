@@ -167,14 +167,14 @@
             border: 1px solid blue;
             justify-content: bottom;
         }
-        ul > li {
+        #showgraph >ul > li {
             height: 200px;
             width: 100px;
             position: relative;
             align-items: flex-end;
     		display: flex;
         }
-        ul > li > span{
+        #showgraph > ul > li > span{
             position: absolute;
             width: 100px;
             margin-bottom: 40px;

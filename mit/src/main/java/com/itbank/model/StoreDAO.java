@@ -1,6 +1,5 @@
 package com.itbank.model;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Delete;
@@ -80,9 +79,9 @@ public interface StoreDAO {
 	List<StoreDTO> newList();
 	
 	@Insert("insert into buytable (pdidx, userid, usergender, total, count, usersize, userinfo, "
-			+ "useraddress) "
+			+ "useraddress, userage) "
 			+ "values (#{pdidx}, #{userid}, #{usergender}, #{total}, #{count}, #{usersize}, "
-			+ "#{userinfo}, #{useraddress})")
+			+ "#{userinfo}, #{useraddress}, #{userage})")
 	int purchase(BuyTableDTO dto);
 
 	@Delete("delete from wltable where userid = #{userid} and buythis = 1")

@@ -113,6 +113,7 @@ public class StoreAjaxController {
 	
 	@PostMapping("/purchase")
 	public int purchase(BuyTableDTO dto){
+		System.out.println(dto.getUserage());
 		return ss.purchase(dto);
 	}
 	

@@ -71,7 +71,6 @@ public class StoreService {
          if(dto.getMainimg().equals(f.getOriginalFilename())) {
         	 dto.setMainimg(fileName2);
          }
-         System.out.println(viewimglist.get(idx));
          if(viewimglist.get(idx).equals(f.getOriginalFilename())) {
         	 viewimgname += fileName2 + ",";
         	 idx++;
@@ -88,7 +87,7 @@ public class StoreService {
          } 
             
       }
-      System.out.println(fileName);
+      System.out.println(viewimgname);
       dto.setViewimg(viewimgname);
       dto.setPdimg(fileName);
       int row = dao.getInsertItem(dto);
@@ -110,8 +109,11 @@ public class StoreService {
          File[] files = dir.listFiles();
          String filelistname = dto.getPdimg();
          
-         for(File f : files) {
-        	String msg = (String) filelistname.subSequence(0, filelistname.indexOf(","));
+         for(int i = 0 ; i <  files.length ; i++) {
+        	 if(filelistname.length() <= 0 ) {
+       		  break;
+       	  	}
+        	String msg = filelistname.substring(0, filelistname.indexOf(","));
         	list2.add(msg);
         	filelistname = filelistname.substring(filelistname.indexOf(",")+1);        
          }
@@ -125,8 +127,11 @@ public class StoreService {
           File[] files = dir.listFiles();
           String filelistname = dto.getViewimg();
           
-          for(File f : files) {
-         	String msg = (String) filelistname.subSequence(0, filelistname.indexOf(","));
+          for(int i = 0 ; i <  files.length ; i++) {
+        	  if(filelistname.length() <= 0 ) {
+        		  break;
+        	  }
+        	 String msg = filelistname.substring(0, filelistname.indexOf(","));
          	list2.add(msg);
          	filelistname = filelistname.substring(filelistname.indexOf(",")+1);        
           }
