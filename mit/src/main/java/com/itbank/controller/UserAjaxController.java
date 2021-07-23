@@ -4,7 +4,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.itbank.model.QnaDTO;
+import com.itbank.model.QnaReplyDTO;
 import com.itbank.model.UserDTO;
 import com.itbank.service.Hash;
 import com.itbank.service.QnaService;
@@ -92,10 +95,37 @@ public class UserAjaxController {
 		return row;
 	}
 	
+	@PostMapping("/qnaReply")
+	public int qnaReply(QnaReplyDTO dto) {
+		int row = 0;
+		row =  qs.qnaReply(dto);
+		return row;
+	}
+
 	@GetMapping("/getQnaList/{userid}")
 	public List<QnaDTO> SearchItems(@PathVariable String userid) {
 		List<QnaDTO> list = qs.myqnalist(userid);
 		return list;
+	}
+	
+	@GetMapping("/getReply/{idx}")
+	public List<QnaReplyDTO> getReply(@PathVariable String idx) {
+		List<QnaReplyDTO> list = qs.getReply(idx);
+		return list;
+	}
+	
+	@DeleteMapping("/qnaDelete/{idx}")
+	public int qnaDelete(@PathVariable String idx) {
+		int row = 0;
+		row =  qs.qnaDelete(idx);
+		return row;
+	}
+	
+	@PostMapping("/qnaModify")
+	public int qnaModify(QnaDTO dto) {
+		int row = 0;
+		row = qs.qnaModify(dto);
+		return row;
 	}
 	
 }

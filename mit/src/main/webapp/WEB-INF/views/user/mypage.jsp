@@ -66,6 +66,7 @@
 </c:if>
 
 <div class="mypage">
+
 	<h2>회원 정보</h2>
 	<div class="userInfo">
 		<div>
@@ -79,8 +80,13 @@
 			<a href="${cpath }/user/userDelete">탈퇴하기</a>
 		</div>
 	</div>
+	
 	<h2>내가 쓴 글</h2>
 	<div class="myQNA">
+	</div>	
+	
+	<h2>장바구니</h2>
+	<div class="cart">
 	</div>	
 </div>
 

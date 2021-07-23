@@ -1,5 +1,7 @@
 package com.itbank.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.itbank.model.QnaDTO;
+import com.itbank.model.QnaReplyDTO;
 import com.itbank.model.UserDTO;
 import com.itbank.service.Hash;
 import com.itbank.service.QnaService;
@@ -22,6 +25,7 @@ import com.itbank.service.UserService;
 public class UserController {
 	
 	@Autowired private UserService us;
+	@Autowired private QnaService qs;
 	
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
@@ -108,6 +112,22 @@ public class UserController {
 			mav.addObject("imgs", imgs);
 		}
 		mav.setViewName("user/qnaDetail");
+		mav.addObject("qna", qna);
+		return mav;
+	}
+	
+	@GetMapping("/getqnaAll")
+	public ModelAndView getqnaAll(ModelAndView mav) {
+		List<QnaDTO> list = qs.getqnaAll();
+		mav.setViewName("user/qna");
+		mav.addObject("list", list);
+		return mav;
+	}
+	
+	@GetMapping("/qnaModify/{idx}")
+	public ModelAndView qnaModify(@PathVariable int idx,ModelAndView mav) {
+		QnaDTO qna = us.qnaSelect(idx);
+		mav.setViewName("user/qnaModify");
 		mav.addObject("qna", qna);
 		return mav;
 	}

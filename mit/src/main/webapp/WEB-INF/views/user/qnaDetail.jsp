@@ -8,13 +8,38 @@
 <title>Insert title here</title>
 <style>
 	.qnaOne {
-		width: 1000px;
+		width: 800px;
 		height: auto;
 		margin: 150px auto;
 		align-content: center;
 	}
 	.qnaOne > h2 {
 		text-align: center;
+	}
+	.qnaButtons {
+		display: flex;
+		justify-content: flex-end;
+	}
+	.qnaButtons > button {
+		width: 80px;
+		height: 35px;
+	    background-color: inherit;
+	    border: 1px solid gray;
+	    border-radius: 10px;
+	    font-size: 12px;
+	    margin: 0 5px 5px 0;
+	}
+	.return {
+		width: 80px;
+		height: 35px;
+	    background-color: #eaeaea;
+	    border: 1px solid black;
+	    border-radius: 10px;
+	    font-size: 12px;
+	    margin-top: 5px;
+	}
+	.qnaButtons > button:last-child {
+		margin-right: 0;
 	}
 	.qnaWrap {
 		border: 1px solid grey;
@@ -54,6 +79,32 @@
 		margin-top: 30px;
 		text-align: center;
 	}
+	.qnaReply {
+		padding: 10px;
+		font-size: 11pt;
+		box-sizing: border-box;
+		width: inherit;
+		min-height: 100px;
+		height: auto;
+		border: 1px solid #d5d5d5; 
+	}
+	table {
+		width: inherit;
+		height: auto;
+		text-align: left;
+		border-collapse: collapse;
+	}
+	td {
+ 		border-bottom: 1px solid #d5d5d5; 
+ 		padding: 5px;
+ 	}
+	table tr td:first-child {
+		width: 120px;
+	}
+	table tr td:nth-child(2) {
+		text-align: center;
+		width: 100px;
+	}
 </style>
 </head>
 <body>
@@ -67,6 +118,10 @@
 
 <div class="qnaOne">
 	<h2>Q&A</h2>
+	<div class="qnaButtons">
+		<button id="qnaModify">글수정</button>
+		<button id="qnaDelete">글삭제</button>
+	</div>
 	<div class="qnaWrap">
 		<div>
 			<div>
@@ -93,6 +148,130 @@
 			</div>
 		</div>
 	</div>
+	<div class="Reply">
+		<div class="qnaReply">
+		</div>
+		<c:if test="${not empty admin}">	
+			<div class="reply_form">
+				<form method="POST" name="reply_form">
+					<p><input type="hidden" name="qnaidx" value="${qna.idx }"></p>	
+					<p><input type="text" name="replywriter" placeholder="글쓴이" value="${admin.userid }" readonly></p>	
+					<p><textarea name="replycontent" placeholder="댓글을 입력해주세요."></textarea></p>
+				<div class="reply_button">
+					<button class="replyButton" type="button" onclick="qnaReply();">댓글 달기</button>
+				</div>
+				</form>
+			</div>
+        </c:if>
+	</div>
+	<button class="return" type="button" onclick="redirect();">글목록</button>
 </div>
+
+<script>
+	// 댓글 목록 가져오기
+	
+	const qnaReply = document.querySelector('.qnaReply')
+	
+	function getReply() {
+		const url = '${cpath}/user/getReply/'+ ${qna.idx}
+		const opt = {
+				method: 'GET'
+		}
+		fetch(url, opt).then(resp => resp.json())
+		.then(arr => {
+			if(arr.length < 1) {
+				qnaReply.innerText = '댓글이 없습니다.'
+			}
+			var table = document.createElement('table')
+			for(let i = 0 ; i < arr.length ; i++){
+				var dto = arr[i]
+				var tr = createtr(dto, i)
+				table.appendChild(tr)
+			}
+			reply.appendChild(table)
+		})
+	}
+	
+	function createtr(dto, idx) {
+		var tr = document.createElement('tr')
+		var tddate = document.createElement('td')
+		var tdcontent = document.createElement('td')
+		var tdwriter = document.createElement('td')
+		
+		tddate.innerText = dto.replydate
+		tr.appendChild(tddate)
+			
+		tdcontent.innerText = dto.replycontent
+		tr.appendChild(tdcontent)
+		
+		tdwriter.innerText = dto.replywriter
+		tr.appendChild(tdwriter)
+			
+		return tr
+	}
+	
+	window.onload = getReply()
+</script>
+
+<script>
+// 댓글 작성(관리자만 가능)
+	const qnaReply = function() {
+		const reply_form = document.querySelector('form[name="reply_form"]')
+		const formData = new FormData(reply_form)
+		
+		const url = '${cpath}/user/qnaReply'
+		const opt = {
+				method: 'POST',
+				body: formData,
+		}
+		fetch(url, opt).then(resp => resp.text())
+		.then(text => {
+			if(text == 1) {
+				alert('댓글이 정상적으로 등록되었습니다.')
+				location.href = '${cpath}/user/qna/'+ ${qna.idx}
+			}
+			else{
+				alert('다시 시도해주세요')
+			}
+		})
+	}
+</script>
+
+<script>
+// 글수정, 글삭제 버튼
+	const qnaModify = document.getElementById('qnaModify')
+	const qnaDelete = document.getElementById('qnaDelete')
+	
+	qnaModify.onclick = function() {
+		location.href = '${cpath}/user/qnaModify/' + ${qna.idx}
+	}
+	
+	qnaDelete.onclick = function() {
+		if(confirm('문의글을 삭제하시겠습니까?')){
+		const url = '${cpath}/user/qnaDelete/'+ ${qna.idx}
+		const opt = {
+				method: 'DELETE'
+		}
+		fetch(url, opt).then(resp => resp.text())
+		.then(text => {
+			if(text == 1) {
+				alert('삭제되었습니다.')
+				location.href = '${cpath}/user/mypage'
+			}
+			else{
+				alert('다시 시도해주세요.')
+			}
+		})
+	}
+}
+</script>
+
+<!-- 글목록 버튼 -->
+<script>
+	const redirect = function() {
+		location.href = '${cpath}/user/mypage'
+	}
+</script>
+
 
 <%@ include file="../footer.jsp" %>
