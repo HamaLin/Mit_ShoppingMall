@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.itbank.model.QnaDTO;
 import com.itbank.model.QnaReplyDTO;
+import com.itbank.model.StoreDTO;
 import com.itbank.model.UserDTO;
 import com.itbank.service.Hash;
 import com.itbank.service.QnaService;
@@ -121,6 +122,13 @@ public class UserAjaxController {
 		return list;
 	}
 	
+	@GetMapping("/replyDelete/{idx}/{qnaidx}")
+	public int replyDelete(@PathVariable int idx, @PathVariable int qnaidx) {
+		int row = 0;
+		row =  qs.replyDelete(idx, qnaidx);
+		return row;
+	}
+	
 	@DeleteMapping("/qnaDelete/{idx}")
 	public int qnaDelete(@PathVariable String idx) {
 		int row = 0;
@@ -133,6 +141,12 @@ public class UserAjaxController {
 		int row = 0;
 		row = qs.qnaModify(dto);
 		return row;
+	}
+	
+	@GetMapping("/getProduct/{pdidx}")
+	public StoreDTO getProduct(@PathVariable int pdidx) {
+		StoreDTO product = qs.getProduct(pdidx);
+		return product;
 	}
 	
 }

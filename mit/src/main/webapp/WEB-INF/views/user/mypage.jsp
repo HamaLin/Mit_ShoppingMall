@@ -43,7 +43,7 @@
  		padding: 5px;
  	}
 	table tr td:first-child {
-		width: 120px;
+		width: 90px;
 	}
 	table tr td:nth-child(2) {
 		text-align: center;
@@ -94,7 +94,7 @@
 <script>
 
 // 내가 쓴 글
-const userid = '<%= session.getAttribute("userid") %>'
+const userid = '${login.userid}'
 
 const myQNA = document.querySelector('.myQNA')
 

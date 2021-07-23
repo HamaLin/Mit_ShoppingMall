@@ -101,7 +101,6 @@ public class UserController {
 				model.addAttribute("loginResult", 0);
 			}
 			session.setAttribute("login", login);
-			session.setAttribute("userid", login.getUserid());
 			return "user/login";
 		}
 		

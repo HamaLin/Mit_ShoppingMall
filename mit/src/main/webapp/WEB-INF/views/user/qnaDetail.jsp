@@ -64,6 +64,7 @@
 		min-height: 300px;
 		height: auto;
 		padding: 20px;
+		padding-top: 0;
 	}
 	.qnaImgs {
 		width: inherit;
@@ -107,9 +108,14 @@
 		width: 120px;
 	}
 	table tr td:nth-child(2) {
-		width: 500px;
+		width: 300px;
+	}
+	table tr td:nth-child(3), table tr td:nth-child(4) {
+		width: 25px;
+		text-align: right;
 	}
 	table tr td:last-child {
+		width: 60px;
 		text-align: right;
 	}
 	.replyInsert {
@@ -126,6 +132,60 @@
 		width: 80px;
 		height: 45px;
 	}
+	.linkTd {
+		cursor: pointer;
+	}
+	.linkTd:hover {
+		color: grey;
+	}
+	.pdWrap {
+		display: flex;
+	}
+	.pdimg img {
+		width: 80px;
+		height: 80px;
+		border-radius: 10px;
+		margin-right: 20px;	
+	}
+	.pdinfo p:first-child {
+		font-size: 16px;
+		font-weight: 500;
+		margin: 0;
+		margin-top: 3px;
+	}
+	.pdinfo p:nth-child(2) {
+		margin-bottom: 10px;
+	}
+	.pdinfo p {
+		margin: 0;
+		margin-bottom: 5px;
+		font-size: 13px;
+	}
+	.qnaProduct {
+		display: flex;
+		justify-content:space-between;
+		height: 100px;
+		width: 100%;
+		border-bottom: 1px solid #eaeaea;
+		margin-top: 20px;
+		margin-bottom: 20px;
+		
+	}
+	.moreinfoBtn {
+		width: 60px;
+		height: 30px;
+		border: 1px solid #eaeaea;
+		border-radius: 10px;
+		background: inherit;
+		font-size: 11px;
+		text-align: center;
+		line-height: 30px;
+		cursor: pointer;
+	}
+	.moreinfoBtn:hover {
+		background: #2f2f2f;
+		color: white;
+	}
 </style>
 </head>
 <body>
@@ -133,16 +193,31 @@
 <!-- 로그인 상태가 아니면 로그인페이지로 보내기 -->
 <c:if test="${empty login && empty admin }">
 	<script>
+		alert('접근 권한이 없습니다.')
 		location.replace("${cpath}/user/login")
 	</script>
 </c:if>
 
+<c:if test="${not empty login }">
+	<c:if test="${login.userid != qna.qnawriter }">
+	<script>
+		alert('글쓴이만 읽을 수 있습니다.')
+		history.back()
+	</script>
+	</c:if>
+</c:if>
+
+
 <div class="qnaOne">
 	<h2>Q&A</h2>
-	<div class="qnaButtons">
-		<button id="qnaModify">글수정</button>
-		<button id="qnaDelete">글삭제</button>
-	</div>
+	
+	<c:if test="${not empty login }">
+		<div class="qnaButtons">
+			<button id="qnaModify">글수정</button>
+			<button id="qnaDelete">글삭제</button>
+		</div>
+	</c:if>	
+	
 	<div class="qnaWrap">
 		<div>
 			<div>
@@ -159,6 +234,13 @@
 			</div>
 		</div>
 		<div class="qnaContent">
+			<div class="qnaProduct">
+				<div class="pdWrap">
+					<div class="pdimg"></div>
+					<div class="pdinfo"></div>
+				</div>
+				<div class="moreinfoBtn">더보기</div>
+			</div>
 			<div class="qnaImgs">
 				<c:forEach var="img" items="${imgs }">
 					<div><img src="${cpath}/image/${qna.qnawriter}/${img}"/></div>
@@ -191,10 +273,64 @@
 </div>
 
 <script>
+	// 상품 링크 만들기
+	
+	const qnaProduct = document.querySelector('.qnaProduct')
+	const pdimg = document.querySelector('.pdimg')
+	const pdinfo = document.querySelector('.pdinfo')
+	const moreinfoBtn = document.querySelector('.moreinfoBtn')
+	
+	function getProduct() {
+		const url = '${cpath}/user/getProduct/' + ${qna.qnaproductidx}
+		const opt = {
+				method: 'GET'
+		}
+		fetch(url, opt).then(resp => resp.json())
+		.then(json => {
+			console.log(json)
+			const pdtitle = json['pdtitle'];
+			const pdcolor = json['pdcolor'];
+			const pdprice = json['pdprice'];
+			const pdMainImg = json['viewimg'];
+			
+			const mainImg = document.createElement('img')
+			
+			console.log(mainImg)
+			
+			if(pdMainImg == null) {
+				mainImg.style.backgroundColor = 'grey'
+			}else {
+				mainImg.src = pdMainImg
+			}
+			pdimg.appendChild(mainImg)
+			
+			const p1 = document.createElement('p')
+			p1.innerText = pdtitle
+			pdinfo.appendChild(p1)
+			
+			const p2 = document.createElement('p')
+			p2.innerText = pdcolor
+			pdinfo.appendChild(p2)
+			
+			const p3 = document.createElement('p')
+			p3.innerText = pdprice + '원'
+			pdinfo.appendChild(p3)
+			
+			moreinfoBtn.onclick = function() {
+				location.href = '${cpath}/store/storeDetale/?id='+ json['idx'];
+			}
+		})
+	}
+	
+	
+	window.onload = getProduct()
+</script>
+
+<script>
 	// 댓글 목록 가져오기
-	
+	const adminId = '${admin.userid}'
 	const qnaReply = document.querySelector('.qnaReply')
-	
+
 	function getReply() {
 		qnaReply.innerHTML = ''
 		const url = '${cpath}/user/getReply/'+ ${qna.idx}
@@ -228,9 +364,49 @@
 		tdcontent.innerText = dto.replycontent
 		tr.appendChild(tdcontent)
 	
+		if(adminId !== '') {
+			var tdmodify = document.createElement('td')
+			var tddelete = document.createElement('td')
+			
+			tdmodify.innerText = '수정'
+			tdmodify.classList.add('linkTd')
+			tr.appendChild(tdmodify)
+			
+			// 댓글 수정 버튼
+// 			tdmodify.onclick = function(event) {
+// 				console.log('실행')
+// 				const oriReply = event.target.previousSibling
+// 				const modiReply = document.createElement('input')
+// 				console.log(modiReply.value)
+				
+// 			}
+			
+			tddelete.innerText = '삭제'
+			tddelete.classList.add('linkTd')
+			tr.appendChild(tddelete)
+			
+			// 댓글 삭제 버튼
+			tddelete.onclick = function(e) {
+			const url = '${cpath}/user/replyDelete/' +dto.idx + '/' + ${qna.idx}
+				const opt = {
+					method: 'GET'
+				}
+				fetch(url, opt).then(resp => resp.text())
+				.then(text => {
+					if(text == 1) {
+						getReply()
+					}
+					else{
+						alert('다시 시도해주세요')
+					}
+				})
+			}
+			
+		}
+		
 		tddate.innerText = dto.replydate
 		tr.appendChild(tddate)
-			
+
 		return tr
 	}
 	
@@ -260,40 +436,53 @@
 	}
 </script>
 
-<script>
-// 글수정, 글삭제 버튼
-	const qnaModify = document.getElementById('qnaModify')
-	const qnaDelete = document.getElementById('qnaDelete')
-	
-	qnaModify.onclick = function() {
-		location.href = '${cpath}/user/qnaModify/' + ${qna.idx}
-	}
-	
-	qnaDelete.onclick = function() {
-		if(confirm('문의글을 삭제하시겠습니까?')){
-		const url = '${cpath}/user/qnaDelete/'+ ${qna.idx}
-		const opt = {
-				method: 'DELETE'
+<c:if test="${not empty login}">
+	<script>
+	// 글수정, 글삭제 버튼
+		const qnaModify = document.getElementById('qnaModify')
+		const qnaDelete = document.getElementById('qnaDelete')
+		
+		qnaModify.onclick = function() {
+			location.href = '${cpath}/user/qnaModify/' + ${qna.idx}
 		}
-		fetch(url, opt).then(resp => resp.text())
-		.then(text => {
-			if(text == 1) {
-				location.href = '${cpath}/user/mypage'
+		
+		qnaDelete.onclick = function() {
+			if(confirm('문의글을 삭제하시겠습니까?')){
+			const url = '${cpath}/user/qnaDelete/'+ ${qna.idx}
+			const opt = {
+					method: 'DELETE'
 			}
-			else{
-				alert('다시 시도해주세요.')
-			}
-		})
+			fetch(url, opt).then(resp => resp.text())
+			.then(text => {
+				if(text == 1) {
+					location.href = '${cpath}/user/mypage'
+				}
+				else{
+					alert('다시 시도해주세요.')
+				}
+			})
+		}
 	}
-}
-</script>
+	</script>
+</c:if>
 
-<!-- 글목록 버튼 -->
-<script>
-	const redirect = function() {
-		location.href = '${cpath}/user/mypage'
-	}
-</script>
+<c:if test="${not empty login }">
+	<!-- 글목록 버튼 -->
+	<script>
+		const redirect = function() {
+			location.href = '${cpath}/user/mypage'
+		}
+	</script>
+</c:if>
+
+<c:if test="${empty login }">
+	<!-- 글목록 버튼 -->
+	<script>
+		const redirect = function() {
+			location.href = '${cpath}/user/qna'
+		}
+	</script>
+</c:if>
 
 
 <%@ include file="../footer.jsp" %>

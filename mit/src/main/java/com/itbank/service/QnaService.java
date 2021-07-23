@@ -13,6 +13,7 @@ import com.itbank.model.QnaDAO;
 import com.itbank.model.QnaDTO;
 import com.itbank.model.QnaReplyDAO;
 import com.itbank.model.QnaReplyDTO;
+import com.itbank.model.StoreDTO;
 
 @Service
 public class QnaService {
@@ -129,6 +130,18 @@ public class QnaService {
 
 	public List<QnaDTO> getqnaAll() {
 		return dao.getqnaAll();
+	}
+
+	public int replyDelete(int idx, int qnaidx) {
+		int row = dao.statusReturn(qnaidx);
+		if (row != 1) {
+			return 0;
+		}
+		return replyDao.replyDelete(idx);
+	}
+
+	public StoreDTO getProduct(int pdidx) {
+		return dao.getProduct(pdidx);
 	}
 
 	

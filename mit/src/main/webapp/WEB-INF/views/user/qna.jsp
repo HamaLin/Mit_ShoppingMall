@@ -92,7 +92,6 @@ function createtr(dto, idx) {
 		
 	tdmenu.innerText = dto.qnamenu
 	tr.appendChild(tdmenu)
-	
 	tdtitle.innerText = '[' +dto.qnaresult + '] ' +dto.qnatitle
 	tdtitle.classList.add('title')
 	tr.appendChild(tdtitle)

@@ -37,4 +37,10 @@ public interface QnaDAO {
 	@Update("update qnatable set qnaresult = '답변 완료' where idx = #{qnaidx}")
 	int statusChange(int qnaidx);
 
+	@Update("update qnatable set qnaresult = '답변 대기' where idx = #{qnaidx}")
+	int statusReturn(int qnaidx);
+
+	@Select("select * from pdtable where idx = #{pdidx}")
+	StoreDTO getProduct(int pdidx);
+
 }
