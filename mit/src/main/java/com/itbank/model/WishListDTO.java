@@ -2,10 +2,15 @@ package com.itbank.model;
 
 public class WishListDTO {
 	
-	private int idx, pdidx, count, price, buythis;
+	private int idx, pdidx, count, price, buythis, userage;
 	private String userid, usergender, wldate, mainimg, usersize, title;
 	
-	
+	public int getUserage() {
+		return userage;
+	}
+	public void setUserage(int userage) {
+		this.userage = userage;
+	}
 	public String getTitle() {
 		return title;
 	}

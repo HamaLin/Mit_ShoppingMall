@@ -200,6 +200,7 @@ h2 {
 							document.querySelector('input[name=userphone]').value)
 				formData.append('useraddress', document.querySelector('input[name=postcode]').value + '/' +
 							document.querySelector('input[name=address]').value)
+				formData.append('userage', arr[i].userage)
 				
 				for(let test of formData.entries()){
 	                console.log(test)

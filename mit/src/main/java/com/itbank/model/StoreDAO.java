@@ -41,8 +41,8 @@ public interface StoreDAO {
 			+ "")
 	List<StoreDTO> searchItems(@Param("search") String search);
 
-	@Insert("insert into wltable (pdidx, userid, usergender, count, price, mainimg, usersize, title) values "
-			+ "(#{pdidx}, #{userid}, #{usergender}, #{count}, #{price}, #{mainimg}, #{usersize}, #{title})")
+	@Insert("insert into wltable (pdidx, userid, usergender, count, price, mainimg, usersize, title, userage) values "
+			+ "(#{pdidx}, #{userid}, #{usergender}, #{count}, #{price}, #{mainimg}, #{usersize}, #{title}, #{userage})")
 	int wishInsert(WishListDTO dto);
 
 	@Insert("insert into buytable (userid, pdidx, usergender, userage, count, usersize) values"
@@ -61,8 +61,10 @@ public interface StoreDAO {
 	@Update("update pdtable set pdxlcount = ${pdxlcount} where idx = ${idx}")
 	void setxlcountmodifycount(@Param("pdxlcount") int pdscount,@Param("idx") int idx);
 
-	@Insert("insert into wltable (pdidx, userid, usergender, count, price, mainimg, usersize, buythis, title) values "
-			+ "(#{pdidx}, #{userid}, #{usergender}, #{count}, #{price}, #{mainimg}, #{usersize}, #{buythis}, #{title})")
+	@Insert("insert into wltable (pdidx, userid, usergender, count, price, mainimg, usersize, buythis, "
+			+ "title, userage) values "
+			+ "(#{pdidx}, #{userid}, #{usergender}, #{count}, #{price}, #{mainimg}, #{usersize}, "
+			+ "#{buythis}, #{title}, #{userage})")
 	int modifywishlist(WishListDTO dto);
 
 	@Select("select * from wltable where userid = #{userid} and buythis = 1")
@@ -85,4 +87,7 @@ public interface StoreDAO {
 
 	@Delete("delete from wltable where userid = #{userid} and buythis = 1")
 	void deletewishlist(@Param("userid") String userid);
+
+	@Select("select * from buytable where pdidx = #{idx}")
+	List<BuyTableDTO> getbuylist(@Param("idx") int idx);
 }

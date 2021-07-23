@@ -258,4 +258,9 @@ public class StoreService {
 		
 		return dao.purchase(dto);
 	}
+
+
+	public List<BuyTableDTO> getbuylist(int idx) {
+		return dao.getbuylist(idx);
+	}
 }

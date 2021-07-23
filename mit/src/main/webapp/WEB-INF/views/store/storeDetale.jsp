@@ -145,6 +145,43 @@
 	    height: 35px;
 	    right: 0;
 	}
+	
+	#showmethechart{
+            border: 1px solid black;
+        }
+        #drawingchartdiv{
+            display: flex;
+            position: relative;
+            border: 1px solid black;
+            height: 200px;
+        }
+        #showpercent{
+            width: 742px;
+            position: absolute;
+            border: 1px solid red;
+        }
+        #showgraph{
+            margin-left: 100px;
+            margin-top: 0;
+            position: absolute;
+            border: 1px solid blue;
+            justify-content: bottom;
+        }
+        ul > li {
+            height: 200px;
+            width: 100px;
+            position: relative;
+            align-items: flex-end;
+    		display: flex;
+        }
+        ul > li > span{
+            position: absolute;
+            width: 100px;
+            margin-bottom: 40px;
+        }
+        ol > li {
+            border-bottom: 1px solid gray;
+        }
 </style>
 
 <div class="store">
@@ -288,10 +325,10 @@
 <hr>
 	
 	<div id="showmethechart">
-		<div>
+		<div class="wrapall">
 			<p>연령</p>
-			<div style="display: flex;">
-				<div>
+			<div id="drawingchartdiv">
+				<div id="showpercent">
 					<ol style="list-style: none;">
 						<li><span>100%</span></li>
 						<li><span>80%</span></li>
@@ -301,14 +338,35 @@
 						<li style="border-bottom: 1px solid black;"><span>0%</span></li>
 					</ol>
 				</div>
-				<ul style="display: flex; list-style: none;">
-					<li>1</li>
-					<li>2</li>
-					<li>3</li>
-					<li>4</li>
-					<li>5</li>
-					<li>6</li>
+
+				<ul id="showgraph"style="display: flex; list-style: none;">
+					<li>
+                        <p>18</p>
+                        <span></span>
+                    </li>
+					<li>
+                        <p>28</p>
+                        <span></span>
+                    </li>
+					<li>
+                        <p>38</p>
+                        <span></span>
+                    </li>
+					<li>
+                        <p>48</p>
+                        <span></span>
+                    </li>
+					<li>
+                        <p>58</p>
+                        <span></span>
+                    </li>
+					<li>
+                        <p>68</p>
+                        <span></span>
+                    </li>
 				</ul>
+
+
 			</div>
 		</div>
 	</div>
@@ -338,6 +396,7 @@
 	<input type="hidden" name="mainimg">
 	<input type="hidden" name="usersize">
 	<input type="hidden" name="title">
+	<input type="hidden" name="userage">
 </form>
 
 </c:if>
@@ -361,6 +420,7 @@ const qnalist = document.getElementById('qnalist')
 const qnaBtn = document.getElementById('qnaBtn')
 const selectSize = document.getElementById('selectSize')
 const viewimglist = document.getElementById('viewimglist')
+const showgraph = document.getElementById('showgraph')
 const qna = document.getElementById('qna')
 const showmethechart = document.getElementById('showmethechart')
 const link = document.location.search
@@ -449,9 +509,27 @@ const idx = params.get('id')
 				SubmitUserInfo.price.value = json.pdprice
 				SubmitUserInfo.mainimg.value = json.pdcode + json.pdwriter + '/'+ json.mainimg
 				SubmitUserInfo.title.value = json.pdtitle
+				var age = ${login.userbirth}
+				SubmitUserInfo.userage.value = parseInt(2021 - age/10000)
+				console.log(SubmitUserInfo.userage.value)
 			}
 		})
 	}
+	
+// 	function drawingulgraph() {
+// 		var url = '${cpath}/store/buytablelist/'+idx
+// 		var opt = {
+// 				method: 'GET'
+// 		}
+// 		fetch(url, opt).then(resp => resp.json())
+// 		.then(arr => {
+// 			var 
+// 			for(let i = 0 ; i < arr.length ; i++){
+// 				var dto = arr[i]
+// 			}
+// 		})
+// 		showgraph
+// 	}
 	
 	function changemainimg(e) {
 		for(let i = 0; i < viewimglist.childElementCount; i++){
