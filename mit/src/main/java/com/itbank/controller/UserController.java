@@ -42,6 +42,9 @@ public class UserController {
 	@GetMapping("/mypage")
 	public void mypage() {}
 	
+	@GetMapping("/qna")
+	public void qna() {}
+	
 	@GetMapping("/passwordModify")
 	public void passwordModify() {}
 	
@@ -113,14 +116,6 @@ public class UserController {
 		}
 		mav.setViewName("user/qnaDetail");
 		mav.addObject("qna", qna);
-		return mav;
-	}
-	
-	@GetMapping("/getqnaAll")
-	public ModelAndView getqnaAll(ModelAndView mav) {
-		List<QnaDTO> list = qs.getqnaAll();
-		mav.setViewName("user/qna");
-		mav.addObject("list", list);
 		return mav;
 	}
 	

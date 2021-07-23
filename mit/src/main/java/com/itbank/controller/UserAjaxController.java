@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.itbank.model.QnaDTO;
 import com.itbank.model.QnaReplyDTO;
@@ -100,6 +101,12 @@ public class UserAjaxController {
 		int row = 0;
 		row =  qs.qnaReply(dto);
 		return row;
+	}
+	
+	@GetMapping("/getQnaList")
+	public List<QnaDTO> getqnaAll() {
+		List<QnaDTO> qna = qs.getqnaAll();
+		return qna;
 	}
 
 	@GetMapping("/getQnaList/{userid}")

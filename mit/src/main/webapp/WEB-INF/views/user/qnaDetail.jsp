@@ -80,16 +80,18 @@
 		text-align: center;
 	}
 	.qnaReply {
-		padding: 10px;
+		padding: 10px 20px;
 		font-size: 11pt;
-		box-sizing: border-box;
 		width: inherit;
-		min-height: 100px;
+		min-height: 80px;
 		height: auto;
-		border: 1px solid #d5d5d5; 
+		box-sizing: border-box;
+	}
+	.Reply {
+		width: inherit;	
 	}
 	table {
-		width: inherit;
+		width: 100%;
 		height: auto;
 		text-align: left;
 		border-collapse: collapse;
@@ -98,19 +100,38 @@
  		border-bottom: 1px solid #d5d5d5; 
  		padding: 5px;
  	}
+ 	table tr {
+ 		width: inherit;
+ 	}
 	table tr td:first-child {
 		width: 120px;
 	}
 	table tr td:nth-child(2) {
-		text-align: center;
-		width: 100px;
+		width: 500px;
+	}
+	table tr td:last-child {
+		text-align: right;
+	}
+	.replyInsert {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 10px;
+	}
+	textarea {
+		width: 700px;
+		resize: none;
+	}
+	.replyButton{
+		width: 80px;
+		height: 45px;
 	}
 </style>
 </head>
 <body>
 
 <!-- 로그인 상태가 아니면 로그인페이지로 보내기 -->
-<c:if test="${empty login }">
+<c:if test="${empty login && empty admin }">
 	<script>
 		location.replace("${cpath}/user/login")
 	</script>
@@ -155,10 +176,12 @@
 			<div class="reply_form">
 				<form method="POST" name="reply_form">
 					<p><input type="hidden" name="qnaidx" value="${qna.idx }"></p>	
-					<p><input type="text" name="replywriter" placeholder="글쓴이" value="${admin.userid }" readonly></p>	
-					<p><textarea name="replycontent" placeholder="댓글을 입력해주세요."></textarea></p>
-				<div class="reply_button">
-					<button class="replyButton" type="button" onclick="qnaReply();">댓글 달기</button>
+					<p><input type="hidden" name="replywriter" placeholder="글쓴이" value="${admin.username }" readonly></p>	
+				<div class="replyInsert">
+					<textarea name="replycontent" placeholder="댓글을 입력해주세요."></textarea>
+					<div class="reply_button">
+						<button class="replyButton" type="button" onclick="qnaInsert();">댓글 달기</button>
+					</div>
 				</div>
 				</form>
 			</div>
@@ -173,6 +196,7 @@
 	const qnaReply = document.querySelector('.qnaReply')
 	
 	function getReply() {
+		qnaReply.innerHTML = ''
 		const url = '${cpath}/user/getReply/'+ ${qna.idx}
 		const opt = {
 				method: 'GET'
@@ -180,7 +204,7 @@
 		fetch(url, opt).then(resp => resp.json())
 		.then(arr => {
 			if(arr.length < 1) {
-				qnaReply.innerText = '댓글이 없습니다.'
+				qnaReply.innerText = '등록된 댓글이 없습니다.'
 			}
 			var table = document.createElement('table')
 			for(let i = 0 ; i < arr.length ; i++){
@@ -188,7 +212,7 @@
 				var tr = createtr(dto, i)
 				table.appendChild(tr)
 			}
-			reply.appendChild(table)
+			qnaReply.appendChild(table)
 		})
 	}
 	
@@ -198,14 +222,14 @@
 		var tdcontent = document.createElement('td')
 		var tdwriter = document.createElement('td')
 		
-		tddate.innerText = dto.replydate
-		tr.appendChild(tddate)
+		tdwriter.innerText = dto.replywriter
+		tr.appendChild(tdwriter)
 			
 		tdcontent.innerText = dto.replycontent
 		tr.appendChild(tdcontent)
-		
-		tdwriter.innerText = dto.replywriter
-		tr.appendChild(tdwriter)
+	
+		tddate.innerText = dto.replydate
+		tr.appendChild(tddate)
 			
 		return tr
 	}
@@ -215,7 +239,7 @@
 
 <script>
 // 댓글 작성(관리자만 가능)
-	const qnaReply = function() {
+	function qnaInsert() {
 		const reply_form = document.querySelector('form[name="reply_form"]')
 		const formData = new FormData(reply_form)
 		
@@ -227,8 +251,7 @@
 		fetch(url, opt).then(resp => resp.text())
 		.then(text => {
 			if(text == 1) {
-				alert('댓글이 정상적으로 등록되었습니다.')
-				location.href = '${cpath}/user/qna/'+ ${qna.idx}
+				getReply()
 			}
 			else{
 				alert('다시 시도해주세요')
@@ -255,7 +278,6 @@
 		fetch(url, opt).then(resp => resp.text())
 		.then(text => {
 			if(text == 1) {
-				alert('삭제되었습니다.')
 				location.href = '${cpath}/user/mypage'
 			}
 			else{

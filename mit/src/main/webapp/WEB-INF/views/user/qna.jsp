@@ -13,6 +13,10 @@
 		margin: 150px auto;
 		align-content: center;
 	}
+	.qnaList {
+		width: inherit;
+		height: auto;
+	}
 	table {
 		width: inherit;
 		height: auto;
@@ -29,6 +33,9 @@
 	table tr td:nth-child(2) {
 		text-align: center;
 		width: 100px;
+	}
+	table tr td:last-child {
+		text-align: right;
 	}
 	.title:hover {
 		cursor: pointer;
@@ -54,7 +61,7 @@
 const qnaList = document.querySelector('.qnaList')
 
 function getqnaAll() {
-	const url = '${cpath}/user/getqnaAll'
+	const url = '${cpath}/user/getQnaList'
 	const opt = {
 			method: 'GET'
 	}
@@ -78,6 +85,7 @@ function createtr(dto, idx) {
 	var tddate = document.createElement('td')
 	var tdmenu = document.createElement('td')
 	var tdtitle = document.createElement('td')
+	var tdwriter = document.createElement('td')
 	
 	tddate.innerText = dto.qnadate
 	tr.appendChild(tddate)
@@ -90,8 +98,11 @@ function createtr(dto, idx) {
 	tr.appendChild(tdtitle)
 	
 	tdtitle.onclick = function(e) {
-		location.href = '${cpath}/user/qna/'+dto.idx
+		location.href = '${cpath}/user/qna/'+ dto.idx
 	}
+	
+	tdwriter.innerText = dto.qnawriter
+	tr.appendChild(tdwriter)
 	
 	return tr
 }

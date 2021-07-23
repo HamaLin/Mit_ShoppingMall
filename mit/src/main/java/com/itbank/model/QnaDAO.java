@@ -34,4 +34,7 @@ public interface QnaDAO {
 	@Select("select * from qnatable order by idx desc")
 	List<QnaDTO> getqnaAll();
 
+	@Update("update qnatable set qnaresult = '답변 완료' where idx = #{qnaidx}")
+	int statusChange(int qnaidx);
+
 }

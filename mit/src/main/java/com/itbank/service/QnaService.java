@@ -120,6 +120,10 @@ public class QnaService {
 	}
 
 	public int qnaReply(QnaReplyDTO dto) {
+		int row = dao.statusChange(dto.getQnaidx());
+		if (row != 1) {
+			return 0;
+		}
 		return replyDao.qnaReply(dto);
 	}
 
