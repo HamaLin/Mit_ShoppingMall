@@ -85,9 +85,10 @@
 		height: auto;
 		border: 1px solid black;
 	}
-	.left {
-		text-align: left;
-	}
+	.title {
+      text-align: left;
+      cursor: pointer;
+   	}
 	#qna > table {
 		width: 100%;
 		border: 1px solid black;
@@ -149,7 +150,10 @@
 <div class="store">
 <div id="showitem">
 	<div class="head">
-		<div id="mainImg"></div>
+		<div class="leftheader">
+			<div id="mainImg"></div>
+			<div id="viewimglist"></div>
+		</div>
 		<div class="subcontent">
 			<div id="jsoncontent"></div>
 			<br><br><br>
@@ -283,8 +287,30 @@
 </div>
 <hr>
 	
-	<div id="showmetheitem">
-	관련 상품 보여주는 곳
+	<div id="showmethechart">
+		<div>
+			<p>연령</p>
+			<div style="display: flex;">
+				<div>
+					<ol style="list-style: none;">
+						<li><span>100%</span></li>
+						<li><span>80%</span></li>
+						<li><span>60%</span></li>
+						<li><span>40%</span></li>
+						<li><span>20%</span></li>
+						<li style="border-bottom: 1px solid black;"><span>0%</span></li>
+					</ol>
+				</div>
+				<ul style="display: flex; list-style: none;">
+					<li>1</li>
+					<li>2</li>
+					<li>3</li>
+					<li>4</li>
+					<li>5</li>
+					<li>6</li>
+				</ul>
+			</div>
+		</div>
 	</div>
 	
 	</div>
@@ -334,8 +360,9 @@ const gotoBuyItem = document.getElementById('gotoBuyItem')
 const qnalist = document.getElementById('qnalist')
 const qnaBtn = document.getElementById('qnaBtn')
 const selectSize = document.getElementById('selectSize')
+const viewimglist = document.getElementById('viewimglist')
 const qna = document.getElementById('qna')
-const showmetheitem = document.getElementById('showmetheitem')
+const showmethechart = document.getElementById('showmethechart')
 const link = document.location.search
 const params = new URLSearchParams(link)
 const idx = params.get('id')
@@ -388,10 +415,22 @@ const idx = params.get('id')
 			}
 			mainImg.appendChild(img)
 			
+			if(json.viewimglist != null){
+				for(let i = 0 ; i < json.viewimglist.length; i++){
+					var img = document.createElement('img')
+					img.src = '${cpath}/image/'+ json.pdcode + json.pdwriter + '/'+ json.viewimglist[i]
+					img.style.width = '100px'
+					img.id = Math.random()
+					img.setAttribute('onclick', 'changemainimg(this)')
+					viewimglist.appendChild(img)
+				}
+			}
+			
+			
 			var msg = json.pdcontent
 			var idx = 0
 			while(msg.length > 0){
-				
+				console.log(json.filename[idx])
 				if(msg.indexOf('<img src="">') == 0) {
 					var img = document.createElement('img')
 					img.src = '${cpath}/image/'+ json.pdcode + json.pdwriter + '/' + json.filename[idx]
@@ -412,6 +451,17 @@ const idx = params.get('id')
 				SubmitUserInfo.title.value = json.pdtitle
 			}
 		})
+	}
+	
+	function changemainimg(e) {
+		for(let i = 0; i < viewimglist.childElementCount; i++){
+			if(viewimglist.children[i].id == e.id){
+				var img = document.createElement('img')
+                img.src = e.src
+				mainImg.children[0].remove()
+                mainImg.appendChild(img)
+			}
+		}
 	}
 	
 	function getsize(idx) {
@@ -458,11 +508,14 @@ const idx = params.get('id')
 		tr.appendChild(tdmenu)
 		
 		tdtitle.innerText = '[' +dto.qnaresult + ']' +dto.qnatitle
-		tdtitle.classList.add('left')
+		tdtitle.classList.add('title')
 		tr.appendChild(tdtitle)
 		
 		tdwriter.innerText = dto.qnawriter
 		tr.appendChild(tdwriter)
+		tdtitle.onclick = function(e) {
+         location.href = '${cpath}/user/qna/'+dto.idx
+      	}
 		
 		tddate.innerText = dto.qnadate
 		tr.appendChild(tddate)
@@ -472,8 +525,12 @@ const idx = params.get('id')
 		return tr
 	}
 	
+	function drawingchart() {
+	}
+	
 	window.onload = getShowitem()
 	window.onload = getqnalist()
+	window.onload = drawingchart()
 	
 	qnaBtn.onclick = function() {
 		const qna = document.querySelector('.qna')
@@ -638,9 +695,11 @@ function qnaform_check(event) {
 	fetch(url, opt).then(resp => resp.text())
 	.then(text => {
 		if(text == 1) {
-			alert('질문이 정상적으로 등록되었습니다.')
-			location.reload();
-			qna.scrollIntoView()
+			const qna = document.querySelector('.qna')
+	         qna.classList.add('hidden')
+	         qnalist.innerHTML = ''
+	         getqnalist()
+	         qna.scrollIntoView()
 		}
 		else{
 			alert('다시 시도해주세요')

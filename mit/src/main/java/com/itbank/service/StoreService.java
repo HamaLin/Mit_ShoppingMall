@@ -57,15 +57,24 @@ public class StoreService {
       // id이름에 따라서 폴더 생성
       String newdir = uploadPath + "\\" + dto.getPdcode() + dto.getPdwriter();
       String fileName = "";
+      String viewimgname = "";
+      List<String> viewimglist = dto.getViewimglist();
+      int idx = 0;
       
       for (MultipartFile f : files) {
          if(f.getSize() == 0) {
             break;
          }
+         
          UUID uuid = UUID.randomUUID();
          String fileName2 = uuid.toString() + "_" + f.getOriginalFilename();
          if(dto.getMainimg().equals(f.getOriginalFilename())) {
         	 dto.setMainimg(fileName2);
+         }
+         System.out.println(viewimglist.get(idx));
+         if(viewimglist.get(idx).equals(f.getOriginalFilename())) {
+        	 viewimgname += fileName2 + ",";
+        	 idx++;
          }
          File dest = new File(newdir, fileName2);   // 파일 객체를 생성
          fileName += fileName2 + ",";
@@ -79,7 +88,8 @@ public class StoreService {
          } 
             
       }
-      
+      System.out.println(fileName);
+      dto.setViewimg(viewimgname);
       dto.setPdimg(fileName);
       int row = dao.getInsertItem(dto);
       return row;
@@ -102,16 +112,27 @@ public class StoreService {
          
          for(File f : files) {
         	String msg = (String) filelistname.subSequence(0, filelistname.indexOf(","));
-        	if(msg.equals(dto.getMainimg())) {
-        		
-        	}
-        	else {
-        		list2.add(msg);
-        	}
+        	list2.add(msg);
         	filelistname = filelistname.substring(filelistname.indexOf(",")+1);        
          }
          dto.setFilename(list2);
       }
+      
+      list2 = new ArrayList<String>();
+      
+      if(dto.getViewimg() != null){
+          File dir = new File(uploadPath + "\\" + dto.getPdcode() + dto.getPdwriter());
+          File[] files = dir.listFiles();
+          String filelistname = dto.getViewimg();
+          
+          for(File f : files) {
+         	String msg = (String) filelistname.subSequence(0, filelistname.indexOf(","));
+         	list2.add(msg);
+         	filelistname = filelistname.substring(filelistname.indexOf(",")+1);        
+          }
+          dto.setViewimglist(list2);
+       }
+      
       return dto;
    }
 

@@ -178,13 +178,23 @@
 
             <div class="divwrap" style="justify-content: left;">
                 <div>카테고리</div>
-            <p><div id="categoryDiv">
-                <div class="categoryDivTag" contenteditable="true" onkeydown="addcategoryEnter(this)"></div>
-            </div></p>
+                <div>
+                    <input type="checkbox" name="pdcode" id="top" value="상의" onclick="checkOnlyOne(this)">
+                    <label for="top">상의</label>
+                </div>
+                <div>
+                    <input type="checkbox" name="pdcode" id="bottom" value="하의" onclick="checkOnlyOne(this)">
+                    <label for="bottom">하의</label>
+                </div>
+                <div>
+                    <input type="checkbox" name="pdcode" id="bag" value="가방" onclick="checkOnlyOne(this)">
+                    <label for="bag">가방</label>
+                </div>
+                <div>
+                    <input type="checkbox" name="pdcode" id="glasses" value="안경" onclick="checkOnlyOne(this)">
+                    <label for="glasses">안경</label>
+                </div>
             </div>
-
-            <!-- 히든 무시 -->
-            <p><input type="text" name="pdcode" style="display: none;" id="category" placeholder="카테고리" ></p>
             
             <input type="hidden" name="mainimg" value="">
             
@@ -192,12 +202,12 @@
         	<hr>
             <div>
                 <div id="selectImg" onclick="selectMainImg(this)">대문 이미지</div>
+                <div id="priviewImg" onclick="selectpriviewImg(this)">프리뷰 이미지</div>
+                <p>프리뷰 이미지 등록</p>
+                <div id="showmethefile"></div>
             </div>
-            <div id="filelist">
-                <p><input type="file" id="test" name="files" accept="image/*" onchange="getchanged(this)" multiple></p>
-        	</div>
+            
 
-            <div id="showmethefile"></div>
 
 			<div class="buttons">
                 <input type="button" class="BOLD" value="B" onclick="document.execCommand('bold')" />
@@ -207,6 +217,9 @@
                 <input type="button" class="aignLeft" value="왼쪽 정렬" onclick="document.execCommand('justifyleft')" />
                 <input type="button" class="aignCenter" value="가운데 정렬" onclick="document.execCommand('justifycenter')" />
                 <input type="button" class="aignRight" value="오른쪽 정렬" onclick="document.execCommand('justifyright')" />
+                <div id="filelist">
+                    <p><input type="file" id="test" name="files" accept="image/*" onchange="getchanged(this)" multiple></p>
+                </div>
             </div>
             
             <div id="borderbox">
@@ -220,12 +233,8 @@
         </form>
         
         </fieldset>
-        <hr>
-        <div id="ShowImg"></div>
     </div>
     <br>
-    <p contenteditable="true"></p>
-    <div id="result"></div>
     
     <script>
         const writeItem = document.getElementById('writeItem')
@@ -234,14 +243,10 @@
         const showbox = document.getElementById('showBox')
         const test = document.getElementById('test')
         const borderbox = document.getElementById('borderbox')
-        const result = document.getElementById('result')
         const filelist = document.getElementById('filelist')
-        const categoryDiv = document.getElementById('categoryDiv')
-        const category = document.getElementById('category')
-        const conetent1 = document.getElementById('conetent1')
         const showmethefile = document.getElementById('showmethefile')
         const divcheckbox = document.getElementsByClassName('divcheckbox')
-        const selectImg = document.getElementsByClassName('selectImg')
+        // const selectImg = document.getElementsByClassName('selectImg')
         
         // 수정버튼을 눌렀을때 각 input에 value넣는 과정
         function getinfodto() {
@@ -304,47 +309,89 @@
         			writeItem.id = 'modifyItem'
         	}
         }
+        // 프리뷰 이미지 등록
+        function selectpriviewImg(e) {
+            if(borderbox.style.border == '5px solid black'){
+
+                borderbox.style.border = '1px solid black'
+
+                for(let i = 0; i < divcheckbox.length ; i++){
+                if(showbox.children[i].nodeName == 'DIV'){
+                    showbox.children[i].setAttribute('onclick','')
+                }
+            }
+            }
+            borderbox.style.border = '5px solid black'
+            for(let i = 0; i < divcheckbox.length ; i++){
+                if(showbox.children[i].nodeName == 'DIV'){
+                    showbox.children[i].setAttribute('onclick','thisispriview(this)')
+                }
+            }
+        }
 
         // 메인 이미지 버튼 클릭시 함수 부여
         function selectMainImg(event) {
-            showmethefile.style.border = '3px solid black'
-            for(let i = 0; i < divcheckbox.length ; i++){
+            showmethefile.style.border = '5px solid black'
+            for(let i = 0; i < showmethefile.childElementCount ; i++){
                 showmethefile.children[i].setAttribute('onclick','thisismain(this)')
             }
             
         }
 
-        //이미지 클릭시 메인 이미지 지정해주고 미리보기에서 제거
-        function thisismain(event) {
-            if(event.childElementCount >1) {
-                alert('다중 이미지는 선택하실 수 없습니다.')
-                showmethefile.style.border = '1px solid black'
-                for(let i = 0; i < showmethefile.childElementCount ; i++){
-                    showmethefile.children[i].setAttribute('onclick','')
-                }
-                return
-            }
-            showmethefile.style.border = '1px solid black'
+        // 메인 이미지 클릭시 이벤트
+        function thisismain(event){
             writeItem.mainimg.value = event.id
+            showmethefile.style.border = '1px solid black'
             for(let i = 0; i < showmethefile.childElementCount ; i++){
             	if(showmethefile.children[i].id === event.id){
-                    var checkidx = 0
-            		for(let j = 0; j < showbox.childElementCount; j++){
-                        if(showbox.children[j].nodeName === 'DIV'){
-                            
-                            console.log('현제 : ' + checkidx)
-            				if(i == checkidx){
-            					showbox.children[j].remove()
-            				}
-
-                            checkidx += 1
-
-                        }   
-            		}
+                    console.log('a')
+                    showmethefile.children[i].style.border = '5px solid red'
             	}
+                else{
+                    showmethefile.children[i].style.border = ''
+                }
                 showmethefile.children[i].setAttribute('onclick','')
             }
         }
+
+        //이미지 클릭시 프리뷰 이미지 지정
+        function thisispriview(event) {
+            if(event.childElementCount >1) {
+                alert('다중 이미지는 선택하실 수 없습니다.')
+                borderbox.style.border = '1px solid black'
+                for(let i = 0; i < showbox.childElementCount ; i++){
+                    showbox.children[i].setAttribute('onclick','')
+                }
+                return
+            }
+
+            borderbox.style.border = '1px solid black'
+            for(let i = 0; i < showbox.childElementCount ; i++){
+            	if(showbox.children[i].id === event.id){
+                    var img = document.createElement('img')
+                    img.src = event.children[0].src
+                    img.id = event.children[0].id
+                    showmethefile.appendChild(img)
+            	}
+                if(showbox.children[i].nodeName == 'DIV'){
+                    showbox.children[i].setAttribute('onclick','')
+                }
+            }
+        }
+
+        // 카테고리 버튼 하나만 클릭
+        function checkOnlyOne(element) {
+  
+        const checkboxes = document.getElementsByName("pdcode");
+  
+        checkboxes.forEach((cb) => {
+            cb.checked = false;
+        })
+  
+        element.checked = true;
+        }
+
+
 
         // 색 선택시 맞는 색에 border and pdcolor에 값 넣어주는것
         function selectcolor(e) {
@@ -392,23 +439,13 @@
                     var reader = new FileReader()
                     reader.readAsDataURL(e)
                     reader.onload = function(e2) {
-
                         var div = document.createElement('div')
-                        var div2 = document.createElement('div')
                         var img = document.createElement('img')
-                        var img2 = document.createElement('img')
                         img.src = e2.target.result
-                        img2.src = e2.target.result
-                        div2.id = event.files[0].name
                         img.style.width = 'auto'
                         img.style.height = 'auto'
-                        img2.style.width = '100px'
-                        img2.style.height = '100px'
-                        div2.appendChild(img2)
-                        showmethefile.appendChild(div2)
-                        img.id = msgid
-                        div.id = Math.random()
-                        div.setAttribute('onclick', 'getthisfocus(this)')
+                        img.id = event.files[0].name
+                        div.id = msgid
                         div.setAttribute('onkeydown', 'getthiskeys(this)')
                         div.setAttribute('contenteditable', 'true')
                         div.style.cursor = 'pointer'
@@ -420,34 +457,25 @@
                 }
                 else{
                     var div = document.createElement('div')
-                    var div2 = document.createElement('div')
-                    div2.id = event.files[0].name
                     fileArray.forEach(e => {
                         var reader = new FileReader()
                         reader.readAsDataURL(e)
                         
                         reader.onload = function(e2) {
                         var img = document.createElement('img')
-                        var img2 = document.createElement('img')
                         img.src = e2.target.result
-                        img2.src = e2.target.result
                         img.style.width = 'auto'
                         img.style.height = 'auto'
-                        img2.style.width = '100px'
-                        img2.style.height = '100px'
                         img.style.display = 'block'
-                        img.id = msgid
-                        div.id = Math.random()
-                        div.setAttribute('onclick', 'getthisfocus(this)')
+                        img.id = event.files[0].name
+                        div.id = msgid
                         div.setAttribute('onkeydown', 'getthiskeys(this)')
                         div.setAttribute('contenteditable', 'true')
                         div.style.cursor = 'pointer'
                         div.style.color = 'white'
                         div.appendChild(img)
-                        div2.appendChild(img2)
                     }
                 })
-                showmethefile.appendChild(div2)
                 showbox.appendChild(div)
             }
         }
@@ -456,23 +484,20 @@
         // 미리보기에서 이미지에 특수키 (enter, backspace)가 입력을 받았을때 이벤트 수행
         function getthiskeys(e) {
             if(event.keyCode == 46 || event.keyCode == 8){
-                var checkidx = 0
-
                 for(let i = 0; i < showbox.childElementCount; i++){
                     if(showbox.children[i].id === e.id){
-                        showmethefile.children[checkidx].remove()
-
+                        for(let j = 0 ; j < showmethefile.childElementCount; j++){
+                            if(showmethefile.children[j].id == e.id){
+                                showmethefile.children[j].remove()
+                            }
+                        }
                         for(let j=0; j < filelist.childElementCount; j++){
                             
-                            if(filelist.children[j].id === showbox.children[i].children[0].id){
-                                filelist.children[j-1].remove(showbox.children[i].children[0].id)
+                            if(filelist.children[j].id === showbox.children[i].id){
+                                filelist.children[j-1].remove(showbox.children[i].id)
                             }
                         }
                         showbox.children[i].remove(e.id)
-                    }
-
-                    if(showbox.children[i].nodeName === 'DIV'){
-                        checkidx += 1
                     }
                 }
             }
@@ -493,35 +518,12 @@
                 event.preventDefault()
             }
         }
-        
-		// 카테고리에서 엔터 눌렀을때 이벤트 발생
-        function addcategoryEnter(e) {
-        	if(event.keyCode == 13){
-        		event.preventDefault()
-        		var div = document.createElement('div')
-        		div.setAttribute('contenteditable', 'true')
-        		div.setAttribute('onkeydown', 'addcategoryEnter(this)')
-        		div.className = 'categoryDivTag'
-        		categoryDiv.appendChild(div)
-            }
-        }
-        
-		// 미리보기에서 어디에 focus둘건지 체크하기 위한 함수
-        function getthisfocus(e) {
-            for(let i = 0; i < showbox.childElementCount; i++){
-                    if(showbox.children[i].id === e.id){
-                        console.log(showbox.children[i].id)
-                        // showbox.children[i].focus()
-                        showbox.children[i].style.border = '1px solid black'
-                    }
-                    else{
-                        showbox.children[i].style.border = ''
-                    }
-                }
-        }
 
 		// 미리보기에서 글작성후 특수키(enter, backspace)입력을 확인
         function penter(e) {
+			if(showbox.children[0].id === e.id){
+				return
+			}
             if(event.keyCode == 8 && e.textContent === ''){
                 for(let i = 0; i < showbox.childElementCount; i++){
                     if(showbox.children[i].id === e.id){
@@ -564,7 +566,7 @@
         writeItem.onsubmit = function(event){
             event.preventDefault()
             createcontent()
-            createpdcode()
+            createviewimglist()
             const formData = new FormData(event.target)
             
             for(let test of formData.entries()){
@@ -592,7 +594,6 @@
         modifyItem.onsubmit = function(event){
             event.preventDefault()
             createcontent()
-            createpdcode()
             const formData = new FormData(event.target)
             
             const url = '${cpath}/store/modifyItem'
@@ -612,17 +613,16 @@
                 }
             })
         }
-        
-     	// 지금까지 작성된 카테고리를 모아서 제출하기 위한 함수
-        function createpdcode() {
-        	var result = ''
-        	for(let i = 0; i < categoryDiv.childElementCount; i++){
-        		if(categoryDiv.children[i].nodeName === 'DIV'){
-        			result += categoryDiv.children[i].textContent + ','
-                }
-        	}
-        	category.value = result
-        }
+     	
+     	function createviewimglist() {
+     		for(let i = 0; i < showmethefile.childElementCount; i++){
+                 var input = document.createElement('input')
+                 input.type = 'text'
+                 input.name = 'viewimglist'
+                 input.value = showmethefile.children[i].id
+                writeItem.appendChild(input)
+     		}
+     	}
         
      	// 지금까지 작성된 내용을 모아서 제출하기 위한 함수
         function createcontent() {

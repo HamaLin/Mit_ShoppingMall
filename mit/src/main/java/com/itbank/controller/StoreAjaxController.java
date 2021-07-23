@@ -33,6 +33,9 @@ public class StoreAjaxController {
 	
 	@PostMapping("/writeItem")
 	public int write(StoreDTO dto) {
+		for(String s : dto.getViewimglist()) {
+			System.out.println(s);
+		}
 		int row = ss.getInsert(dto);
 		return (row >= 1) ? 1 : 0;
 	}

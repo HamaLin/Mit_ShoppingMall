@@ -14,8 +14,9 @@
 		height: auto;
 	}
 	#getItems{
-		
+		width: 1250px;
 		display: flex;
+		height: auto;
 	}
 	#getItems > .content{
 		width: 300px;

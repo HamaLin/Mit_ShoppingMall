@@ -7,10 +7,22 @@ import org.springframework.web.multipart.MultipartFile;
 public class StoreDTO {
 
 	private int idx, pdprice, pdscount, pdmcount, pdlcount, pdxlcount;
-	private String pdtitle, pdcontent, pdcode, pdname, pdcolor, pddate, pdimg, pdwriter, mainimg;
+	private String pdtitle, pdcontent, pdcode, pdname, pdcolor, pddate, pdimg, pdwriter, mainimg, viewimg;
 	private List<MultipartFile> files;
+	private List<String> viewimglist;
 	
-	
+	public String getViewimg() {
+		return viewimg;
+	}
+	public void setViewimg(String viewimg) {
+		this.viewimg = viewimg;
+	}
+	public List<String> getViewimglist() {
+		return viewimglist;
+	}
+	public void setViewimglist(List<String> viewimglist) {
+		this.viewimglist = viewimglist;
+	}
 	public int getPdscount() {
 		return pdscount;
 	}
