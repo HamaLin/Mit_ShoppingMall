@@ -89,4 +89,8 @@ public interface StoreDAO {
 
 	@Select("select * from buytable where pdidx = #{idx}")
 	List<BuyTableDTO> getbuylist(@Param("idx") int idx);
+
+	@Insert("insert into writing (writer, wr, scope, img, pdidx) values"
+			+ "(#{writer}, #{wr}, #{scope}, #{img}, #{pdidx})")
+	int writing(writingDTO dto);
 }

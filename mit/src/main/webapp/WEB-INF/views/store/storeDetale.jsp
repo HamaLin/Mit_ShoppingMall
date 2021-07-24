@@ -235,6 +235,13 @@
 	
 	<div id="reply">
 	
+<table id="replylist">
+	<thead>
+		<tr>
+		</tr>
+	</thead>
+	<tbody></tbody>
+</table>
 <div id="review">
 	<hr>
 	<div>후기</div>
@@ -242,24 +249,12 @@
 		<form class="writing hidden" method="post">
 		<div class="comment">
 			<div>
-				<div>이메일</div>
-				<input type="text" name="email">
-			</div>
-			<div>
-				<div>글쓴이</div>
-				<input type="text" name="writer">
+				<input type="hidden" name="writer" value="${login.userid }">
+				<input type="hidden" name="pdidx">
 			</div>
 			
 		</div>
 		<div class="comment">
-			<div>
-				<div>비밀번호</div>
-				<input type="password" name="password1">
-			</div>
-			<div>
-				<div>비밀번호 확인</div>
-				<input type="password" name="password2">
-			</div>
 		</div>
 		<textarea rows="5" cols="80" name="wr" style="resize: none;">
 		
@@ -273,6 +268,7 @@
 			<option value="2">★★☆☆☆</option>
 			<option value="1">★☆☆☆☆</option>
 		</select>
+		
 		<input type="submit" value="저장하기">
 		</div>
 		</form>
@@ -490,7 +486,6 @@ const idx = params.get('id')
 			var msg = json.pdcontent
 			var idx = 0
 			while(msg.length > 0){
-				console.log(json.filename[idx])
 				if(msg.indexOf('<img src="">') == 0) {
 					var img = document.createElement('img')
 					img.src = '${cpath}/image/'+ json.pdcode + json.pdwriter + '/' + json.filename[idx]
@@ -530,6 +525,48 @@ const idx = params.get('id')
 // 		})
 // 		showgraph
 // 	}
+
+function getreplylist() {
+		
+		const url = '${cpath}/store/getreply/'+idx
+		const opt = {
+				method: 'GET'
+		}
+		fetch(url, opt).then(resp => resp.json())
+		.then(arr => {
+			for(let i = 0 ; i < arr.length ; i++){
+				var dto = arr[i]
+				var tr = createreplytr(dto, i)
+				replylist.appendChild(tr)
+			}
+		})
+		
+	}
+	
+	function createreplytr(dto, foridx) {
+		var tr = document.createElement('tr')
+		var tdidx = document.createElement('td')
+		var tdwriter = document.createElement('td')
+		var tdwr= document.createElement('td')
+		var tdscope = document.createElement('td')
+		
+		tdidx.innerText = foridx
+		tr.appendChild(tdidx)
+		
+		tdwriter.innerText = dto.writer
+		tr.appendChild(tdwriter)
+		
+		tdwr.innerText = dto.wr
+		tr.appendChild(tdwr)
+		
+		tdscope.innerText = dto.scope
+		tr.appendChild(tdscope)
+		
+		tdwr.onclick = function(e) {
+//          location.href = '${cpath}/user/qna/'+dto.idx
+      	}
+		return tr
+	}
 	
 	function changemainimg(e) {
 		for(let i = 0; i < viewimglist.childElementCount; i++){
@@ -553,6 +590,7 @@ const idx = params.get('id')
 		return size
 	}
 	
+	//qna리스트 가져오는거
 	function getqnalist() {
 		
 		const url = '${cpath}/store/getQna/'+idx
@@ -561,7 +599,6 @@ const idx = params.get('id')
 		}
 		fetch(url, opt).then(resp => resp.json())
 		.then(arr => {
-				console.log(arr)
 			for(let i = 0 ; i < arr.length ; i++){
 				var dto = arr[i]
 				var tr = createtr(dto, i)
@@ -609,6 +646,7 @@ const idx = params.get('id')
 	window.onload = getShowitem()
 	window.onload = getqnalist()
 	window.onload = drawingchart()
+	window.onload = getreplylist()
 	
 	qnaBtn.onclick = function() {
 		const qna = document.querySelector('.qna')
@@ -725,7 +763,30 @@ const idx = params.get('id')
         }
 		
 	}
-	const toedit=document.getElementById('toedit')
+	
+	writing.onsubmit = function(event){
+		event.preventDefault()
+		if(${empty login}){
+			alert('로그인하셔야 작성하실수 있습니다.')
+			return
+		}
+		writing.pdidx.value = idx
+		const formData = new FormData(event.target)
+		 const url = '${cpath}/store/writing'
+	     const opt = {
+	           method: 'POST',
+	           body: formData,
+	     }
+		 fetch(url, opt).then(resp => resp.text())
+		 .then(text => {
+			 if(text == 1){
+				 alert('후기 작성 완료')
+			 }
+			 else{
+				 alert('후기 작성 실패')
+			 }
+		 })
+	}
 	
 </script>
 
@@ -774,7 +835,8 @@ function qnaform_check(event) {
 	.then(text => {
 		if(text == 1) {
 			const qna = document.querySelector('.qna')
-	         qna.classList.add('hidden')
+	        qna_form.reset(); 
+			qna.classList.add('hidden')
 	         qnalist.innerHTML = ''
 	         getqnalist()
 	         qna.scrollIntoView()

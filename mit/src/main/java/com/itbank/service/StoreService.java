@@ -59,27 +59,29 @@ public class StoreService {
       String fileName = "";
       String viewimgname = "";
       List<String> viewimglist = dto.getViewimglist();
-      int idx = 0;
+      
       
       for (MultipartFile f : files) {
          if(f.getSize() == 0) {
             break;
          }
-         
          UUID uuid = UUID.randomUUID();
          String fileName2 = uuid.toString() + "_" + f.getOriginalFilename();
          if(dto.getMainimg().equals(f.getOriginalFilename())) {
         	 dto.setMainimg(fileName2);
          }
-         if(viewimglist.get(idx).equals(f.getOriginalFilename())) {
-        	 viewimgname += fileName2 + ",";
-        	 idx++;
+         for(String s : viewimglist) {
+        	 if(s.equals(f.getOriginalFilename())) {
+        		 viewimgname += fileName2 + ",";
+        		 break;
+        	 }
          }
          File dest = new File(newdir, fileName2);   // 파일 객체를 생성
-         fileName += fileName2 + ",";
          if(dest.exists() == false) {
-            dest.mkdirs();
+             dest.mkdirs();
          }
+         fileName += fileName2 + ",";
+         
          try {
             f.transferTo(dest);
          } catch (IllegalStateException | IOException e) {
@@ -87,7 +89,7 @@ public class StoreService {
          } 
             
       }
-      System.out.println(viewimgname);
+      
       dto.setViewimg(viewimgname);
       dto.setPdimg(fileName);
       int row = dao.getInsertItem(dto);
@@ -157,50 +159,80 @@ public class StoreService {
    }
 
 
-   public int getModify(StoreDTO dto) {
-      
-      if (dto.getFiles().isEmpty()) {
-         dto.setPdimg("");
-         return dao.getModify(dto);
-      }
-      String newdir = uploadPath + "\\" + dto.getPdcode() + dto.getPdwriter();
-      
-      List<MultipartFile> files = dto.getFiles();
-      for (MultipartFile f : files) {         
-         UUID uuid = UUID.randomUUID();
-           String fileName = uuid.toString() + "_" + f.getOriginalFilename();
-           File dest = new File(newdir, fileName);   // 파일 객체를 생성
-         if(dest.exists() == false) {
-            dest.mkdirs();
-         }
-            try {
-               f.transferTo(dest);
-            } catch (IllegalStateException | IOException e) {
-               e.printStackTrace();
-            }    
-      }
-      
-      String fileName = "";
-      
-      for (MultipartFile f : files) {   
-         fileName += f.getOriginalFilename() + ",";
-      }
-      
-      dto.setPdimg(fileName);
-      int row = dao.getModify(dto);
-      return row;
-   }
+//   public int getModify(StoreDTO dto) {
+//      
+//      if (dto.getFiles().isEmpty()) {
+//         dto.setPdimg("");
+//         return dao.getModify(dto);
+//      }
+//      String newdir = uploadPath + "\\" + dto.getPdcode() + dto.getPdwriter();
+//      
+//      List<MultipartFile> files = dto.getFiles();
+//      for (MultipartFile f : files) {         
+//         UUID uuid = UUID.randomUUID();
+//           String fileName = uuid.toString() + "_" + f.getOriginalFilename();
+//           File dest = new File(newdir, fileName);   // 파일 객체를 생성
+//         if(dest.exists() == false) {
+//            dest.mkdirs();
+//         }
+//            try {
+//               f.transferTo(dest);
+//            } catch (IllegalStateException | IOException e) {
+//               e.printStackTrace();
+//            }    
+//      }
+//      
+//      String fileName = "";
+//      
+//      for (MultipartFile f : files) {   
+//         fileName += f.getOriginalFilename() + ",";
+//      }
+//      
+//      dto.setPdimg(fileName);
+//      int row = dao.getModify(dto);
+//      return row;
+//   }
+   
    public List<StoreDTO> searchItems(String search) {
 		return dao.searchItems(search);
 	}
    
 
 	public int insert(writingDTO dto) {
-		if(dto.getPassword1().equals(dto.getPassword2())) {
+		List<MultipartFile> files = dto.getFiles();
+	      
+	    if (files == null) {
+	       dto.setImg("");
+	       return wdao.insert(dto);
+	    }
+	    
+	    String newdir = uploadPath + "\\store" + dto.getWriter();
+	    String fileName = "";
+	      
+	      for (MultipartFile f : files) {
+	         if(f.getSize() == 0) {
+	            break;
+	         }
+	         
+	        // 랜덤 파일명 
+			UUID uuid = UUID.randomUUID();
+			String fileName2 = uuid.toString() + "_" + f.getOriginalFilename();
+	       
+	         File dest = new File(newdir, fileName2);   // 파일 객체를 생성
+	         fileName += fileName2 + ",";
+	         
+	         if(dest.exists() == false) {
+	            dest.mkdirs();
+	         }
+	         try {
+	            f.transferTo(dest);
+	         } catch (IllegalStateException | IOException e) {
+	            e.printStackTrace();
+	         } 
+	            
+	      }
+	    dto.setImg(fileName);
 		return wdao.insert(dto);
-		
-		}
-		return 0;
 	}
 
 	public int wishInsert(WishListDTO dto) {
@@ -267,5 +299,10 @@ public class StoreService {
 
 	public List<BuyTableDTO> getbuylist(int idx) {
 		return dao.getbuylist(idx);
+	}
+
+
+	public List<writingDTO> getreplylist(int idx) {
+		return wdao.getreplylist(idx);
 	}
 }

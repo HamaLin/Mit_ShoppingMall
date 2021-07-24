@@ -22,6 +22,7 @@ import com.itbank.model.BuyTableDTO;
 import com.itbank.model.QnaDTO;
 import com.itbank.model.StoreDTO;
 import com.itbank.model.WishListDTO;
+import com.itbank.model.writingDAO;
 import com.itbank.model.writingDTO;
 import com.itbank.service.StoreService;
 
@@ -33,9 +34,6 @@ public class StoreAjaxController {
 	
 	@PostMapping("/writeItem")
 	public int write(StoreDTO dto) {
-		for(String s : dto.getViewimglist()) {
-			System.out.println(s);
-		}
 		int row = ss.getInsert(dto);
 		return (row >= 1) ? 1 : 0;
 	}
@@ -60,11 +58,13 @@ public class StoreAjaxController {
 		return ss.selectOne(idx);
 	}
 	
-	@PostMapping("/modifyItem")
-	public int modify(StoreDTO dto) {
-		int row = ss.getModify(dto);
-		return (row >= 1) ? 1 : 0;
-	}
+	
+//	@PostMapping("/modifyItem")
+//	public int modify(StoreDTO dto) {
+//		int row = ss.getModify(dto);
+//		return (row >= 1) ? 1 : 0;
+//	}
+	
 	@GetMapping("/SearchItems/{search}")
 	public List<StoreDTO> SearchItems(@PathVariable String search) {
 		return ss.searchItems(search);
@@ -100,6 +100,11 @@ public class StoreAjaxController {
 		List<QnaDTO> list = ss.getqnalist(idx);
 		return list;
 	}
+	@GetMapping("/getreply/{idx}")
+	public List<writingDTO> getreply(@PathVariable int idx) {
+		List<writingDTO> list = ss.getreplylist(idx);
+		return list;
+	}
 	
 	@GetMapping("/BestItems")
 	public List<StoreDTO> bestItems() {
@@ -122,4 +127,8 @@ public class StoreAjaxController {
 		return ss.getbuylist(idx);
 	}
 	
+	@PostMapping("/writing")
+	public int writing(writingDTO dto) {
+		return ss.insert(dto);
+	}
 }

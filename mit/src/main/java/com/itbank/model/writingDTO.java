@@ -1,9 +1,34 @@
 package com.itbank.model;
 
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
+
 public class writingDTO {
 
-	private int idx,scope;
-	private String email,writer,password1,password2,wr;
+	private int idx,scope, pdidx;
+	private String writer,wr, img;
+	private List<MultipartFile> files;
+	
+	public int getPdidx() {
+		return pdidx;
+	}
+	public void setPdidx(int pdidx) {
+		this.pdidx = pdidx;
+	}
+	
+	public List<MultipartFile> getFiles() {
+		return files;
+	}
+	public void setFiles(List<MultipartFile> files) {
+		this.files = files;
+	}
+	public String getImg() {
+		return img;
+	}
+	public void setImg(String img) {
+		this.img = img;
+	}
 	public int getIdx() {
 		return idx;
 	}
@@ -16,29 +41,11 @@ public class writingDTO {
 	public void setScope(int scope) {
 		this.scope = scope;
 	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
 	public String getWriter() {
 		return writer;
 	}
 	public void setWriter(String writer) {
 		this.writer = writer;
-	}
-	public String getPassword1() {
-		return password1;
-	}
-	public void setPassword1(String password1) {
-		this.password1 = password1;
-	}
-	public String getPassword2() {
-		return password2;
-	}
-	public void setPassword2(String password2) {
-		this.password2 = password2;
 	}
 	public String getWr() {
 		return wr;
