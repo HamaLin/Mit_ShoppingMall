@@ -247,7 +247,7 @@
 				</c:forEach>	
 			</div>
 			<div class="qnaText">
-				<div>${qna.qnacontent }</div>
+				<div>${qna.qnacontent}</div>
 			</div>
 		</div>
 	</div>

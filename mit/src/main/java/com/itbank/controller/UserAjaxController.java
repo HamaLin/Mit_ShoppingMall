@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.itbank.model.QnaDTO;
 import com.itbank.model.QnaReplyDTO;
@@ -92,6 +90,8 @@ public class UserAjaxController {
 	
 	@PostMapping("/qnaWrite")
 	public int qnaWrite(QnaDTO dto) {
+		// 줄바꿈 처리
+		dto.setQnacontent(dto.getQnacontent().replace("\r\n", "<br>"));
 		int row = 0;
 		row =  qs.qnaWrite(dto);
 		return row;
@@ -138,6 +138,8 @@ public class UserAjaxController {
 	
 	@PostMapping("/qnaModify")
 	public int qnaModify(QnaDTO dto) {
+		// 줄바꿈 처리
+		dto.setQnacontent(dto.getQnacontent().replace("\r\n", "<br>"));
 		int row = 0;
 		row = qs.qnaModify(dto);
 		return row;

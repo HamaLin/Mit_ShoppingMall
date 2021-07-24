@@ -87,7 +87,9 @@
 		<p><input type="hidden" name="idx" value="${qna.idx }"></p>	
 		<p><input type="hidden" name="qnaimg" value="${qna.qnaimg }"></p>	
 		<p><input type="text" class="qnatitle" value="${qna.qnatitle }" name="qnatitle" placeholder="제목"></p>
-		<p><textarea name="qnacontent" placeholder="문의하실 내용을 입력해주세요.">${qna.qnacontent }</textarea></p>
+		
+		<p><textarea name="qnacontent" placeholder="문의하실 내용을 입력해주세요.">${qna.qnacontent}</textarea></p>
+		
 		<p><input type="file" multiple="multiple" name="files" accept="image/*" ></p>
 		<div class="modifyButton">
 			<button class="return" type="button" onclick="redirect();">글목록</button>

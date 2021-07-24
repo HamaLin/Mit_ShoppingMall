@@ -121,6 +121,8 @@ public class UserController {
 	@GetMapping("/qnaModify/{idx}")
 	public ModelAndView qnaModify(@PathVariable int idx,ModelAndView mav) {
 		QnaDTO qna = us.qnaSelect(idx);
+		// 줄바꿈 처리
+		qna.setQnacontent(qna.getQnacontent().replace("<br>", "\r\n"));
 		mav.setViewName("user/qnaModify");
 		mav.addObject("qna", qna);
 		return mav;
