@@ -144,5 +144,9 @@ public class QnaService {
 		return dao.getProduct(pdidx);
 	}
 
+	public int replyModify(QnaReplyDTO dto) {
+		return replyDao.replyModify(dto);
+	}
+
 	
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 public interface QnaReplyDAO {
 
@@ -17,5 +18,8 @@ public interface QnaReplyDAO {
 	
 	@Delete("delete from qnareply where idx = #{idx}")
 	int replyDelete(int idx);
+	
+	@Update("update qnareply set replycontent = #{replycontent} where idx = #{idx}")
+	int replyModify(QnaReplyDTO dto);
 
 }

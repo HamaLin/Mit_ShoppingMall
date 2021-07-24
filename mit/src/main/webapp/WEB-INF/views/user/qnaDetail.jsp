@@ -186,6 +186,9 @@
 		background: #2f2f2f;
 		color: white;
 	}
+	.hidden {
+		display: none;
+	}
 </style>
 </head>
 <body>
@@ -254,7 +257,21 @@
 	<div class="Reply">
 		<div class="qnaReply">
 		</div>
-		<c:if test="${not empty admin}">	
+		<c:if test="${not empty admin}">
+			<!-- 댓글 수정폼 -->	
+			<div class="reply_modify hidden">
+				<form method="POST" name="reply_modify">
+					<p><input type="hidden" name="idx"></p>	
+				<div class="replyInsert">
+					<textarea name="replycontent"></textarea>
+					<div class="reply_button">
+						<button class="replyButton" type="button" onclick="replyModify();">수정하기</button>
+					</div>
+				</div>
+				</form>
+			</div>
+			
+			<!-- 댓글 입력폼 -->	
 			<div class="reply_form">
 				<form method="POST" name="reply_form">
 					<p><input type="hidden" name="qnaidx" value="${qna.idx }"></p>	
@@ -262,7 +279,7 @@
 				<div class="replyInsert">
 					<textarea name="replycontent" placeholder="댓글을 입력해주세요."></textarea>
 					<div class="reply_button">
-						<button class="replyButton" type="button" onclick="qnaInsert();">댓글 달기</button>
+						<button class="replyButton" type="button" onclick="reply_Insert();">댓글 달기</button>
 					</div>
 				</div>
 				</form>
@@ -274,7 +291,6 @@
 
 <script>
 	// 상품 링크 만들기
-	
 	const qnaProduct = document.querySelector('.qnaProduct')
 	const pdimg = document.querySelector('.pdimg')
 	const pdinfo = document.querySelector('.pdinfo')
@@ -321,7 +337,6 @@
 			}
 		})
 	}
-	
 	
 	window.onload = getProduct()
 </script>
@@ -373,13 +388,27 @@
 			tr.appendChild(tdmodify)
 			
 			// 댓글 수정 버튼
-// 			tdmodify.onclick = function(event) {
-// 				console.log('실행')
-// 				const oriReply = event.target.previousSibling
-// 				const modiReply = document.createElement('input')
-// 				console.log(modiReply.value)
+			tdmodify.onclick = function(event) {
 				
-// 			}
+				// 댓글 입력폼 가리기
+				const reply_form = document.querySelector('.reply_form')
+				if(reply_form.classList.contains("hidden")) {
+					reply_form.classList.remove('hidden')
+				}else {
+					reply_form.classList.add('hidden')
+				}
+				
+				// 수정폼 보여주기	
+				const reply_modify = document.querySelector('.reply_modify')
+				if(reply_modify.classList.contains("hidden")) {
+					reply_modify.classList.remove('hidden')
+					// 수정폼에 기존 댓글 넣어주기
+					document.querySelector('input[name="idx"]').value = dto.idx
+					document.querySelector('textarea[name="replycontent"]').value = dto.replycontent
+				}else {
+					reply_modify.classList.add('hidden')
+				}	
+			}
 			
 			tddelete.innerText = '삭제'
 			tddelete.classList.add('linkTd')
@@ -397,11 +426,10 @@
 						getReply()
 					}
 					else{
-						alert('다시 시도해주세요')
+						alert('다시 시도해주세요.')
 					}
 				})
 			}
-			
 		}
 		
 		tddate.innerText = dto.replydate
@@ -414,8 +442,8 @@
 </script>
 
 <script>
-// 댓글 작성(관리자만 가능)
-	function qnaInsert() {
+// 댓글 작성
+	function reply_Insert() {
 		const reply_form = document.querySelector('form[name="reply_form"]')
 		const formData = new FormData(reply_form)
 		
@@ -427,14 +455,47 @@
 		fetch(url, opt).then(resp => resp.text())
 		.then(text => {
 			if(text == 1) {
+				document.querySelector('textarea[name="replycontent"]').value = ''
 				getReply()
 			}
 			else{
-				alert('다시 시도해주세요')
+				alert('다시 시도해주세요.')
 			}
 		})
 	}
 </script>
+
+<script>
+// 댓글 수정
+	function replyModify() {
+		const reply_modify = document.querySelector('.reply_modify')
+		const reply_form = document.querySelector('.reply_form')
+		
+		const reply_modifyForm = document.querySelector('form[name="reply_modify"]')
+		const formData = new FormData(reply_modifyForm)
+
+		const url = '${cpath}/user/replyModify'
+		const opt = {
+				method: 'POST',
+				body: formData,
+		}
+		fetch(url, opt).then(resp => resp.text())
+		.then(text => {
+			if(text == 1) {
+				alert('수정되었습니다.')
+				// 다시 댓글 입력창으로 변경
+				reply_modify.classList.add('hidden')
+				reply_form.classList.remove('hidden')
+				document.querySelector('textarea[name="replycontent"]').value = ''
+				getReply()
+			}
+			else{
+				alert('다시 시도해주세요.')
+			}
+		})
+	}
+</script>
+
 
 <c:if test="${not empty login}">
 	<script>

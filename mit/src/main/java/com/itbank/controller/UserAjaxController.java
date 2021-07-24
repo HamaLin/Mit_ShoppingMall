@@ -129,6 +129,13 @@ public class UserAjaxController {
 		return row;
 	}
 	
+	@PostMapping("/replyModify")
+	public int replyModify(QnaReplyDTO dto) {
+		int row = 0;
+		row =  qs.replyModify(dto);
+		return row;
+	}
+	
 	@DeleteMapping("/qnaDelete/{idx}")
 	public int qnaDelete(@PathVariable String idx) {
 		int row = 0;
