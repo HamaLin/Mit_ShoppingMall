@@ -1,5 +1,6 @@
 package com.itbank.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -12,10 +13,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.itbank.model.BuyTableDTO;
 import com.itbank.model.QnaDTO;
 import com.itbank.model.QnaReplyDTO;
 import com.itbank.model.StoreDTO;
 import com.itbank.model.UserDTO;
+import com.itbank.model.WishListDTO;
 import com.itbank.service.Hash;
 import com.itbank.service.QnaService;
 import com.itbank.service.UserService;
@@ -43,7 +46,7 @@ public class UserAjaxController {
 		
 		int row = us.userModify(dto);
 		if (row == 1) {
-			session.invalidate();
+			session.setAttribute("login", us.getReUser(dto.getUserid()));
 		}
 		return row;
 	}
@@ -153,9 +156,34 @@ public class UserAjaxController {
 	}
 	
 	@GetMapping("/getProduct/{pdidx}")
-	public StoreDTO getProduct(@PathVariable int pdidx) {
+	public HashMap<String, Object> getProduct(@PathVariable int pdidx) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		StoreDTO product = qs.getProduct(pdidx);
-		return product;
+		if(product == null) {
+			Integer a = new Integer(0);
+			map.put("nullcheck", a);
+			return map;
+		} 
+		else {
+			Integer a = new Integer(1);
+			map.put("nullcheck", a);
+			map.put("product", product);
+			return map;
+		}
+		
 	}
+	
+	@GetMapping("/getmyCart/{userid}")
+	public List<WishListDTO> getProduct(@PathVariable String userid) {
+		List<WishListDTO> cartList = qs.getMyCart(userid);
+		return cartList;
+	}
+	
+	@GetMapping("/getMyOrder/{userid}")
+	public List<BuyTableDTO> getMyOrder(@PathVariable String userid) {
+		List<BuyTableDTO> orderList = qs.getMyOrder(userid);
+		return orderList;
+	}
+	
 	
 }

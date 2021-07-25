@@ -151,8 +151,7 @@
 		.then(text =>{
 			if(text == 1){
 				alert('정상적으로 처리되었습니다.')
-				alert('다시 로그인해주세요.')
-				location.replace("${cpath}/user/login")
+				location.replace("${cpath}/user/userInfo")
 			}
 			else{
 				alert('다시 시도해주세요.')

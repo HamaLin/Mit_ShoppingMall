@@ -43,4 +43,10 @@ public interface QnaDAO {
 	@Select("select * from pdtable where idx = #{pdidx}")
 	StoreDTO getProduct(int pdidx);
 
+	@Select("select * from wltable where userid = #{userid} order by idx desc")
+	List<WishListDTO> getMyCart(String userid);
+
+	@Select("select * from buytable where userid = #{userid} order by idx desc")
+	List<BuyTableDTO> getMyOrder(String userid);
+
 }

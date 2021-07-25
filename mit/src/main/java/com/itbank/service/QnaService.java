@@ -9,11 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.itbank.model.BuyTableDTO;
 import com.itbank.model.QnaDAO;
 import com.itbank.model.QnaDTO;
 import com.itbank.model.QnaReplyDAO;
 import com.itbank.model.QnaReplyDTO;
 import com.itbank.model.StoreDTO;
+import com.itbank.model.WishListDTO;
 
 @Service
 public class QnaService {
@@ -146,6 +148,14 @@ public class QnaService {
 
 	public int replyModify(QnaReplyDTO dto) {
 		return replyDao.replyModify(dto);
+	}
+
+	public List<WishListDTO> getMyCart(String userid) {
+		return dao.getMyCart(userid);
+	}
+
+	public List<BuyTableDTO> getMyOrder(String userid) {
+		return dao.getMyOrder(userid);
 	}
 
 	

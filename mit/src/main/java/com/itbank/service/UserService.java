@@ -94,4 +94,9 @@ public class UserService {
 		return dao.qnaSelect(idx);
 	}
 
+	public UserDTO getReUser(String userid) {
+		return dao.getReUser(userid);
+	}
+		
 }
+

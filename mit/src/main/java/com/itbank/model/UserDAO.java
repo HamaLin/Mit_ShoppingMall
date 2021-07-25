@@ -35,4 +35,7 @@ public interface UserDAO {
 	@Select("select * from qnatable where idx = #{idx}")
 	QnaDTO qnaSelect(int idx);
 
+	@Select("select * from usertable where userid = #{userid}")
+	UserDTO getReUser(String userid);
+
 }

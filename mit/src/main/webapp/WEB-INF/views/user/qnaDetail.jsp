@@ -303,41 +303,46 @@
 		}
 		fetch(url, opt).then(resp => resp.json())
 		.then(json => {
-			console.log(json)
-			const pdtitle = json['pdtitle'];
-			const pdcolor = json['pdcolor'];
-			const pdprice = json['pdprice'];
-			const pdMainImg = json['viewimg'];
 			
-			const mainImg = document.createElement('img')
-			
-			console.log(mainImg)
-			
-			if(pdMainImg == null) {
-				mainImg.style.backgroundColor = 'grey'
-			}else {
-				mainImg.src = pdMainImg
+			if(json.nullcheck == 0) {
+				alert('판매 중지된 상품입니다.')
+				qnaProduct.classList.add('hidden')
 			}
-			pdimg.appendChild(mainImg)
 			
-			const p1 = document.createElement('p')
-			p1.innerText = pdtitle
-			pdinfo.appendChild(p1)
+			else {
+				const product = json.product
+				const pdtitle = product.pdtitle;
+				const pdcolor = product.pdcolor;
+				const pdprice = product.pdprice;
+				const pdMainImg = product.mainimg;
+				
+				const mainImg = document.createElement('img')
 			
-			const p2 = document.createElement('p')
-			p2.innerText = pdcolor
-			pdinfo.appendChild(p2)
-			
-			const p3 = document.createElement('p')
-			p3.innerText = pdprice + '원'
-			pdinfo.appendChild(p3)
-			
-			moreinfoBtn.onclick = function() {
-				location.href = '${cpath}/store/storeDetale/?id='+ json['idx'];
+				if(pdMainImg == null) {
+					mainImg.style.backgroundColor = 'grey'
+				}else {
+					mainImg.src = '${cpath}/image/'+ product.pdcode + product.pdwriter + '/'+ product.mainimg
+				}
+				pdimg.appendChild(mainImg)
+				
+				const p1 = document.createElement('p')
+				p1.innerText = pdtitle
+				pdinfo.appendChild(p1)
+				
+				const p2 = document.createElement('p')
+				p2.innerText = pdcolor
+				pdinfo.appendChild(p2)
+				
+				const p3 = document.createElement('p')
+				p3.innerText = pdprice + '원'
+				pdinfo.appendChild(p3)
+				
+				moreinfoBtn.onclick = function() {
+					location.href = '${cpath}/store/storeDetale/?id='+ json['idx'];
+				}
 			}
 		})
 	}
-	
 	window.onload = getProduct()
 </script>
 
@@ -455,7 +460,7 @@
 		fetch(url, opt).then(resp => resp.text())
 		.then(text => {
 			if(text == 1) {
-				document.querySelector('textarea[name="replycontent"]').value = ''
+				reply_form.reset(); 
 				getReply()
 			}
 			else{
@@ -486,7 +491,7 @@
 				// 다시 댓글 입력창으로 변경
 				reply_modify.classList.add('hidden')
 				reply_form.classList.remove('hidden')
-				document.querySelector('textarea[name="replycontent"]').value = ''
+				reply_modifyForm.reset(); 
 				getReply()
 			}
 			else{
