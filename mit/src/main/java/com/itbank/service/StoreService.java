@@ -51,6 +51,7 @@ public class StoreService {
       
       if (files.get(0).getSize() == 0) {
          dto.setPdimg("");
+         dto.setViewimg("");
          return dao.getInsertItem(dto);
       }
       
@@ -146,15 +147,17 @@ public class StoreService {
 
    public int delete(int idx) {
       StoreDTO dto = selectOne(idx);
-      String newdir = uploadPath + "\\" + dto.getPdcode() + dto.getPdwriter();
-      File delfolder = new File(newdir);
       
-      File[] delfolderList = delfolder.listFiles();
-      for(int i = 0; i< delfolderList.length ; i++) {
-         delfolderList[i].delete();
+      if(dto.getPdimg() != null) {
+    	  String newdir = uploadPath + "\\" + dto.getPdcode() + dto.getPdwriter();
+          File delfolder = new File(newdir);
+          File[] delfolderList = delfolder.listFiles();
+    	  for(int i = 0; i< delfolderList.length ; i++) {
+    	         delfolderList[i].delete();
+    	  }
+    	  delfolder.delete();
       }
       
-      delfolder.delete();
       return dao.delete(idx);
    }
 

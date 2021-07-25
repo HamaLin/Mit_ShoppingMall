@@ -167,20 +167,23 @@
             border: 1px solid blue;
             justify-content: bottom;
         }
-        #showgraph >ul > li {
+        ul > li {
             height: 200px;
             width: 100px;
             position: relative;
             align-items: flex-end;
     		display: flex;
         }
-        #showgraph > ul > li > span{
+        ul > li > span{
             position: absolute;
             width: 100px;
             margin-bottom: 40px;
         }
         ol > li {
             border-bottom: 1px solid gray;
+        }
+        .bar {
+        	background-color: gray;
         }
 </style>
 
@@ -336,30 +339,30 @@
 				</div>
 
 				<ul id="showgraph"style="display: flex; list-style: none;">
-					<li>
-                        <p>18</p>
-                        <span></span>
-                    </li>
-					<li>
-                        <p>28</p>
-                        <span></span>
-                    </li>
-					<li>
-                        <p>38</p>
-                        <span></span>
-                    </li>
-					<li>
-                        <p>48</p>
-                        <span></span>
-                    </li>
-					<li>
-                        <p>58</p>
-                        <span></span>
-                    </li>
-					<li>
-                        <p>68</p>
-                        <span></span>
-                    </li>
+<!-- 					<li> -->
+<!--                         <p>18</p> -->
+<!--                         <span></span> -->
+<!--                     </li> -->
+<!-- 					<li> -->
+<!--                         <p>28</p> -->
+<!--                         <span></span> -->
+<!--                     </li> -->
+<!-- 					<li> -->
+<!--                         <p>38</p> -->
+<!--                         <span></span> -->
+<!--                     </li> -->
+<!-- 					<li> -->
+<!--                         <p>48</p> -->
+<!--                         <span></span> -->
+<!--                     </li> -->
+<!-- 					<li> -->
+<!--                         <p>58</p> -->
+<!--                         <span></span> -->
+<!--                     </li> -->
+<!-- 					<li> -->
+<!--                         <p>68</p> -->
+<!--                         <span></span> -->
+<!--                     </li> -->
 				</ul>
 
 
@@ -506,27 +509,79 @@ const idx = params.get('id')
 				SubmitUserInfo.title.value = json.pdtitle
 				var age = ${login.userbirth}
 				SubmitUserInfo.userage.value = parseInt(2021 - age/10000)
-				console.log(SubmitUserInfo.userage.value)
 			}
 		})
 	}
 	
-// 	function drawingulgraph() {
-// 		var url = '${cpath}/store/buytablelist/'+idx
-// 		var opt = {
-// 				method: 'GET'
-// 		}
-// 		fetch(url, opt).then(resp => resp.json())
-// 		.then(arr => {
-// 			var 
-// 			for(let i = 0 ; i < arr.length ; i++){
-// 				var dto = arr[i]
-// 			}
-// 		})
-// 		showgraph
-// 	}
+	//차트 그리기
+	function drawingulgraph() {
+		var url = '${cpath}/store/buytablelist/'+idx
+		var opt = {
+				method: 'GET'
+		}
+		fetch(url, opt).then(resp => resp.json())
+		.then(arr => {
+			var totalcount = 0
+			var array = new Array(0,0,0,0,0,0)
 
-function getreplylist() {
+			for(let i = 0 ; i < arr.length ; i++){
+				totalcount += arr[i].count
+				
+				if(arr[i].userage < 18){
+					array[0] += arr[i].count
+				}
+				else if(arr[i].userage < 23 && arr[i].userage > 18){
+					array[1] += arr[i].count
+				}
+				else if(arr[i].userage < 28 && arr[i].userage > 23){
+					array[2] += arr[i].count
+				}
+				else if(arr[i].userage < 33 && arr[i].userage > 28){
+					array[3] += arr[i].count
+				}
+				else if(arr[i].userage < 39 && arr[i].userage > 33){
+					array[4] += arr[i].count
+				}
+				else{
+					array[5] += arr[i].count
+				}
+			}
+		    
+			for(let i = 0 ; i < array.length ; i++){
+				var li = drawingbar(array[i], totalcount, i)
+				showgraph.appendChild(li)
+			}
+		})
+	}
+	
+	function drawingbar(age, total, fori) {
+		var li = document.createElement('li')
+		var p = document.createElement('li')
+		
+		switch (fori) {
+		case 0 : p.innerText = '18세'
+			break;
+		case 1 : p.innerText = '23세'
+			break;
+		case 2 : p.innerText = '28세'
+			break;
+		case 3 : p.innerText = '33세'
+			break;
+		case 4 : p.innerText = '39세'
+			break;
+		case 5 : p.innerText = '40세'
+			break;
+		}
+		li.appendChild(p)
+		var span = document.createElement('span')
+		span.className = 'bar'
+		span.style.width = '30px'
+		span.style.height = (age/total)*100 + '%'
+		li.appendChild(span)
+		return li
+	}
+
+	function getreplylist() {
 		
 		const url = '${cpath}/store/getreply/'+idx
 		const opt = {
@@ -640,12 +695,12 @@ function getreplylist() {
 		return tr
 	}
 	
-	function drawingchart() {
-	}
+// 	function drawingchart() {
+// 	}
 	
 	window.onload = getShowitem()
 	window.onload = getqnalist()
-	window.onload = drawingchart()
+	window.onload = drawingulgraph()
 	window.onload = getreplylist()
 	
 	qnaBtn.onclick = function() {

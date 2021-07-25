@@ -121,7 +121,6 @@ public class StoreAjaxController {
 		System.out.println(dto.getUserage());
 		return ss.purchase(dto);
 	}
-	
 	@GetMapping("/buytablelist/{idx}")
 	public List<BuyTableDTO> buytablelist(@PathVariable int idx) {
 		return ss.getbuylist(idx);

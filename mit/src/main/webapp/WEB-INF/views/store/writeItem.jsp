@@ -591,30 +591,38 @@
         }
         
      	// 수정버튼을 클릭시
-        modifyItem.onsubmit = function(event){
-            event.preventDefault()
-            createcontent()
-            const formData = new FormData(event.target)
+//         modifyItem.onsubmit = function(event){
+//             event.preventDefault()
+//             createcontent()
+//             const formData = new FormData(event.target)
             
-            const url = '${cpath}/store/modifyItem'
-            const opt = {
-                    method: 'POST',
-                    body: formData,
-            }
-            fetch(url, opt).then(resp => resp.text())
-            .then(text =>{
-                if(text == 1){
-                	console.log(test)
-                    alert('수정 성공!!')
-    				location.replace("${cpath}/store/store")
-                }
-                else{
-                    alert('수정 실패 ㅜㅠ')
-                }
-            })
-        }
+//             const url = '${cpath}/store/modifyItem'
+//             const opt = {
+//                     method: 'POST',
+//                     body: formData,
+//             }
+//             fetch(url, opt).then(resp => resp.text())
+//             .then(text =>{
+//                 if(text == 1){
+//                 	console.log(test)
+//                     alert('수정 성공!!')
+//     				location.replace("${cpath}/store/store")
+//                 }
+//                 else{
+//                     alert('수정 실패 ㅜㅠ')
+//                 }
+//             })
+//         }
      	
      	function createviewimglist() {
+     		console.log(showmethefile.childElementCount)
+     		if(showmethefile.childElementCount == 0){
+     			var input = document.createElement('input')
+                input.type = 'text'
+                input.name = 'viewimglist'
+               	writeItem.appendChild(input)
+                return
+     		}
      		for(let i = 0; i < showmethefile.childElementCount; i++){
                  var input = document.createElement('input')
                  input.type = 'text'
