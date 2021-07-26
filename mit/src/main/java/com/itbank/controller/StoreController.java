@@ -48,4 +48,20 @@ public class StoreController {
 
 	@GetMapping("/new")
 	public void newStore() {}
+	
+	@GetMapping("/top")
+	public void top() {}
+	
+	@GetMapping("/bottom")
+	public void bottom() {}
+	
+	@GetMapping("/hat")
+	public void hat() {}
+	
+	@GetMapping("/backpack")
+	public void backpack() {}
+	
+	@GetMapping("/glasses")
+	public void glasses() {}
+	
 }

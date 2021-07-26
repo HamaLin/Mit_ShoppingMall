@@ -308,4 +308,28 @@ public class StoreService {
 	public List<writingDTO> getreplylist(int idx) {
 		return wdao.getreplylist(idx);
 	}
+	
+	public List<StoreDTO> topItems() {
+		return dao.topItems();
+	}
+
+
+	public List<StoreDTO> bottomItems() {
+		return dao.bottomItems();
+	}
+
+
+	public List<StoreDTO> hatItems() {
+		return dao.hatItems();
+	}
+
+
+	public List<StoreDTO> glassesItems() {
+		return dao.glassesItems();
+	}
+
+
+	public List<StoreDTO> backpackItems() {
+		return dao.backpackItems();
+	}
 }

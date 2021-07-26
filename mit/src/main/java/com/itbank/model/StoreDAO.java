@@ -93,4 +93,19 @@ public interface StoreDAO {
 	@Insert("insert into writing (writer, wr, scope, img, pdidx) values"
 			+ "(#{writer}, #{wr}, #{scope}, #{img}, #{pdidx})")
 	int writing(writingDTO dto);
+	
+	@Select("select * from pdtable where pdcode like '%상의%'")
+	List<StoreDTO> topItems();
+	
+	@Select("select * from pdtable where pdcode like '%하의%'")
+	List<StoreDTO> bottomItems();
+	
+	@Select("select * from pdtable where pdcode like '%모자%'")
+	List<StoreDTO> hatItems();
+	
+	@Select("select * from pdtable where pdcode like '%안경%'")
+	List<StoreDTO> glassesItems();
+	
+	@Select("select * from pdtable where pdcode like '%가방%'")
+	List<StoreDTO> backpackItems();
 }

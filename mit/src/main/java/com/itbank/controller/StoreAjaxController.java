@@ -130,4 +130,29 @@ public class StoreAjaxController {
 	public int writing(writingDTO dto) {
 		return ss.insert(dto);
 	}
+	
+	@GetMapping("/TopItems")
+	public List<StoreDTO> topItems() {
+		return ss.topItems();
+	}
+	
+	@GetMapping("/BottomItems")
+	public List<StoreDTO> bottomItems() {
+		return ss.bottomItems();
+	}
+	
+	@GetMapping("/hatItems")
+	public List<StoreDTO> hatItems() {
+		return ss.hatItems();
+	}
+	
+	@GetMapping("/glassesItems")
+	public List<StoreDTO> glassesItems() {
+		return ss.glassesItems();
+	}
+	
+	@GetMapping("/BackpackItems")
+	public List<StoreDTO> backpackItems() {
+		return ss.backpackItems();
+	}
 }

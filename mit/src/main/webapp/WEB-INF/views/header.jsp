@@ -120,6 +120,35 @@
 	.footerinfo > ul {
 	    list-style: none;
 	}
+	nav > .category {
+        all: unset;
+    }
+    .category > ul {
+        padding: 10px;
+        position: absolute;
+        top: 40px;
+        width: 70px;
+        font-size: 14px;
+        text-align: center;
+        padding-top: 10px;
+        margin: 10px;
+        margin-left: 130px;
+        display: flex; 
+        font-size: 13px;
+        flex-flow: wrap;
+    }
+    .category > ul > li {
+        text-align: left;
+        display: none;
+        width: 90px;
+        padding: 5px;
+        font-weight: normal;
+        background-color: white;
+        z-index: 6;
+    }
+    .category:hover > ul > li {
+        display: block;
+    }
 </style>
 </head>
 <body>
@@ -129,7 +158,16 @@
             <nav>
                 <a href="${cpath }/store/best10">BEST</a>
                 <a href="${cpath }/store/new">NEW</a>
-                <a href="${cpath }/store/store">SHOP</a>
+                <li class="category">
+                    <a href="${cpath }/store/store">SHOP</a>
+                        <ul>
+                            <li><a href="${cpath }/store/top">상의</a></li>
+                            <li><a href="${cpath }/store/bottom">하의</a></li>
+                            <li><a href="${cpath }/store/hat">모자</a></li>
+                            <li><a href="${cpath }/store/backpack">백팩</a></li>
+                            <li><a href="${cpath }/store/glasses">안경</a></li>
+                        </ul>
+                </li>
                 <a href="${cpath }/user/qna">Q&A</a>
                 <span>|</span>
                 <c:if test="${not empty login || not empty admin}">
@@ -146,17 +184,19 @@
             		<span>|</span><div class="miniinfo"></div><span>${login.username} ${admin.username }님</span>
             </c:if>
         </div>
-       <p id="getSearch" contenteditable="true"></p>
-        <button id="submit">검색</button>
+        <form id="searchForm">
+       		<input id="getSearch" name="search">
+       	</form>
     </header>
     
     <script>
-        const getSearch = document.getElementById('getSearch')
-        const submit = document.getElementById('submit')
-
-        submit.onclick = function() {
-            console.log(getSearch.textContent)
-            location.href = '${cpath}/store/storeSearch/?search=' + getSearch.textContent
+    	const searchForm = document.getElementById('searchForm')
+//         const getSearch = document.querySelector('.getSearch')
+		const getSearch = document.querySelector('input[name="search"]')
+		
+        searchForm.onsubmit = function() {
+    		event.preventDefault()
+            location.href = '${cpath}/store/storeSearch/?search=' + getSearch.value
         }
 
     </script>
