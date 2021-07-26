@@ -2,189 +2,305 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../header.jsp" %>
 <style>
-	.store {
-		padding: 100px 50px;
-		height: auto;
-	}
-	.head{
-		width: 100%;
-		display: flex;
-	}
-	.wrapcontent {
-		display: flex;
-		justify-content: center;
-		
-		
-	}
-	#showitem {
-		margin: 100px;
-	}
-	#title{
-		font-size: 25px;
-		font-weight: bold;
-	}
-	#price {
-		font-size: 40px;
-		color: gray;
-	}
-	.subcontent{
-		width: 100%;
-		padding: 80px;
-		height: 100%;
-	}
-	#mainContent{
-		width: 80%;
-		text-align: center;
-	}
-	#mainImg {
-		align-items: center;
-		justify-content: center;
-	}
-	img {
-		width: 800px;
-	}
-	.selectoption{
-		display: flex;
-		width: 100%;
-		height: 100px; 
-	}
-	.selectoption > button{
-		line-height: 200%;
-		width: 150px;
-		height: 50px;
-		font-size: 20px;
-		background-color: white;
-		margin-right: 120px;
-	}
-	.selectmenu {
-		display: flex;
-		width: 100%;
-		height: 80px;
-		justify-content: center;
-	}
-	.selectmenu > ul {
-		list-style: none;
-		display: flex;
-		font-size: 25px;
-		width: 100%;
-		justify-content: center;
-	}
-	.selectmenu > ul > li{
-		width: 15%;
-		text-align: center;
-		cursor: pointer;
-	}
- 	#reply{ 
- 		display: inline-block; 
- 		width: 100%; 
- 		border: 1px solid black; 
- 	} 
-	#qna {
-		display: inline-block;
-		width: 100%;
-		height: auto;
-		border: 1px solid black;
-	}
-	.title {
-      text-align: left;
-      cursor: pointer;
-   	}
-	#qna > table {
-		width: 100%;
-		border: 1px solid black;
-		text-align: center;
-	}
-	td {
-		border: 1px solid black;
-	}
-	#showmetheitem{
-		display: inline-block;
-		width: 100%;
-		height: 500px;
-		border: 1px solid black;
-	}
-	.wrapstuf{
-		width: 100%;
-/* 		text-align: center; */
-/* 		border: 1px solid black; */
- 		margin: auto; 
-	}
-	.hidden{
-		display: none;
-	}
-	
-	/* qna css */
-	.qna {
+* {
+	box-sizing: border-box;
+}
+
+.store {
+	padding: 100px 50px;
+	height: auto;
+}
+
+.head {
+	width: 100%;
+	display: flex;
+}
+
+.wrapcontent {
+	display: flex;
+	justify-content: center;
+}
+
+.leftheader {
+	width: 50%;
+}
+
+#showitem {
+	margin: 25px;
+}
+
+#title {
+	font-size: 40px;
+	font-weight: bold;
+}
+
+#price {
+	font-size: 40px;
+	color: gray;
+}
+
+.subcontent {
+	width: 50%;
+	padding: 80px;
+	height: 100%;
+}
+
+#mainContent {
+	width: 80%;
+	text-align: center;
+}
+
+#mainImg {
+	height: 100%;
+	/* 		backgroundRepeat: no-repeat; */
+	/* 		backgroundPosition: center; */
+}
+
+img {
+	width: 40%;
+}
+
+.selectoption {
+	display: flex;
+	width: 100%;
+	height: 100px;
+}
+
+.selectoption>button {
+	line-height: 200%;
+	width: 40%;
+	height: 60%;
+	font-size: 20px;
+	background-color: white;
+	margin: auto;
+	margin-left: 0;
+}
+
+#gotoBuyItem:hover {
+	background-color: black;
+	color: white;
+}
+
+#gotoWishList:hover {
+	background-color: gray;
+	color: white;
+}
+
+.selectmenu {
+	display: flex;
+	width: 100%;
+	height: 80px;
+	justify-content: center;
+}
+
+.selectmenu>ul {
+	list-style: none;
+	display: flex;
+	font-size: 25px;
+	width: 100%;
+	justify-content: center;
+}
+
+.selectmenu>ul>li {
+	width: 15%;
+	text-align: center;
+	cursor: pointer;
+}
+
+#reply {
+	display: inline-block;
+	width: 60%;
+	margin-top: 150px;
+}
+
+#qna {
+	display: inline-block;
+	width: 60%;
+	height: auto;
+	margin-top: 150px;
+}
+
+.title {
+	text-align: left;
+	cursor: pointer;
+}
+
+#qna>table {
+	width: 100%;
+	text-align: center;
+}
+
+#showmetheitem {
+	display: inline-block;
+	width: 100%;
+	height: 500px;
+	border: 1px solid black;
+}
+
+.wrapstuf {
+	width: 100%;
+	margin: auto;
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+}
+
+.hidden {
+	display: none;
+}
+
+/* qna css */
+.qna {
 	width: 100%;
 	height: auto;
-	}
-	.qnawriter {
-	    width: 200px;
-	    height: 30px;
-	    padding-left: 15px;
-	}
-	.qnatitle {
-		width: 500px;
-	    height: 30px;
-	}
-	textarea {
-		width: 500px;
-	    height: 300px;
-	    resize: none;
-	}
-	.selectMenu {
-		width: 221px;
-	    height: 35px;
-	}
-	.qnabutton {
-		cursor: pointer;
-		border: 1px solid rgb(65, 65, 65);
-		background-color: black;
-		color: white;
-		width: 100px;
-	    height: 35px;
-	    right: 0;
-	}
-	
-	#showmethechart{
-            border: 1px solid black;
-        }
-        #drawingchartdiv{
-            display: flex;
-            position: relative;
-            border: 1px solid black;
-            height: 200px;
-        }
-        #showpercent{
-            width: 742px;
-            position: absolute;
-            border: 1px solid red;
-        }
-        #showgraph{
-            margin-left: 100px;
-            margin-top: 0;
-            position: absolute;
-            border: 1px solid blue;
-            justify-content: bottom;
-        }
-        ul > li {
-            height: 200px;
-            width: 100px;
-            position: relative;
-            align-items: flex-end;
-    		display: flex;
-        }
-        ul > li > span{
-            position: absolute;
-            width: 100px;
-            margin-bottom: 40px;
-        }
-        ol > li {
-            border-bottom: 1px solid gray;
-        }
-        .bar {
-        	background-color: gray;
-        }
+}
+
+.qnawriter {
+	width: 200px;
+	height: 30px;
+	padding-left: 15px;
+}
+
+.qnatitle {
+	width: 500px;
+	height: 30px;
+}
+
+textarea {
+	width: 500px;
+	height: 300px;
+	resize: none;
+}
+
+.selectMenu {
+	width: 221px;
+	height: 35px;
+}
+
+.qnabutton {
+	cursor: pointer;
+	border: 1px solid rgb(65, 65, 65);
+	background-color: black;
+	color: white;
+	width: 100px;
+	height: 35px;
+	right: 0;
+}
+
+#showmethechart {
+	margin-top: 150px;
+	margin-bottom: 300px;
+	width: 60%;
+}
+
+#drawingchartdiv {
+	display: flex;
+	position: relative;
+	height: 200px;
+}
+
+#showpercent {
+	width: 819px;
+    height: 300px;
+    position: absolute;
+}
+
+#showgraph {
+	margin-left: 90px;
+    margin-top: 94px;
+    position: absolute;
+}
+
+#showgraph>li {
+	height: 210px;
+	width: 100px;
+	position: relative;
+	align-items: flex-end;
+	display: flex;
+	color: silver;
+}
+
+#showgraph>li>span {
+	position: absolute;
+	width: 100px;
+	margin-bottom: 40px;
+}
+
+ol>li {
+	border-bottom: 1px solid gray;
+	height: 41px;
+	line-height: 250%;
+}
+
+.bar {
+	background-color: silver;
+}
+
+#viewimglist {
+	margin-top: 50px;
+}
+
+#viewimglist>img {
+	margin: 25px;
+}
+
+.selectmenu {
+	margin-top: 300px;
+}
+
+#selectSize {
+	width: 200px;
+	height: 60px;
+	font-size: 25px;
+}
+
+#count {
+	width: 200px;
+	margin-top: 25px;
+	height: 55px;
+	font-size: 30px;
+	text-align: center;
+}
+
+.selectoption {
+	margin-top: 100px;
+}
+
+.selectoption>button {
+	margin-top: 100px;
+}
+
+#replylist {
+	margin-top: 20px;
+}
+
+.wrapReplyList {
+	border-top: 1px solid black;
+}
+
+.wrapReplyList>div {
+	margin-bottom: 20px;
+	margin-top: 20px;
+}
+
+#writingBtn {
+	font-size: 15px;
+	margin-top: 30px;
+	float: right;
+	width: 10%;
+	height: 50px;
+	background-color: white;
+	font-weight: 700;
+}
+#qnaBtn {
+    font-size: 15px;
+    margin-top: 30px;
+    float: right;
+    width: 10%;
+    height: 50px;
+    background-color: white;
+    font-weight: 700;
+}
 </style>
 
 <div class="store">
@@ -198,7 +314,7 @@
 			<div id="jsoncontent"></div>
 			<br><br><br>
 			<div>
-				<p>사이즈</p>
+				<p style="font-size: 20px; font-weight: bold;">사이즈</p>
 				<select id="selectSize">
 					<option>선택하세요</option>
 					<option>S</option>
@@ -213,43 +329,35 @@
 				<button id="gotoBuyItem">구매하기</button>
 				<button id="gotoWishList">장바구니</button>
 			</div>
-			<hr>
+			
 		</div>
 	</div>
-	<br><br><br><br><br><br>
-	
-			<div class="selectmenu">
-				<ul>
-					<li id="explain">상품 설명</li>
-					<li id="review">후기</li>
-					<li id="question">질문</li>
-					<li id="releaseItem">관련 상품</li>
-				</ul>
-			</div>
-	<hr>
+		<div class="selectmenu">
+			<ul>
+				<li id="explain">상품 설명</li>
+				<li id="review">후기</li>
+				<li id="question">질문</li>
+				<li id="releaseItem">구매 현황 </li>
+			</ul>
+		</div>
+		<hr>
 	<br><br><br>
 	
 	<div class="wrapcontent">
 		<div id="mainContent"></div>
 	</div>
 	
-	<hr>
 	<div class="wrapstuf">
 	
 	<div id="reply">
 	
-<table id="replylist">
-	<thead>
-		<tr>
-		</tr>
-	</thead>
-	<tbody></tbody>
-</table>
-<div id="review">
-	<hr>
-	<div>후기</div>
-	<div>
-		<form class="writing hidden" method="post">
+
+<div id="review">	
+	<div style="font-size: 25px; font-weight: bold;">후기</div>
+	<div id="replylist"></div>
+	
+		<div style="margin-top: 70px; border-top: 1px solid black;">
+		<form class="writing hidden">
 		<div class="comment">
 			<div>
 				<input type="hidden" name="writer" value="${login.userid }">
@@ -277,21 +385,14 @@
 		</form>
 
 	</div>
-	<hr>
-	<div id="reviewlist">
-	<c:forEach var="list" items="${ list}">
-		<p>${list.scope}/5   ${list.writer }</p>
-		<p>${list.wr }</p>
-		<hr>
-	</c:forEach>
-	</div>
 </div>
 <button id="writingBtn">후기 쓰기</button>
 
 	</div>
-	<hr>
 	
 <div id="qna">
+<div style="font-size: 25px; font-weight: bold;">질문</div>
+<hr>
 <table id="qnalist">
 	<thead>
 		<tr>
@@ -321,7 +422,6 @@
 	</form>
 	</div>
 </div>
-<hr>
 	
 	<div id="showmethechart">
 		<div class="wrapall">
@@ -339,30 +439,6 @@
 				</div>
 
 				<ul id="showgraph"style="display: flex; list-style: none;">
-<!-- 					<li> -->
-<!--                         <p>18</p> -->
-<!--                         <span></span> -->
-<!--                     </li> -->
-<!-- 					<li> -->
-<!--                         <p>28</p> -->
-<!--                         <span></span> -->
-<!--                     </li> -->
-<!-- 					<li> -->
-<!--                         <p>38</p> -->
-<!--                         <span></span> -->
-<!--                     </li> -->
-<!-- 					<li> -->
-<!--                         <p>48</p> -->
-<!--                         <span></span> -->
-<!--                     </li> -->
-<!-- 					<li> -->
-<!--                         <p>58</p> -->
-<!--                         <span></span> -->
-<!--                     </li> -->
-<!-- 					<li> -->
-<!--                         <p>68</p> -->
-<!--                         <span></span> -->
-<!--                     </li> -->
 				</ul>
 
 
@@ -371,8 +447,6 @@
 	</div>
 	
 	</div>
-	
-	<hr>
 </div>
 
 
@@ -439,7 +513,7 @@ const idx = params.get('id')
     }
 
     releaseItem.onclick = function() {
-        showmetheitem.scrollIntoView()
+    	showmethechart.scrollIntoView()
     }
 	
 	function getShowitem() {
@@ -464,15 +538,18 @@ const idx = params.get('id')
             selectSize.children[3].value = json.pdlcount
             selectSize.children[4].value = json.pdxlcount
 			
-			var img = document.createElement('img')
 			if(json.mainimg != ''){
-				img.src = '${cpath}/image/'+ json.pdcode + json.pdwriter + '/'+ json.mainimg
+				mainImg.style.backgroundImage = 'url(${cpath}/image/'+ json.pdcode + json.pdwriter + '/'+ json.mainimg + ')'
+				mainImg.style.backgroundRepeat = 'no-repeat'
+				mainImg.style.backgroundSize = '100%'
+				mainImg.style.backgroundPosition = 'center'
 			}
 			else{	
-				img.src = '${cpath}/image/Default.jpg'
-				SubmitUserInfo.mainimg.value = '${cpath}/image/Default.jpg'
+				mainImg.style.backgroundImage = '${cpath}/image/Default.jpg'
+				mainImg.style.backgroundRepeat = 'no-repeat'
+				mainImg.style.backgroundSize = '100%'
+				mainImg.style.backgroundPosition = 'center'
 			}
-			mainImg.appendChild(img)
 			
 			if(json.viewimglist != null){
 				for(let i = 0 ; i < json.viewimglist.length; i++){
@@ -559,17 +636,17 @@ const idx = params.get('id')
 		var p = document.createElement('li')
 		
 		switch (fori) {
-		case 0 : p.innerText = '18세'
+		case 0 : p.innerText = '~ 18세'
 			break;
-		case 1 : p.innerText = '23세'
+		case 1 : p.innerText = '18 ~ 23세'
 			break;
-		case 2 : p.innerText = '28세'
+		case 2 : p.innerText = '23 ~ 28세'
 			break;
-		case 3 : p.innerText = '33세'
+		case 3 : p.innerText = '28 ~ 33세'
 			break;
-		case 4 : p.innerText = '39세'
+		case 4 : p.innerText = '33 ~ 39세'
 			break;
-		case 5 : p.innerText = '40세'
+		case 5 : p.innerText = '40세 ~'
 			break;
 		}
 		li.appendChild(p)
@@ -591,45 +668,34 @@ const idx = params.get('id')
 		.then(arr => {
 			for(let i = 0 ; i < arr.length ; i++){
 				var dto = arr[i]
-				var tr = createreplytr(dto, i)
-				replylist.appendChild(tr)
+				var div = createreplydiv(dto, i)
+				replylist.appendChild(div)
 			}
 		})
 		
 	}
 	
-	function createreplytr(dto, foridx) {
-		var tr = document.createElement('tr')
-		var tdidx = document.createElement('td')
-		var tdwriter = document.createElement('td')
-		var tdwr= document.createElement('td')
-		var tdscope = document.createElement('td')
+	function createreplydiv(dto, foridx) {
+		var div = document.createElement('div')
+		var divstar = document.createElement('div')
+		var divcontent = document.createElement('div')
 		
-		tdidx.innerText = foridx
-		tr.appendChild(tdidx)
+		for(let i = 0; i < dto.scope ; i++){
+			divstar.innerText += '★'
+		}
+		div.appendChild(divstar)
 		
-		tdwriter.innerText = dto.writer
-		tr.appendChild(tdwriter)
+		divcontent.innerHTML = dto.wr + '<br>'
+		div.appendChild(divcontent)
 		
-		tdwr.innerText = dto.wr
-		tr.appendChild(tdwr)
-		
-		tdscope.innerText = dto.scope
-		tr.appendChild(tdscope)
-		
-		tdwr.onclick = function(e) {
-//          location.href = '${cpath}/user/qna/'+dto.idx
-      	}
-		return tr
+		div.className = 'wrapReplyList'
+		return div
 	}
 	
 	function changemainimg(e) {
 		for(let i = 0; i < viewimglist.childElementCount; i++){
 			if(viewimglist.children[i].id == e.id){
-				var img = document.createElement('img')
-                img.src = e.src
-				mainImg.children[0].remove()
-                mainImg.appendChild(img)
+                mainImg.style.backgroundImage = 'url(' + e.src + ')'
 			}
 		}
 	}
@@ -694,9 +760,6 @@ const idx = params.get('id')
 		
 		return tr
 	}
-	
-// 	function drawingchart() {
-// 	}
 	
 	window.onload = getShowitem()
 	window.onload = getqnalist()
@@ -799,7 +862,6 @@ const idx = params.get('id')
 		
 		modifyBtn.onclick = function() {
 			event.preventDefault()
-			console.log('a')
 			location.href = '${cpath}/store/writeItem/?id=' + idx
 		}
 	}
@@ -836,6 +898,7 @@ const idx = params.get('id')
 		 .then(text => {
 			 if(text == 1){
 				 alert('후기 작성 완료')
+				 location.href = '${cpath}/store/storeDetale/?id=' + idx
 			 }
 			 else{
 				 alert('후기 작성 실패')
