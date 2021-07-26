@@ -208,7 +208,12 @@ function createtr(dto, idx) {
 	tdmenu.innerText = dto.qnamenu
 	tr.appendChild(tdmenu)
 	
-	tdtitle.innerText = '[' +dto.qnaresult + '] ' +dto.qnatitle
+	if(dto.qnareplycnt > 0) {
+		tdtitle.innerText = '[답변 완료] ' + dto.qnatitle + ' (' + dto.qnareplycnt + ')'
+	} else {
+		tdtitle.innerText = '[답변 대기] ' + dto.qnatitle 
+	}
+	
 	tdtitle.classList.add('title')
 	tr.appendChild(tdtitle)
 	

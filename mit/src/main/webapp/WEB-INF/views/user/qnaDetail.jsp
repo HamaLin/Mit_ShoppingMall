@@ -224,8 +224,13 @@
 	<div class="qnaWrap">
 		<div>
 			<div>
-				<div>제목</div>
-				<div>[${qna.qnaresult}] ${qna.qnatitle }</div>
+				<div>제목</div>		
+				<c:if test="${qna.qnareplycnt > 0 }">
+					<div>[답변 완료] ${qna.qnatitle } (${qna.qnareplycnt })</div>
+				</c:if>
+				<c:if test="${qna.qnareplycnt < 1 }">
+					<div>[답변 대기] ${qna.qnatitle }</div>
+				</c:if>
 			</div>	
 			<div>
 				<div>글쓴이</div>

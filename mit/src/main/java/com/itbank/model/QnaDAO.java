@@ -34,10 +34,10 @@ public interface QnaDAO {
 	@Select("select * from qnatable order by idx desc")
 	List<QnaDTO> getqnaAll();
 
-	@Update("update qnatable set qnaresult = '답변 완료' where idx = #{qnaidx}")
+	@Update("update qnatable set qnareplycnt = qnareplycnt+1 where idx = #{qnaidx}")
 	int statusChange(int qnaidx);
 
-	@Update("update qnatable set qnaresult = '답변 대기' where idx = #{qnaidx}")
+	@Update("update qnatable set qnareplycnt = qnareplycnt-1 where idx = #{qnaidx}")
 	int statusReturn(int qnaidx);
 
 	@Select("select * from pdtable where idx = #{pdidx}")

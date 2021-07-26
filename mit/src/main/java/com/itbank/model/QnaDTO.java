@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class QnaDTO {
 	
-	private int idx, qnaproductidx;
+	private int idx, qnaproductidx, qnareplycnt;
 	private String qnawriter, qnatitle, qnacontent, qnaimg, qnaresult, qnadate, qnamenu;
 
 	private List<MultipartFile> files;
@@ -89,6 +89,14 @@ public class QnaDTO {
 
 	public void setFiles(List<MultipartFile> files) {
 		this.files = files;
+	}
+
+	public int getQnareplycnt() {
+		return qnareplycnt;
+	}
+
+	public void setQnareplycnt(int qnareplycnt) {
+		this.qnareplycnt = qnareplycnt;
 	}
 
 }
