@@ -41,6 +41,9 @@
 	.qnaButtons > button:last-child {
 		margin-right: 0;
 	}
+	#qnaDelete {
+		background-color: #eaeaea;
+	}
 	.qnaWrap {
 		border: 1px solid grey;
 		margin: auto;
