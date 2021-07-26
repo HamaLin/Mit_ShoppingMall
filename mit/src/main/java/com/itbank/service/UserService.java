@@ -97,6 +97,14 @@ public class UserService {
 	public UserDTO getReUser(String userid) {
 		return dao.getReUser(userid);
 	}
+
+	public int cartDelete(String idx) {
+		return dao.cartDelete(idx);
+	}
+
+	public int addOrder(String idx) {
+		return dao.addOrder(idx);
+	}
 		
 }
 

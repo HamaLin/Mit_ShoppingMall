@@ -37,5 +37,11 @@ public interface UserDAO {
 
 	@Select("select * from usertable where userid = #{userid}")
 	UserDTO getReUser(String userid);
+	
+	@Delete("delete from wltable where idx = #{idx}")
+	int cartDelete(String idx);
+	
+	@Update("update wltable set buythis = 1 where idx = #{idx}")
+	int addOrder(String idx);
 
 }

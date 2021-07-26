@@ -103,7 +103,7 @@
 	.countInput {
 		width: 40px;
 	}
-	.myCartButton {
+	.myCartButton, .checkAll {
 		text-align: right;
 	}
 	.myCartButton button {
@@ -115,6 +115,9 @@
 	}
 	.myCartButton button:first-child {
 		background-color: white;
+	}
+	.hidden {
+		display: none;
 	}
 
 </style>
@@ -145,13 +148,19 @@
 	</div>
 	
 	<h2>장바구니</h2>
-	<div class="myCart">
+	<div class="checkAll">
+		<span>전체 선택</span>
+		<input type="checkbox" name="checkAll" class="allCheck">
 	</div>
-	<div class="myCartButton">
-		<button >구매</button>
-		<button type="button" onclick="cart_delete();">삭제</button>
-	</div>
-		
+	<form method="POST" name="cart_form">
+		<div class="myCart">
+		</div>
+		<div class="myCartButton">
+			<button type="button" onclick="addOrder();">구매</button>
+			<button type="button" onclick="cartDelete();">삭제</button>
+		</div>
+	</form>	
+	
 	<h2>주문 내역</h2>
 	<div class="myOrder">
 	</div>
@@ -162,10 +171,7 @@
 	
 </div>	
 
-
-
 <script>
-
 // 내가 쓴 글
 const userid = '${login.userid}'
 const myQNA = document.querySelector('.myQNA')
@@ -218,21 +224,60 @@ window.onload = getqnalist()
 </script>
 
 <script>
+//모두 동의 클릭시 전체 선택
+const allCheck = document.querySelector(".allCheck")
+const checks = document.getElementsByName("cartcheck")
 
+allCheck.onclick = function() {
+	console.log('전체선택')
+	if(allCheck.checked == false) {
+		for(let i = 0; i < checks.length; i++) {
+			checks[i].checked = false;
+		}
+	}else {
+		for(let i = 0; i < checks.length; i++) {
+			checks[i].checked = true;
+		}
+	}
+}
+
+function oneCheck() {
+	var chkCount = 0
+	for(let i = 0; i < checks.length; i++) {
+		if(checks[i].checked == true) {
+			chkCount++
+		}
+	}
+	if(chkCount == checks.length) {
+		allCheck.checked = true;
+	}
+	else {
+		allCheck.checked = false;
+	}
+}
+
+</script>
+
+<script>
 // 장바구니
 const myCart = document.querySelector('.myCart')
+const myCartButton = document.querySelector('.myCartButton')
 
 function getMyCart() {
+	myCart.innerHTML = ''
 	const url = '${cpath}/user/getmyCart/' + userid
 	const opt = {
 			method: 'GET'
 	}
 	fetch(url, opt).then(resp => resp.json())
 	.then(arr => {
+		// 장바구니가 비었으면??
 		if(arr.length < 1) {
+			myCartButton.classList.add('hidden')
+			checkAll.classList.add('hidden')
 			myCart.innerText = '장바구니가 비었습니다.'
 		}
-		
+				
 		for(let i = 0 ; i < arr.length ; i++){
 			var product = arr[i]
 	 		const Idx = product.idx;
@@ -242,6 +287,7 @@ function getMyCart() {
 	 		const pdprice = product.price;
 	 		const pdMainImg = product.mainimg;
 	 		const pdcount = product.count;
+	 		const buyThis = product.buythis;
 			
 	 		const mainImg = document.createElement('img')
 		
@@ -262,14 +308,8 @@ function getMyCart() {
 			pdinfo.classList.add('pdinfo')
 		
 	 		const p1 = document.createElement('p')
-	 		p1.classList.add('pdLink')
 	 		p1.innerText = pdtitle
 	 		
-	 		// 상품명 누르면 상품 페이지로 이동
-	 		p1.onclick = function() {
-				location.href = '${cpath}/store/storeDetale/?id='+ pdidx
-			}
-			
 	 		pdinfo.appendChild(p1)
 			
 	 		const p2 = document.createElement('p')
@@ -289,18 +329,33 @@ function getMyCart() {
 	 		span1.appendChild(span1_5)
 	 			
 	 		const countInput = document.createElement('input')
+	 		const idxInput = document.createElement('input')
+	 		const buyThisnum = document.createElement('input')
 	 		
 	 		countInput.classList.add('countInput')
 	 		countInput.type = 'number'
 	 		countInput.value = pdcount
+	 		countInput.name = 'count'
+	 		
+	 		idxInput.type = 'hidden'
+	 		idxInput.value = Idx
+			idxInput.name = 'idx'
+			
+			buyThisnum.type = 'hidden'
+			buyThisnum.value = buyThis
+			buyThisnum.name = 'buythis'
 	 
 	 		span1.appendChild(countInput)
+	 		span1.appendChild(idxInput)
+	 		span1.appendChild(buyThisnum)
 	 		cartMenu.appendChild(span1)
 	 		
 	 		const span2 = document.createElement('span')
 	 		const cartCheck = document.createElement('input')
 	 		cartCheck.type = 'checkbox'
+	 		cartCheck.name = 'cartcheck'
 	 		cartCheck.value = Idx
+	 		cartCheck.onclick = oneCheck
 	 		span2.appendChild(cartCheck)
 	 		cartMenu.appendChild(span2)
 	 		 	
@@ -313,15 +368,18 @@ function getMyCart() {
 	 		cartOne.classList.add('cartOne')
 	 		
 	 		myCart.appendChild(cartOne)
+	 		cartOne.classList.add('pdLink')
 	 		
+	 		// 상품명 누르면 상품 페이지로 이동
+	 		cartMenu.onclick = function() {
+	 			event.stopPropagation()
+	 		}
+	 		
+	 		cartOne.onclick = function() {
+				location.href = '${cpath}/store/storeDetale/?id='+ pdidx
+	 		}
 		}
-	
 	})
-}
-	
-	// 삭제 버튼
-	function cart_delete(event) {
-	
 }
 
 window.onload = getMyCart()
@@ -329,8 +387,92 @@ window.onload = getMyCart()
 </script>
 
 <script>
+// 장바구니 구매 버튼
+function addOrder() {
+	 //check이름을 가진 check중에서 체크된 것만 값 가져오기
+    var size = document.getElementsByName("cartcheck").length;
+	var chkCount = 0 	 
+	var checkedArr = new Array(); 
+	
+    for(var i = 0; i < size; i++){
+        if(document.getElementsByName("cartcheck")[i].checked == true){
+        	checkedArr.push(document.getElementsByName("cartcheck")[i].value);
+        	chkCount+=1
+        }
+    }	
+    
+    // 체크한 값이 하나도 없으면 ???
+    if(chkCount < 1) {
+    	alert('상품을 선택해주세요.')
+    	return
+    }		
+    
+	const url = '${cpath}/user/addOrder'
+	const opt = {
+		method: 'POST',
+		body: JSON.stringify(checkedArr),
+	    headers: {
+	         'Content-Type': 'application/json; charset=utf-8'
+		}
+	}
+	fetch(url, opt).then(resp => resp.text())
+	.then(text => {
+		if(text == 1) {
+			location.href = '${cpath}/store/purchase/?userid='+ userid
+		}
+		else{
+			alert('다시 시도해주세요.')
+		}
+	})
+}
 
-// 장바구니
+</script>
+
+<script>
+// 장바구니 삭제 버튼
+function cartDelete() {
+	 //check이름을 가진 check중에서 체크된 것만 값 가져오기
+    var size = document.getElementsByName("cartcheck").length;
+	var chkCount = 0 	 
+	var checkedArr = new Array(); 
+	
+    for(var i = 0; i < size; i++){
+        if(document.getElementsByName("cartcheck")[i].checked == true){
+        	checkedArr.push(document.getElementsByName("cartcheck")[i].value);
+        	chkCount+=1
+        }
+    }	
+    
+    // 체크한 값이 하나도 없으면 ???
+    if(chkCount < 1) {
+    	alert('상품을 선택해주세요.')
+    	return
+    }		
+    
+	const url = '${cpath}/user/cartDelete'
+	const opt = {
+		method: 'POST',
+		body: JSON.stringify(checkedArr),
+	    headers: {
+	         'Content-Type': 'application/json; charset=utf-8'
+		}
+	}
+	fetch(url, opt).then(resp => resp.text())
+	.then(text => {
+		if(text == 1) {
+			alert('삭제 되었습니다.')
+			getMyCart()
+		}
+		else{
+			alert('다시 시도해주세요.')
+		}
+	})
+}
+
+</script>
+
+<script>
+// 주문 내역
 const myOrder = document.querySelector('.myOrder')
 
 function getMyOrder() {
@@ -343,7 +485,6 @@ function getMyOrder() {
 		if(arr.length < 1) {
 			myOrder.innerText = '주문 내역이 없습니다.'
 		}
-		console.log(arr)
 		
 		for(let i = 0 ; i < arr.length ; i++){
 			var product = arr[i]
@@ -376,8 +517,7 @@ function getMyOrder() {
 	
 	})
 }
-	
-	
+
 window.onload = getMyOrder()
 
 </script>

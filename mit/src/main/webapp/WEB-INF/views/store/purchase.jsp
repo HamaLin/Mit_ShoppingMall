@@ -193,7 +193,7 @@ h2 {
 				formData.append('pdidx', arr[i].pdidx)
 				formData.append('usergender', arr[i].usergender)
 				formData.append('count', arr[i].count)
-				formData.append('totla', arr[i].count * arr[i].price)
+				formData.append('total', arr[i].count * arr[i].price)
 				formData.append('usersize', arr[i].usersize)
 				formData.append('userinfo', document.querySelector('input[name=username]').value + '/' +
 							document.querySelector('input[name=usermail]').value + '/' +
@@ -215,11 +215,11 @@ h2 {
 				.then(resp => resp.text())
 				.then(text => {
 					if(text == 1){
-						alert('주문 되었습니다')
+						alert('주문 되었습니다.')
 						location.href = '${cpath}/user/mypage'
 					}
 					else{
-						alert('주문 실패 ㅠㅠ')
+						alert('다시 시도해주세요.')
 					}
 					
 				})

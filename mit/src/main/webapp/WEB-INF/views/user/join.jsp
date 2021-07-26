@@ -357,6 +357,27 @@ checkAll.onclick = function() {
 		}
 	}
 }
+
+
+function oneCheck() {
+	var chkCount = 0
+	for(let i = 0; i < check.length; i++) {
+		if(check[i].checked == true) {
+			chkCount++
+		}
+	}
+	if(chkCount == 2) {
+		checkAll.checked = true;
+	}
+	else {
+		checkAll.checked = false;
+	}
+}
+check[0].onclick = oneCheck
+check[1].onclick = oneCheck
+
+
+
 </script>
 
 <script>
