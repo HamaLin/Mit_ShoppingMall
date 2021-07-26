@@ -315,7 +315,6 @@
 				const pdcolor = product.pdcolor;
 				const pdprice = product.pdprice;
 				const pdMainImg = product.mainimg;
-				
 				const mainImg = document.createElement('img')
 			
 				if(pdMainImg == null) {
@@ -338,7 +337,7 @@
 				pdinfo.appendChild(p3)
 				
 				moreinfoBtn.onclick = function() {
-					location.href = '${cpath}/store/storeDetale/?id='+ json['idx'];
+					location.href = '${cpath}/store/storeDetale/?id='+ product.idx;
 				}
 			}
 		})

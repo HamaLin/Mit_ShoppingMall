@@ -229,7 +229,6 @@ const allCheck = document.querySelector(".allCheck")
 const checks = document.getElementsByName("cartcheck")
 
 allCheck.onclick = function() {
-	console.log('전체선택')
 	if(allCheck.checked == false) {
 		for(let i = 0; i < checks.length; i++) {
 			checks[i].checked = false;
@@ -261,6 +260,7 @@ function oneCheck() {
 <script>
 // 장바구니
 const myCart = document.querySelector('.myCart')
+const checkAll = document.querySelector('.checkAll')
 const myCartButton = document.querySelector('.myCartButton')
 
 function getMyCart() {
