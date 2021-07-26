@@ -9,7 +9,7 @@ public class StoreDTO {
 	private int idx, pdprice, pdscount, pdmcount, pdlcount, pdxlcount;
 	private String pdtitle, pdcontent, pdcode, pdname, pdcolor, pddate, pdimg, pdwriter, mainimg, viewimg;
 	private List<MultipartFile> files;
-	private List<String> viewimglist;
+	private List<String> filename, pdcodename, viewimglist;
 	
 	public String getViewimg() {
 		return viewimg;
@@ -61,8 +61,6 @@ public class StoreDTO {
 	public void setPdwriter(String pdwriter) {
 		this.pdwriter = pdwriter;
 	}
-	private List<String> filename, pdcodename;
-
 	public List<String> getPdcodename() {
 		return pdcodename;
 	}

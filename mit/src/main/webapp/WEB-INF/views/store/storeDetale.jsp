@@ -47,13 +47,14 @@
 
 #mainContent {
 	width: 80%;
-	text-align: center;
+    text-align: center;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
 }
 
 #mainImg {
 	height: 100%;
-	/* 		backgroundRepeat: no-repeat; */
-	/* 		backgroundPosition: center; */
 }
 
 img {
@@ -213,7 +214,7 @@ textarea {
 
 #showgraph>li {
 	height: 210px;
-	width: 100px;
+	width: 120px;
 	position: relative;
 	align-items: flex-end;
 	display: flex;
@@ -279,6 +280,15 @@ ol>li {
 }
 
 .wrapReplyList>div {
+	margin-bottom: 20px;
+	margin-top: 20px;
+}
+
+.wrapflexReplyList{
+	border-top: 1px solid black;
+}
+
+.wrapflexReplyList > div > div {
 	margin-bottom: 20px;
 	margin-top: 20px;
 }
@@ -356,7 +366,7 @@ ol>li {
 	<div style="font-size: 25px; font-weight: bold;">후기</div>
 	<div id="replylist"></div>
 	
-		<div style="margin-top: 70px; border-top: 1px solid black;">
+		<div style="border-top: 1px solid black;">
 		<form class="writing hidden">
 		<div class="comment">
 			<div>
@@ -379,13 +389,14 @@ ol>li {
 			<option value="2">★★☆☆☆</option>
 			<option value="1">★☆☆☆☆</option>
 		</select>
-		
+		<input type="file" name="Writingfiles" multiple="multiple" accept="image/*">
 		<input type="submit" value="저장하기">
 		</div>
 		</form>
 
 	</div>
 </div>
+<div id="modifyanddelete"></div>
 <button id="writingBtn">후기 쓰기</button>
 
 	</div>
@@ -494,6 +505,7 @@ const qnaBtn = document.getElementById('qnaBtn')
 const selectSize = document.getElementById('selectSize')
 const viewimglist = document.getElementById('viewimglist')
 const showgraph = document.getElementById('showgraph')
+const modifyanddelete = document.getElementById('modifyanddelete')
 const qna = document.getElementById('qna')
 const showmethechart = document.getElementById('showmethechart')
 const link = document.location.search
@@ -516,6 +528,7 @@ const idx = params.get('id')
     	showmethechart.scrollIntoView()
     }
 	
+    // 상품 정보 보여주는 함수
 	function getShowitem() {
 		const url = '${cpath}/store/showitem/'+idx
 		const opt = {
@@ -631,6 +644,7 @@ const idx = params.get('id')
 		})
 	}
 	
+	// 차트 그리는 함수
 	function drawingbar(age, total, fori) {
 		var li = document.createElement('li')
 		var p = document.createElement('li')
@@ -658,6 +672,7 @@ const idx = params.get('id')
 		return li
 	}
 
+	//후기 작성하는 함수
 	function getreplylist() {
 		
 		const url = '${cpath}/store/getreply/'+idx
@@ -669,6 +684,21 @@ const idx = params.get('id')
 			for(let i = 0 ; i < arr.length ; i++){
 				var dto = arr[i]
 				var div = createreplydiv(dto, i)
+				if(dto.writer == '${login.userid}'){
+					var divmodify = document.createElement('div')
+					var divdelete = document.createElement('div')
+					divmodify.innerText = '수정'
+					divdelete.innerText = '삭제'
+					
+					divmodify.value = dto.idx
+					divdelete.value = dto.idx
+					
+					divmodify.setAttribute('onclick', 'divmodify(this)')
+					divdelete.setAttribute('onclick', 'divdelete(this)')
+					
+					div.appendChild(divmodify)
+					div.appendChild(divdelete)
+				}
 				replylist.appendChild(div)
 			}
 		})
@@ -687,6 +717,24 @@ const idx = params.get('id')
 		
 		divcontent.innerHTML = dto.wr + '<br>'
 		div.appendChild(divcontent)
+		
+		if(dto.img != null){
+// 			div.className = 'wrapReplyList'
+			var divflex = document.createElement('div')
+			divflex.className = 'wrapflexReplyList'
+			div.style.width = '100%'
+			divflex.appendChild(div)
+			
+			for(let i = 0 ; i < dto.writingfilename.length ; i++){
+				var imgdiv = document.createElement('div')
+				imgdiv.style.backgroundImage = 'url(${cpath}/image/store' + dto.writer + dto.pdidx + '/' + dto.writingfilename[i] + ')'
+				imgdiv.style.height = '100px'
+				imgdiv.style.width = '100px'
+				divflex.appendChild(imgdiv)
+			}
+			divflex.style.display = 'flex'
+			return divflex
+		}
 		
 		div.className = 'wrapReplyList'
 		return div
@@ -760,6 +808,8 @@ const idx = params.get('id')
 		
 		return tr
 	}
+	
+	
 	
 	window.onload = getShowitem()
 	window.onload = getqnalist()
@@ -865,7 +915,6 @@ const idx = params.get('id')
 			location.href = '${cpath}/store/writeItem/?id=' + idx
 		}
 	}
-
 </script>
 
 <script>
@@ -964,6 +1013,131 @@ function qnaform_check(event) {
 		}
 	})
 }
+</script>
+
+<script>
+
+	function modifyreply(event) {
+		var form = document.getElementById('modifyreplyform')
+		
+		var formData = new FormData(form)
+		
+		var url = '${cpath}/store/modifyreply'
+		var opt = {
+				method: 'POST',
+				body: formData,
+		}
+		fetch(url, opt).then(resp => resp.text())
+		.then(text => {
+			if(text == 1){
+				alert('수정 성공!')
+				location.href = '${cpath}/store/storeDetale/?id=' + idx
+			}
+			else{
+				alert('수정 실패!')
+			}
+		})
+	}
+
+	function divmodify(event) {
+		if(event.children[0] == null){
+			var form = document.createElement('form')
+			form.id = 'modifyreplyform'
+			
+			var textarea = document.createElement('textarea')
+			textarea.rows = '5'
+			textarea.cols = '80'
+			textarea.name = 'wr'
+			textarea.style.resize = 'none'
+			
+			var div = document.createElement('div')
+			div.innerText = '수정 하기'
+			div.setAttribute('onclick', 'modifyreply(this)')
+			
+			var select = document.createElement('select')
+			select.name = 'scope'
+			
+			var opt1 = document.createElement('option')
+			opt1.innerText = '별점주기'
+			opt1.selected
+			select.appendChild(opt1)
+			
+			var opt2 = document.createElement('option')
+			opt2.value = 5
+			opt2.innerText = '★★★★★'
+			select.appendChild(opt2)
+			
+			var opt3 = document.createElement('option')
+			opt3.value = 4
+			opt3.innerText = '★★★★'
+			select.appendChild(opt3)
+				
+			var opt4 = document.createElement('option')
+			opt4.value = 3
+			opt4.innerText = '★★★'
+			select.appendChild(opt4)
+			
+			var opt5 = document.createElement('option')
+			opt5.value = 2
+			opt5.innerText = '★★'
+			select.appendChild(opt5)
+				
+			var opt6 = document.createElement('option')
+			opt6.value = 1
+			opt6.innerText = '★'
+			select.appendChild(opt6)
+			
+			var inputidx = document.createElement('input')
+			inputidx.name = 'idx'
+			inputidx.type = 'hidden'
+			inputidx.value = parseInt(event.value)
+			
+			var inputwriter = document.createElement('input')
+			inputwriter.name = 'writer'
+			inputwriter.type = 'hidden'
+			inputwriter.value = '${login.userid}'
+			
+			var inputpdidx = document.createElement('input')
+			inputpdidx.name = 'pdidx'
+			inputpdidx.type = 'hidden'
+			inputpdidx.value = idx
+			
+			var inputfile = document.createElement('input')
+			inputfile.name = 'Writingfiles'
+			inputfile.type = 'file'
+			inputfile.multiple = 'multiple'
+			
+			form.appendChild(inputwriter)
+			form.appendChild(inputpdidx)
+			form.appendChild(inputidx)
+			form.appendChild(textarea)
+			form.appendChild(select)
+			form.appendChild(inputfile)
+			form.appendChild(div)
+			console.log(form)
+			event.appendChild(form)
+		}
+	}
+	
+	function divdelete(event) {
+		if(confirm('정말로 댓글을 삭제하시겠습니까?')){
+			var url = '${cpath}/store/deletereply/'+ event.value
+			var opt = {
+				method: 'DELETE',
+			}
+			fetch(url, opt).then(resp => resp.text())
+			.then(text => {
+				if(text == 1){
+					alert('삭제 성공!')
+					location.href = '${cpath}/store/storeDetale/?id=' + idx
+				}
+				else{
+					alert('삭제 실패!')
+				}
+			})
+		}
+	}
+	
 </script>
 
 <%@ include file="../footer.jsp" %>

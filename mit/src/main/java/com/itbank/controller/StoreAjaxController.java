@@ -154,4 +154,15 @@ public class StoreAjaxController {
 	public List<StoreDTO> backpackItems() {
 		return ss.backpackItems();
 	}
+	
+	@PostMapping("/modifyreply")
+	public int modifyreply(writingDTO dto) {
+		return ss.modifyreply(dto);
+	}
+	
+	@DeleteMapping("/deletereply/{idx}")
+	public int deletereply(@PathVariable int idx) {
+		return ss.deletereply(idx);
+	}
+	
 }

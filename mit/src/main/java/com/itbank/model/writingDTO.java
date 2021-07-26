@@ -6,22 +6,34 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class writingDTO {
 
-	private int idx,scope, pdidx;
+	private int idx, scope, pdidx, getidx;
 	private String writer,wr, img;
-	private List<MultipartFile> files;
+	private List<MultipartFile> Writingfiles;
+	private List<String> writingfilename;
 	
+	public int getGetidx() {
+		return getidx;
+	}
+	public void setGetidx(int getidx) {
+		this.getidx = getidx;
+	}
+	public List<String> getWritingfilename() {
+		return writingfilename;
+	}
+	public void setWritingfilename(List<String> writingfilename) {
+		this.writingfilename = writingfilename;
+	}
 	public int getPdidx() {
 		return pdidx;
 	}
 	public void setPdidx(int pdidx) {
 		this.pdidx = pdidx;
 	}
-	
-	public List<MultipartFile> getFiles() {
-		return files;
+	public List<MultipartFile> getWritingfiles() {
+		return Writingfiles;
 	}
-	public void setFiles(List<MultipartFile> files) {
-		this.files = files;
+	public void setWritingfiles(List<MultipartFile> writingfiles) {
+		Writingfiles = writingfiles;
 	}
 	public String getImg() {
 		return img;

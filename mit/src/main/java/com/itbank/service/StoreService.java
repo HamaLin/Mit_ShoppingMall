@@ -156,7 +156,36 @@ public class StoreService {
     	  delfolder.delete();
       }
       
+      int row = deleteallreply(dto.getIdx());
+      
+      if(row == 0) {
+    	  System.out.println("댓글 사진 지우기 실패!");
+    	  return 0;
+      }
+      
       return dao.delete(idx);
+   }
+
+
+   private int deleteallreply(int idx) {
+	   List<writingDTO> list = wdao.getreplylist(idx);
+	   
+	   int row = 0;
+	   
+	   for(writingDTO dto : list) {
+		   
+		   if(dto.getImg() != null) {
+		    	  String newdir = uploadPath + "\\store" + dto.getWriter() + dto.getPdidx();
+		          File delfolder = new File(newdir);
+		          File[] delfolderList = delfolder.listFiles();
+		    	  for(int i = 0; i< delfolderList.length ; i++) {
+		    	         delfolderList[i].delete();
+		    	  }
+		    	  delfolder.delete();
+		      }
+		   row += wdao.deletereply(dto.getIdx());
+	   }
+	   return row;
    }
 
 
@@ -200,14 +229,14 @@ public class StoreService {
    
 
 	public int insert(writingDTO dto) {
-		List<MultipartFile> files = dto.getFiles();
+		List<MultipartFile> files = dto.getWritingfiles();
 	      
 	    if (files == null) {
 	       dto.setImg("");
 	       return wdao.insert(dto);
 	    }
 	    
-	    String newdir = uploadPath + "\\store" + dto.getWriter();
+	    String newdir = uploadPath + "\\store" + dto.getWriter() + dto.getPdidx();
 	    String fileName = "";
 	      
 	      for (MultipartFile f : files) {
@@ -304,7 +333,27 @@ public class StoreService {
 
 
 	public List<writingDTO> getreplylist(int idx) {
-		return wdao.getreplylist(idx);
+		
+		List<writingDTO> list = wdao.getreplylist(idx);
+		ArrayList<String> list2 = new ArrayList<String>();
+		
+		for(writingDTO dto : list) {
+			if(dto.getImg() != null) {
+				File dir = new File(uploadPath + "\\store" + dto.getWriter() + + dto.getPdidx());
+		        File[] files = dir.listFiles();
+		        String filelistname = dto.getImg();
+		        for(int i = 0 ; i <  files.length ; i++) {
+		        	 if(filelistname.length() <= 0 ) {
+		       		  break;
+		       	}
+		        String msg = filelistname.substring(0, filelistname.indexOf(","));
+			    list2.add(msg);
+			    filelistname = filelistname.substring(filelistname.indexOf(",")+1);   
+			}
+		    dto.setWritingfilename(list2);
+			}
+		}
+		return list;
 	}
 	
 	public List<StoreDTO> topItems() {
@@ -329,5 +378,60 @@ public class StoreService {
 
 	public List<StoreDTO> backpackItems() {
 		return dao.backpackItems();
+	}
+
+
+	public int modifyreply(writingDTO dto) {
+		List<MultipartFile> files = dto.getWritingfiles();
+	      
+	    if (files == null) {
+	       dto.setImg("");
+	       return wdao.modifyreply(dto);
+	    }
+	    
+	    String newdir = uploadPath + "\\store" + dto.getWriter() + dto.getPdidx();
+	    String fileName = "";
+	      
+	      for (MultipartFile f : files) {
+	         if(f.getSize() == 0) {
+	            break;
+	         }
+	         
+	        // 랜덤 파일명 
+			UUID uuid = UUID.randomUUID();
+			String fileName2 = uuid.toString() + "_" + f.getOriginalFilename();
+	       
+	         File dest = new File(newdir, fileName2);   // 파일 객체를 생성
+	         fileName += fileName2 + ",";
+	         
+	         if(dest.exists() == false) {
+	            dest.mkdirs();
+	         }
+	         try {
+	            f.transferTo(dest);
+	         } catch (IllegalStateException | IOException e) {
+	            e.printStackTrace();
+	         } 
+	            
+	      }
+	    dto.setImg(fileName);
+		
+		return wdao.modifyimgreply(dto);
+	}
+
+
+	public int deletereply(int idx) {
+		writingDTO dto = wdao.getreplyone(idx);
+		
+		if(dto.getImg() != null) {
+	    	  String newdir = uploadPath + "\\store" + dto.getWriter() + dto.getPdidx();
+	          File delfolder = new File(newdir);
+	          File[] delfolderList = delfolder.listFiles();
+	    	  for(int i = 0; i< delfolderList.length ; i++) {
+	    	         delfolderList[i].delete();
+	    	  }
+	    	  delfolder.delete();
+	      }
+		return wdao.deletereply(idx);
 	}
 }
