@@ -106,7 +106,26 @@ function createtr(dto, idx) {
 		location.href = '${cpath}/user/qna/'+ dto.idx
 	}
 	
-	tdwriter.innerText = dto.qnawriter
+	// 문자열 검색해서 중간 글자 *로 만들기
+	var maskingName = function(strName) {
+	  if (strName.length > 2) {
+	    var originName = strName.split('');
+	    originName.forEach(function(name, i) {
+	      if (i === 0 || i === originName.length - 1) return;
+	      originName[i] = '*';
+	    });
+	    var joinName = originName.join();
+	    return joinName.replace(/,/g, '');
+	  } 
+		// 2글자면 마지막 글자만
+	  else {
+	    var pattern = /.$/; // 정규식
+	    return strName.replace(pattern, '*');
+	  }
+	};
+	
+	var strName = dto.qnawriter
+	tdwriter.innerText = maskingName(strName)
 	tr.appendChild(tdwriter)
 	
 	return tr

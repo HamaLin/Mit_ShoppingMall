@@ -1,7 +1,5 @@
 package com.itbank.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.itbank.model.QnaDTO;
-import com.itbank.model.QnaReplyDTO;
 import com.itbank.model.UserDTO;
 import com.itbank.service.Hash;
-import com.itbank.service.QnaService;
 import com.itbank.service.UserService;
 
 @Controller
@@ -25,7 +21,6 @@ import com.itbank.service.UserService;
 public class UserController {
 	
 	@Autowired private UserService us;
-	@Autowired private QnaService qs;
 	
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {

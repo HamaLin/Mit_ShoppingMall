@@ -30,7 +30,11 @@
 	button {
 		background-color: #e9e9e9;
 	}
+	.naver_id_login {
+		width: 269px;
+	}
 </style>
+
 </head>
 <body>
 
@@ -42,14 +46,36 @@
 		<p><input type="submit" value="로그인"></p>
 	</form>
 	<div>
+		<!-- 네이버아이디로로그인 버튼 노출 영역 -->
+		<div id="naver_id_login" style="text-align:center">
+		<a href="${cpath}/user/naverLogin"><img width="269" src="https://developers.naver.com/doc/review_201802/CK_bEFnWMeEBjXpQ5o8N_20180202_7aot50.png"/></a></div>
 		<p><button><a href="${cpath }/user/join">회원가입</a></button></p>
 		<p><button><a href="${cpath }/user/passwordFind">비밀번호 찾기</a></button></p>
 	</div>
 </div>
 
+<c:if test="${not empty url }">
+	<script>
+	 	self.location = '${url}'
+	</script>
+</c:if>
+
 <c:if test="${not empty login || not empty admin }">
+	<c:if test="${not empty naverUser }">
+		<script> 
+			alert("네이버로 로그인되었습니다.")
+			location.href = '${cpath}'
+		</script>
+	</c:if>
 	<script> 
-	alert("로그인 되었습니다.")
+		alert("로그인 되었습니다.")
+		location.href = '${cpath}'
+	</script>
+</c:if>
+
+<c:if test="${not empty naverId }">
+	<script> 
+	alert("네이버로 로그인되었습니다.")
 	location.href = '${cpath}'
 	</script>
 </c:if>

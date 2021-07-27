@@ -114,7 +114,7 @@ public class UserAjaxController {
 		return qna;
 	}
 
-	@GetMapping("/getQnaList/{userid}")
+	@GetMapping("/getQnaList/{userid}/")
 	public List<QnaDTO> SearchItems(@PathVariable String userid) {
 		List<QnaDTO> list = qs.myqnalist(userid);
 		return list;
@@ -174,13 +174,13 @@ public class UserAjaxController {
 		
 	}
 	
-	@GetMapping("/getmyCart/{userid}")
+	@GetMapping("/getmyCart/{userid}/")
 	public List<WishListDTO> getProduct(@PathVariable String userid) {
 		List<WishListDTO> cartList = qs.getMyCart(userid);
 		return cartList;
 	}
 	
-	@GetMapping("/getMyOrder/{userid}")
+	@GetMapping("/getMyOrder/{userid}/")
 	public List<BuyTableDTO> getMyOrder(@PathVariable String userid) {
 		List<BuyTableDTO> orderList = qs.getMyOrder(userid);
 		return orderList;

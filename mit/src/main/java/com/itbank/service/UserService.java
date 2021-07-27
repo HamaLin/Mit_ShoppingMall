@@ -105,6 +105,18 @@ public class UserService {
 	public int addOrder(String idx) {
 		return dao.addOrder(idx);
 	}
+
+	public int insertNaver(UserDTO naverUser) {
+		return dao.insertNaver(naverUser);
+	}
+
+	public int checkNaver(String userid) {
+		return dao.checkNaver(userid);
+	}
+
+	public UserDTO loginNaver(String userid) {
+		return dao.loginNaver(userid);
+	}
 		
 }
 

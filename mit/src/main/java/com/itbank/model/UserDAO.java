@@ -43,5 +43,15 @@ public interface UserDAO {
 	
 	@Update("update wltable set buythis = 1 where idx = #{idx}")
 	int addOrder(String idx);
+	
+	@Insert("insert into usertable (username, userbirth, usergender, userphone, usermail, userid)"
+			+ " values (#{username}, #{userbirth}, #{usergender}, #{userphone}, #{usermail}, #{userid})")
+	int insertNaver(UserDTO naverUser);
+	
+	@Select("select count(*) from usertable where userid = #{userid}")
+	int checkNaver(String userid);
+	
+	@Select("select * from usertable where userid = #{userid}")
+	UserDTO loginNaver(String userid);
 
 }

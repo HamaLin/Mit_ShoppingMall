@@ -177,7 +177,7 @@ const userid = '${login.userid}'
 const myQNA = document.querySelector('.myQNA')
 
 function getqnalist() {
-	const url = '${cpath}/user/getQnaList/'+ userid
+	const url = '${cpath}/user/getQnaList/'+ userid + '/'
 	const opt = {
 			method: 'GET'
 	}
@@ -270,7 +270,7 @@ const myCartButton = document.querySelector('.myCartButton')
 
 function getMyCart() {
 	myCart.innerHTML = ''
-	const url = '${cpath}/user/getmyCart/' + userid
+	const url = '${cpath}/user/getmyCart/' + userid + '/'
 	const opt = {
 			method: 'GET'
 	}
@@ -481,7 +481,7 @@ function cartDelete() {
 const myOrder = document.querySelector('.myOrder')
 
 function getMyOrder() {
-	const url = '${cpath}/user/getMyOrder/' + userid
+	const url = '${cpath}/user/getMyOrder/' + userid + '/'
 	const opt = {
 			method: 'GET'
 	}

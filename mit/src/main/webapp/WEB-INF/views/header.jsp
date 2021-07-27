@@ -170,7 +170,7 @@
                 </li>
                 <a href="${cpath }/user/qna">Q&A</a>
                 <span>|</span>
-                <c:if test="${not empty login || not empty admin}">
+                <c:if test="${not empty login || not empty admin }">
 	                <a href="${cpath }/user/logout">LOGOUT</a> 
                 </c:if>
                  <c:if test="${not empty login}">
@@ -180,8 +180,8 @@
 	                <a href="${cpath }/user/login">LOGIN</a> 
                 </c:if>
             </nav>
-            <c:if test="${not empty login || not empty admin}">
-            		<span>|</span><div class="miniinfo"></div><span>${login.username} ${admin.username }님</span>
+            <c:if test="${not empty login || not empty admin }">
+            		<span>|</span><div class="miniinfo"></div><span>${login.username }님</span>
             </c:if>
         </div>
         <form id="searchForm">
