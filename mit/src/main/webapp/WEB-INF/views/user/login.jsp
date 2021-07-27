@@ -25,14 +25,31 @@
 		border: 1px solid rgb(65, 65, 65);
 		background-color: white;
 		width: 269px;
-	    height: 44px;
+	    height: 55px;
+	    border-radius: 5px;
+	}
+	.login input[type="submit"]:hover {
+		color:grey;
 	}
 	button {
 		background-color: #e9e9e9;
 	}
-	.naver_id_login {
-		width: 269px;
+	.loginMenu {
+		display: flex;
+		justify-content: center;
+		width: 200px;
+		margin-left: 33px;
 	}
+	.loginMenu p {
+		width: 90px;
+		font-size: 14px;
+		color: gray;
+		text-align: center;
+	}
+	.loginMenu a:hover {
+		color: black;
+	}
+	.
 </style>
 
 </head>
@@ -47,10 +64,12 @@
 	</form>
 	<div>
 		<!-- 네이버아이디로로그인 버튼 노출 영역 -->
-		<div id="naver_id_login" style="text-align:center">
-		<a href="${cpath}/user/naverLogin"><img width="269" src="https://developers.naver.com/doc/review_201802/CK_bEFnWMeEBjXpQ5o8N_20180202_7aot50.png"/></a></div>
-		<p><button><a href="${cpath }/user/join">회원가입</a></button></p>
-		<p><button><a href="${cpath }/user/passwordFind">비밀번호 찾기</a></button></p>
+		<div id="naver_id_login" style="text-align:center; width: 269px;">
+		<a href="${cpath}/user/naverLogin"><img style="width: 269px;" src="https://developers.naver.com/doc/review_201802/CK_bEFnWMeEBjXpQ5o8N_20180202_7aot50.png"/></a></div>
+	</div>
+	<div class="loginMenu">
+		<p><a href="${cpath }/user/join">회원가입</a></p>
+		<p><a href="${cpath }/user/passwordFind">비밀번호 찾기</a></p>
 	</div>
 </div>
 
