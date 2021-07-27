@@ -187,26 +187,27 @@ h2 {
 		}
 		fetch(url,opt).then(resp => resp.json())
 		.then(arr => {
+			var totalprice = 0
+			
 			for(let i = 0; i< arr.length ; i++){
-				var formData = new FormData()
-				formData.append('userid', arr[i].userid)
-				formData.append('pdidx', arr[i].pdidx)
-				formData.append('usergender', arr[i].usergender)
-				formData.append('count', arr[i].count)
-				formData.append('total', arr[i].count * arr[i].price)
-				formData.append('usersize', arr[i].usersize)
-				formData.append('userinfo', document.querySelector('input[name=username]').value + '/' +
-							document.querySelector('input[name=usermail]').value + '/' +
-							document.querySelector('input[name=userphone]').value)
-				formData.append('useraddress', document.querySelector('input[name=postcode]').value + '/' +
-							document.querySelector('input[name=address]').value)
-				formData.append('userage', arr[i].userage)
-				
-				for(let test of formData.entries()){
-	                console.log(test)
-	            }
-				
-				var url2 = '${cpath}/store/purchase'
+				totalprice += arr[i].count * arr[i].price
+			}
+			
+			var formData = new FormData()
+			formData.append('userid', arr[0].userid)
+			formData.append('pdidx', arr[0].pdidx)
+			formData.append('usergender', arr[0].usergender)
+			formData.append('count', arr[0].count)
+			formData.append('total', totalprice)
+			formData.append('usersize', arr[0].usersize)
+			formData.append('userinfo', document.querySelector('input[name=username]').value + '/' +
+						document.querySelector('input[name=usermail]').value + '/' +
+						document.querySelector('input[name=userphone]').value)
+			formData.append('useraddress', document.querySelector('input[name=postcode]').value + '/' +
+						document.querySelector('input[name=address]').value)
+			formData.append('userage', arr[0].userage)
+			
+			var url2 = '${cpath}/store/purchase'
 				var opt2 = {
 						method: 'POST',
 						body: formData,
@@ -223,7 +224,6 @@ h2 {
 					}
 					
 				})
-			}
 		})
 		
 	}

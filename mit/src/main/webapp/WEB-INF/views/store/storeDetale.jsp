@@ -30,7 +30,7 @@
 }
 
 #title {
-	font-size: 40px;
+	font-size: 30px;
 	font-weight: bold;
 }
 
@@ -250,13 +250,13 @@ ol>li {
 }
 
 #selectSize {
-	width: 200px;
+	width: 180px;
 	height: 60px;
 	font-size: 25px;
 }
 
 #count {
-	width: 200px;
+	width: 180px;
 	margin-top: 25px;
 	height: 55px;
 	font-size: 30px;
@@ -311,6 +311,57 @@ ol>li {
     background-color: white;
     font-weight: 700;
 }
+.replybuttondiv {
+	display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+.replybuttondiv > div {
+	display: flex;
+    float: right;
+    width: 10%;
+    justify-content: center;
+    border: 1px solid;
+    margin-left: 30px;
+    margin-bottom: 15px;
+    cursor: pointer; 
+}
+
+.replybuttondiv > div:hover {
+	background-color: black;
+	color: white;
+}
+.submitreplydiv {
+	border: 1px solid black;
+}
+.modifydivwrap {
+	display: flex;
+    margin-bottom: 50px;
+    margin-top: 15px;
+    height: 40px;
+}
+.modifydivwrap > div {
+	margin-right: 70px;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.modifydivwrap > div:hover {
+	background-color: black;
+	color: white;
+}
+.modifydivwrap > select {
+	cursor: pointer;
+	margin-right: 50px;	
+}
+#modifyreplyform {
+	margin-top: 50px;
+}
+.writing {
+	margin-top: 50px;
+}
 </style>
 
 <div class="store">
@@ -363,7 +414,7 @@ ol>li {
 	
 
 <div id="review">	
-	<div style="font-size: 25px; font-weight: bold;">후기</div>
+	<div style="font-size: 20px; font-weight: bold;" id="reviewtitle">후기</div>
 	<div id="replylist"></div>
 	
 		<div style="border-top: 1px solid black;">
@@ -505,6 +556,7 @@ const qnaBtn = document.getElementById('qnaBtn')
 const selectSize = document.getElementById('selectSize')
 const viewimglist = document.getElementById('viewimglist')
 const showgraph = document.getElementById('showgraph')
+const reviewtitle = document.getElementById('reviewtitle')
 const modifyanddelete = document.getElementById('modifyanddelete')
 const qna = document.getElementById('qna')
 const showmethechart = document.getElementById('showmethechart')
@@ -536,8 +588,13 @@ const idx = params.get('id')
 		}
 		fetch(url, opt).then(resp => resp.json())
 		.then(json => {
-			jsoncontent.innerHTML = '<p id="title">' + json.pdtitle + '</p>' + '<br>'
-			jsoncontent.innerHTML += '<p id="price">' + json.pdprice + '원' +'</p>'+ '<br>'
+			jsoncontent.innerHTML = '<div id="title">' + json.pdtitle + '</div>' + '<br>'
+			jsoncontent.innerHTML += '<p id="price">' + 
+			
+			json.pdprice.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + 
+			
+			'원' +'</p>'+ '<br>'
+			console.log(json.pdprice)
 			jsoncontent.innerHTML += '<p>' + '적립금' + '0%' +'</p>'
 			jsoncontent.innerHTML += '<p>' + '배송비' + json.pdprice + '원' +'</p>'
 			
@@ -674,21 +731,31 @@ const idx = params.get('id')
 
 	//후기 작성하는 함수
 	function getreplylist() {
-		
 		const url = '${cpath}/store/getreply/'+idx
 		const opt = {
 				method: 'GET'
 		}
 		fetch(url, opt).then(resp => resp.json())
 		.then(arr => {
+			var totalscore = 0
+			var totalreviews = 0
 			for(let i = 0 ; i < arr.length ; i++){
+				totalreviews = arr.length
 				var dto = arr[i]
 				var div = createreplydiv(dto, i)
-				if(dto.writer == '${login.userid}'){
+				totalscore += dto.scope
+				
+				if('${login.userid}' == dto.writer){
+					var motherdiv = document.createElement('div')
+					var buttondiv = document.createElement('div')
 					var divmodify = document.createElement('div')
 					var divdelete = document.createElement('div')
 					divmodify.innerText = '수정'
 					divdelete.innerText = '삭제'
+					
+					buttondiv.className = 'replybuttondiv'
+					motherdiv.className = 'replymotherdiv'
+					motherdiv.value = dto.idx
 					
 					divmodify.value = dto.idx
 					divdelete.value = dto.idx
@@ -696,11 +763,61 @@ const idx = params.get('id')
 					divmodify.setAttribute('onclick', 'divmodify(this)')
 					divdelete.setAttribute('onclick', 'divdelete(this)')
 					
-					div.appendChild(divmodify)
-					div.appendChild(divdelete)
+					motherdiv.appendChild(div)
+					buttondiv.appendChild(divmodify)
+					buttondiv.appendChild(divdelete)
+					motherdiv.appendChild(buttondiv)
+					replylist.appendChild(motherdiv)
 				}
-				replylist.appendChild(div)
+				else{
+					replylist.appendChild(div)
+				}
+				
 			}
+			
+			var divwrap = document.createElement('div')
+			var divscore = document.createElement('div')
+			var divtotla = document.createElement('div')
+			
+			divwrap.style.display = 'flex'
+			
+			divscore.style.fontSize = '30px'
+			
+			divtotla.style.fontSize = '15px'
+			divtotla.style.display = 'flex'
+			divtotla.style.alignItems = 'flex-end'
+			divtotla.style.fontWeight = 400
+			
+			divscore.innerText = (totalscore/totalreviews) + ' / 5'
+			divwrap.appendChild(divscore)
+			
+			divtotla.innerText = '( ' + totalreviews + '개 후기 )'
+			divwrap.appendChild(divtotla)
+			
+			reviewtitle.appendChild(divwrap)
+			
+			var divwrap2 = document.createElement('div')
+			var divscore2 = document.createElement('div')
+			var divtotla2 = document.createElement('div')
+			
+			divwrap2.style.display = 'flex'
+			
+			divscore2.style.fontSize = '20px'
+			
+			divtotla2.style.fontSize = '20px'
+			divtotla2.style.display = 'flex'
+			divtotla2.style.alignItems = 'flex-end'
+			divtotla2.style.fontWeight = 400
+			
+			for(let i = 0; i < (totalscore/totalreviews) ; i++){
+				divscore2.innerText += '★'
+			}
+			divwrap2.appendChild(divscore2)
+			
+			divtotla2.innerText = '( ' + totalreviews + '개 후기 )'
+			divwrap2.appendChild(divtotla2)
+			document.getElementById('title').appendChild(divwrap2)
+			
 		})
 		
 	}
@@ -709,6 +826,7 @@ const idx = params.get('id')
 		var div = document.createElement('div')
 		var divstar = document.createElement('div')
 		var divcontent = document.createElement('div')
+		var divflex = document.createElement('div')
 		
 		for(let i = 0; i < dto.scope ; i++){
 			divstar.innerText += '★'
@@ -720,7 +838,6 @@ const idx = params.get('id')
 		
 		if(dto.img != null){
 // 			div.className = 'wrapReplyList'
-			var divflex = document.createElement('div')
 			divflex.className = 'wrapflexReplyList'
 			div.style.width = '100%'
 			divflex.appendChild(div)
@@ -730,6 +847,10 @@ const idx = params.get('id')
 				imgdiv.style.backgroundImage = 'url(${cpath}/image/store' + dto.writer + dto.pdidx + '/' + dto.writingfilename[i] + ')'
 				imgdiv.style.height = '100px'
 				imgdiv.style.width = '100px'
+				imgdiv.style.backgroundRepeat = 'no-repeat'
+				imgdiv.style.backgroundSize = '100%'
+				imgdiv.style.backgroundPosition = 'center'
+				
 				divflex.appendChild(imgdiv)
 			}
 			divflex.style.display = 'flex'
@@ -1040,7 +1161,14 @@ function qnaform_check(event) {
 	}
 
 	function divmodify(event) {
-		if(event.children[0] == null){
+		
+		for(let i = 0; i < document.getElementById('replylist').childElementCount ; i++){
+			if(document.getElementById('replylist').children[i].childElementCount > 2){
+				document.getElementById('replylist').children[i].children[2].remove()
+				return
+			}
+		}
+		
 			var form = document.createElement('form')
 			form.id = 'modifyreplyform'
 			
@@ -1053,6 +1181,7 @@ function qnaform_check(event) {
 			var div = document.createElement('div')
 			div.innerText = '수정 하기'
 			div.setAttribute('onclick', 'modifyreply(this)')
+			div.className = 'submitreplydiv'
 			
 			var select = document.createElement('select')
 			select.name = 'scope'
@@ -1107,16 +1236,26 @@ function qnaform_check(event) {
 			inputfile.type = 'file'
 			inputfile.multiple = 'multiple'
 			
+			var divwrap = document.createElement('div')
+			
+			divwrap.className = 'modifydivwrap'
+			
+			divwrap.appendChild(select)
+			divwrap.appendChild(inputfile)
+			divwrap.appendChild(div)
+			
 			form.appendChild(inputwriter)
 			form.appendChild(inputpdidx)
 			form.appendChild(inputidx)
 			form.appendChild(textarea)
-			form.appendChild(select)
-			form.appendChild(inputfile)
-			form.appendChild(div)
-			console.log(form)
-			event.appendChild(form)
-		}
+			form.appendChild(divwrap)
+			
+			
+			for(let i = 0; i < document.getElementById('replylist').childElementCount ; i++){
+				if(document.getElementById('replylist').children[i].value == event.value){
+					document.getElementById('replylist').children[i].appendChild(form)
+				}
+			}
 	}
 	
 	function divdelete(event) {
