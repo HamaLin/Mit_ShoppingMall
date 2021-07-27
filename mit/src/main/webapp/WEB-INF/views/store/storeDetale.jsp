@@ -487,7 +487,8 @@ ol>li {
 	
 	<div id="showmethechart">
 		<div class="wrapall">
-			<p>연령</p>
+			<p style="font-size: 25px; font-weight: bold;">구매 현황</p>
+			<hr>
 			<div id="drawingchartdiv">
 				<div id="showpercent">
 					<ol style="list-style: none;">
