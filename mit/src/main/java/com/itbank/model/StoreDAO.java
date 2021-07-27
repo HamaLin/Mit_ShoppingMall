@@ -28,9 +28,9 @@ public interface StoreDAO {
 	@Delete("delete from pdtable where idx = #{idx}")
 	int delete(int idx);
 
-	@Update("update pdtable set pdtitle = #{pdtitle}, pdprice = #{pdprice}, pdcount = #{pdcount}, pdcontent = #{pdcontent}, "
-			+ "pdcode = #{pdcode},"
-			+ "pdname = #{pdname}, pdcolor = #{pdcolor}, pdimg = #{pdimg} where idx = #{idx}")
+	@Update("update pdtable set pdtitle = #{pdtitle}, pdprice = #{pdprice}, pdscount = #{pdscount},"
+			+ "pdmcount = #{pdmcount}, pdlcount = #{pdlcount}, pdxlcount = #{pdxlcount},"
+			+ "pdname = #{pdname}, pdcolor = #{pdcolor} where idx = #{idx}")
 	int getModify(StoreDTO dto);
 	
 	@Select("select idx, mainimg, pdtitle, pdprice, pdcode, pdwriter from pdtable"

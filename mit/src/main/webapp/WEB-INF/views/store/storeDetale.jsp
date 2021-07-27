@@ -7,15 +7,21 @@
 }
 
 .store {
-	padding: 100px 50px;
+    position: relative;
+	padding: 80px 50px;
 	height: auto;
 }
 
 .head {
-	width: 100%;
-	display: flex;
+	width: 90%;
+    display: flex;
 }
-
+.headwrap {
+	display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+}
 .wrapcontent {
 	display: flex;
 	justify-content: center;
@@ -42,6 +48,7 @@
 .subcontent {
 	width: 50%;
 	padding: 80px;
+	padding-left: 150px;
 	height: 100%;
 }
 
@@ -362,10 +369,32 @@ ol>li {
 .writing {
 	margin-top: 50px;
 }
+.adminbtn{
+    position: absolute;
+    right: 20px;
+    top: 100px;
+}
+
+.adminbtn > button {
+	margin-left: 60px;
+    width: 100px;
+    height: 50px;
+    background-color: white;
+    font-size: 18px;
+}
 </style>
 
 <div class="store">
+
+<c:if test="${not empty admin }">
+<div class="adminbtn">
+	<button id="deleteBtn" style="background-color: black; color: white;">삭제</button>
+	<button id="modifyBtn">수정</button>
+</div>
+</c:if>
+
 <div id="showitem">
+	<div class="headwrap">
 	<div class="head">
 		<div class="leftheader">
 			<div id="mainImg"></div>
@@ -392,6 +421,7 @@ ol>li {
 			</div>
 			
 		</div>
+	</div>
 	</div>
 		<div class="selectmenu">
 			<ul>
@@ -428,9 +458,7 @@ ol>li {
 		</div>
 		<div class="comment">
 		</div>
-		<textarea rows="5" cols="80" name="wr" style="resize: none;">
-		
-		</textarea>
+		<textarea placeholder="내용을 적어주세요." name="wr" ></textarea>
 		<div>
 		<select name="scope">
 			<option selected>별점주기</option>
@@ -511,16 +539,7 @@ ol>li {
 	
 	</div>
 </div>
-
-
-
-
 </div>
-
-<c:if test="${not empty admin }">
-<button id="deleteBtn">삭제</button>
-<button id="modifyBtn">수정</button>
-</c:if>
 
 <c:if test="${not empty login }">
 <form id="SubmitUserInfo">
@@ -558,6 +577,7 @@ const selectSize = document.getElementById('selectSize')
 const viewimglist = document.getElementById('viewimglist')
 const showgraph = document.getElementById('showgraph')
 const reviewtitle = document.getElementById('reviewtitle')
+const mainImg = document.getElementById('mainImg')
 const modifyanddelete = document.getElementById('modifyanddelete')
 const qna = document.getElementById('qna')
 const showmethechart = document.getElementById('showmethechart')
@@ -566,19 +586,19 @@ const params = new URLSearchParams(link)
 const idx = params.get('id')
 
     explain.onclick = function() {
-        mainContent.scrollIntoView()
+		window.scrollTo({top:mainContent.offsetTop - 200, behavior:'smooth'})
     }
 
     review.onclick = function() {
-        reply.scrollIntoView()
+    	window.scrollTo({top:reply.offsetTop - 200, behavior:'smooth'})
     }
 
     question.onclick = function() {
-        qna.scrollIntoView()
+    	window.scrollTo({top:qna.offsetTop - 200, behavior:'smooth'})
     }
 
     releaseItem.onclick = function() {
-    	showmethechart.scrollIntoView()
+    	window.scrollTo({top:showmethechart.offsetTop - 200, behavior:'smooth'})
     }
 	
     // 상품 정보 보여주는 함수
@@ -595,7 +615,6 @@ const idx = params.get('id')
 			json.pdprice.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + 
 			
 			'원' +'</p>'+ '<br>'
-			console.log(json.pdprice)
 			jsoncontent.innerHTML += '<p>' + '적립금' + '0%' +'</p>'
 			jsoncontent.innerHTML += '<p>' + '배송비' + json.pdprice + '원' +'</p>'
 			
@@ -730,7 +749,7 @@ const idx = params.get('id')
 		return li
 	}
 
-	//후기 작성하는 함수
+	//후기 받아오는 함수
 	function getreplylist() {
 		const url = '${cpath}/store/getreply/'+idx
 		const opt = {
@@ -740,6 +759,7 @@ const idx = params.get('id')
 		.then(arr => {
 			var totalscore = 0
 			var totalreviews = 0
+			
 			for(let i = 0 ; i < arr.length ; i++){
 				totalreviews = arr.length
 				var dto = arr[i]
@@ -776,6 +796,9 @@ const idx = params.get('id')
 				
 			}
 			
+			if(arr.length != 0){
+				
+			
 			var divwrap = document.createElement('div')
 			var divscore = document.createElement('div')
 			var divtotla = document.createElement('div')
@@ -791,8 +814,7 @@ const idx = params.get('id')
 			
 			divscore.innerText = (totalscore/totalreviews) + ' / 5'
 			divwrap.appendChild(divscore)
-			
-			divtotla.innerText = '( ' + totalreviews + '개 후기 )'
+			divtotla.innerText = '( ' + (totalreviews == 0 ? 0 : totalreviews) + '개 후기 )'
 			divwrap.appendChild(divtotla)
 			
 			reviewtitle.appendChild(divwrap)
@@ -818,7 +840,7 @@ const idx = params.get('id')
 			divtotla2.innerText = '( ' + totalreviews + '개 후기 )'
 			divwrap2.appendChild(divtotla2)
 			document.getElementById('title').appendChild(divwrap2)
-			
+			}
 		})
 		
 	}
@@ -862,10 +884,51 @@ const idx = params.get('id')
 		return div
 	}
 	
+	var opacity =0;
+	var intervalID=0;
+	
+	function hide(){
+		opacity = Number(window.getComputedStyle(mainImg).getPropertyValue("opacity"));
+		
+		if(opacity>0){
+            //Fade out 핵심 부분
+			opacity = opacity-0.2
+			mainImg.style.opacity=opacity
+		}
+		else{
+			clearInterval(intervalID);
+            return
+		}
+	}
+	
+	function show(){
+		opacity = Number(window.getComputedStyle(mainImg).getPropertyValue("opacity"));
+		
+		if(opacity<1){
+        	//Fade in 핵심 부분
+			opacity = opacity+0.2
+			mainImg.style.opacity=opacity
+		}
+		else{
+			clearInterval(intervalID);
+            return
+		}
+	}
+	
 	function changemainimg(e) {
+		
+		intervalID = setInterval(hide,200)
+		
+		
+		
 		for(let i = 0; i < viewimglist.childElementCount; i++){
 			if(viewimglist.children[i].id == e.id){
-                mainImg.style.backgroundImage = 'url(' + e.src + ')'
+				
+				setTimeout(function() { 
+					intervalID = setInterval(show,200);
+                	mainImg.style.backgroundImage = 'url(' + e.src + ')'
+				}, 2000);
+				
 			}
 		}
 	}
@@ -1054,8 +1117,14 @@ const idx = params.get('id')
 	
 	writing.onsubmit = function(event){
 		event.preventDefault()
+		
 		if(${empty login}){
 			alert('로그인하셔야 작성하실수 있습니다.')
+			location.href = '${cpath}/user/login'
+			return
+		}
+		if(writing.scope.value == '별점주기'){
+			alert('별점을 선택해 주세요')
 			return
 		}
 		writing.pdidx.value = idx
@@ -1141,7 +1210,10 @@ function qnaform_check(event) {
 
 	function modifyreply(event) {
 		var form = document.getElementById('modifyreplyform')
-		
+		if(form.scope.value == '별점주기'){
+			alert('별점을 선택해 주세요')
+			return
+		}
 		var formData = new FormData(form)
 		
 		var url = '${cpath}/store/modifyreply'

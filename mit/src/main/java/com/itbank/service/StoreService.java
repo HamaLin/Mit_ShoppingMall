@@ -189,39 +189,10 @@ public class StoreService {
    }
 
 
-//   public int getModify(StoreDTO dto) {
-//      
-//      if (dto.getFiles().isEmpty()) {
-//         dto.setPdimg("");
-//         return dao.getModify(dto);
-//      }
-//      String newdir = uploadPath + "\\" + dto.getPdcode() + dto.getPdwriter();
-//      
-//      List<MultipartFile> files = dto.getFiles();
-//      for (MultipartFile f : files) {         
-//         UUID uuid = UUID.randomUUID();
-//           String fileName = uuid.toString() + "_" + f.getOriginalFilename();
-//           File dest = new File(newdir, fileName);   // 파일 객체를 생성
-//         if(dest.exists() == false) {
-//            dest.mkdirs();
-//         }
-//            try {
-//               f.transferTo(dest);
-//            } catch (IllegalStateException | IOException e) {
-//               e.printStackTrace();
-//            }    
-//      }
-//      
-//      String fileName = "";
-//      
-//      for (MultipartFile f : files) {   
-//         fileName += f.getOriginalFilename() + ",";
-//      }
-//      
-//      dto.setPdimg(fileName);
-//      int row = dao.getModify(dto);
-//      return row;
-//   }
+   public int getModify(StoreDTO dto) {
+      int row = dao.getModify(dto);
+      return row;
+   }
    
    public List<StoreDTO> searchItems(String search) {
 		return dao.searchItems(search);

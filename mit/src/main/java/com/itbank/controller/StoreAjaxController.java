@@ -59,11 +59,11 @@ public class StoreAjaxController {
 	}
 	
 	
-//	@PostMapping("/modifyItem")
-//	public int modify(StoreDTO dto) {
-//		int row = ss.getModify(dto);
-//		return (row >= 1) ? 1 : 0;
-//	}
+	@PostMapping("/modifyItem")
+	public int modify(StoreDTO dto) {
+		int row = ss.getModify(dto);
+		return (row >= 1) ? 1 : 0;
+	}
 	
 	@GetMapping("/SearchItems/{search}")
 	public List<StoreDTO> SearchItems(@PathVariable String search) {
