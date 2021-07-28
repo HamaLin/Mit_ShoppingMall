@@ -140,12 +140,12 @@ public class StoreAjaxController {
 		return ss.bottomItems();
 	}
 	
-	@GetMapping("/hatItems")
+	@GetMapping("/HatItems")
 	public List<StoreDTO> hatItems() {
 		return ss.hatItems();
 	}
 	
-	@GetMapping("/glassesItems")
+	@GetMapping("/GlassesItems")
 	public List<StoreDTO> glassesItems() {
 		return ss.glassesItems();
 	}

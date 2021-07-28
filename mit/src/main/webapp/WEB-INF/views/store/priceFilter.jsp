@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../header.jsp" %>
-
+<%@ include file="../filter.jsp" %>
 <style>
 	.content:hover{
 		cursor: pointer;
@@ -42,8 +42,6 @@
 	    params = clicked_id; 
 	}
 	);
-	
-	console.log(params)
 	
 	// 객체를 받아서 배열형태로 저장 및 화면에 출력
 	function loaditems() {
