@@ -114,7 +114,7 @@ p:focus {
 
 #selectCheck {
 	display: flex;
-	padding: 80px 45px;
+	padding: 40px 45px;
 	text-align: center;
 	width: 100%;
 }
@@ -129,9 +129,10 @@ p:focus {
 
 .divcheckbox {
 	width: 20px;
-	height: 20px;
-	margin: 25px;
-	cursor: pointer;
+    height: 20px;
+    margin: 10px;
+    cursor: pointer;
+    margin-top: 25px;
 }
 
 #borderbox {
@@ -194,6 +195,14 @@ p:focus {
     padding: 0;
     margin-right: 20px;
     height: 40px;
+    background-color: white;
+    border: 1px solid;
+    cursor: pointer;
+}
+
+.buttons>input:hover {
+	background-color: black;
+	color: white; 
 }
 
 .wrapimgdiv {
@@ -220,6 +229,20 @@ p:focus {
 .writedetaleheader {
 	margin-top: 50px;
 	display: flex;
+}
+.submitbtn{
+	width: 100%;
+    height: 40px;
+    background-color: white;
+    border: 2px solid;
+    font-size: 21px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+.submitbtn:hover{
+	background-color: black;
+	color: white; 
 }
 </style>
 
@@ -280,36 +303,55 @@ p:focus {
 			<div id="selectCheck">
 				<p>제품 색상</p>
 
-				<div class="divcheckbox" onclick="selectcolor(this)" id="red"
-					style="background-color: red;"></div>
-				<div class="divcheckbox" onclick="selectcolor(this)" id="blue"
-					style="background-color: blue;"></div>
-				<div class="divcheckbox" onclick="selectcolor(this)" id="skyblue"
-					style="background-color: skyblue;"></div>
-				<div class="divcheckbox" onclick="selectcolor(this)" id="green"
-					style="background-color: green;"></div>
-				<div class="divcheckbox" onclick="selectcolor(this)" id="chocolate"
-					style="background-color: chocolate;"></div>
-				<div class="divcheckbox" onclick="selectcolor(this)" id="yellow"
-					style="background-color: yellow;"></div>
-				<div class="divcheckbox" onclick="selectcolor(this)" id="silver"
-					style="background-color: silver;"></div>
-				<div class="divcheckbox" onclick="selectcolor(this)" id="black"
-					style="background-color: black;"></div>
 				<div class="divcheckbox" onclick="selectcolor(this)" id="brown"
 					style="background-color: brown;"></div>
-				<div class="divcheckbox" onclick="selectcolor(this)" id="pink"
-					style="background-color: pink;"></div>
+				<div class="divcheckbox" onclick="selectcolor(this)" id="red"
+					style="background-color: red;"></div>
+				<div class="divcheckbox" onclick="selectcolor(this)" id="chocolate"
+					style="background-color: chocolate;"></div>
+				<div class="divcheckbox" onclick="selectcolor(this)" id="coral"
+					style="background-color: coral;"></div>
+				<div class="divcheckbox" onclick="selectcolor(this)" id="khaki"
+					style="background-color: khaki;"></div>
+				<div class="divcheckbox" onclick="selectcolor(this)" id="yellow"
+					style="background-color: yellow;"></div>
+				<div class="divcheckbox" onclick="selectcolor(this)" id="gold"
+					style="background-color: gold;"></div>
+				<div class="divcheckbox" onclick="selectcolor(this)" id="aquamarine"
+					style="background-color: aquamarine;"></div>
+				<div class="divcheckbox" onclick="selectcolor(this)" id="lime"
+					style="background-color: lime;"></div>
+				<div class="divcheckbox" onclick="selectcolor(this)" id="green"
+					style="background-color: green;"></div>
+				<div class="divcheckbox" onclick="selectcolor(this)" id="darkgreen"
+					style="background-color: darkgreen;"></div>
+				<div class="divcheckbox" onclick="selectcolor(this)" id="olive"
+					style="background-color: olive;"></div>
+				<div class="divcheckbox" onclick="selectcolor(this)" id="violet"
+					style="background-color: violet;"></div>
+				<div class="divcheckbox" onclick="selectcolor(this)" id="hotpink"
+					style="background-color: hotpink;"></div>
 				<div class="divcheckbox" onclick="selectcolor(this)" id="darkviolet"
 					style="background-color: darkviolet;"></div>
+				<div class="divcheckbox" onclick="selectcolor(this)" id="purple"
+					style="background-color: purple;"></div>
+				<div class="divcheckbox" onclick="selectcolor(this)" id="skyblue"
+					style="background-color: skyblue;"></div>
+				<div class="divcheckbox" onclick="selectcolor(this)" id="neonblue"
+					style="background-color: rgb(28, 172, 255);"></div>
+				<div class="divcheckbox" onclick="selectcolor(this)" id="blue"
+					style="background-color: blue;"></div>
+				<div class="divcheckbox" onclick="selectcolor(this)" id="navy"
+					style="background-color: navy;"></div>
 				<div class="divcheckbox" onclick="selectcolor(this)" id="white"
-					style="background-color: white; border: 1px solid black"></div>
+					style="background-color: white; border: 1px solid"></div>
 				<div class="divcheckbox" onclick="selectcolor(this)" id="grey"
 					style="background-color: grey;"></div>
+				<div class="divcheckbox" onclick="selectcolor(this)" id="black"
+					style="background-color: black;"></div>
+				
 			</div>
-			<p>
 				<input type="hidden" name="pdcolor" value="">
-			</p>
 
 			<div class="divwrap" style="justify-content: left;" id="divwrapid">
 				<div>카테고리</div>
@@ -381,8 +423,7 @@ p:focus {
 					<p>
 						<textarea name="pdcontent" id="content" style="display: none;"></textarea>
 					</p>
-					<input type="submit" value="등록">
-		</form>
+					<input type="submit" class="submitbtn" value="등록"></form>
 </div>
 </div>
 </fieldset>
