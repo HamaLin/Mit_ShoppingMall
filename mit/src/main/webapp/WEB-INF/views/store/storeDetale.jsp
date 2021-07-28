@@ -976,25 +976,46 @@ const idx = params.get('id')
 		tdmenu.innerText = dto.qnamenu
 		tr.appendChild(tdmenu)
 		
-		tdtitle.innerText = '[' +dto.qnaresult + ']' +dto.qnatitle
+		if(dto.qnareplycnt > 0) {
+			tdtitle.innerText = '[답변 완료] ' + dto.qnatitle + ' (' + dto.qnareplycnt + ')'
+		} else {
+			tdtitle.innerText = '[답변 대기] ' + dto.qnatitle 
+		}
+
 		tdtitle.classList.add('title')
 		tr.appendChild(tdtitle)
 		
-		tdwriter.innerText = dto.qnawriter
-		tr.appendChild(tdwriter)
 		tdtitle.onclick = function(e) {
-         location.href = '${cpath}/user/qna/'+dto.idx
-      	}
+			location.href = '${cpath}/user/qna/'+ dto.idx
+		}
+		
+		// 문자열 검색해서 중간 글자 *로 만들기
+		var maskingName = function(strName) {
+		  if (strName.length > 2) {
+		    var originName = strName.split('');
+		    originName.forEach(function(name, i) {
+		      if (i === 0 || i === originName.length - 1) return;
+		      originName[i] = '*';
+		    });
+		    var joinName = originName.join();
+		    return joinName.replace(/,/g, '');
+		  } 
+		// 2글자면 마지막 글자만
+		  else {
+		    var pattern = /.$/; // 정규식
+		    return strName.replace(pattern, '*');
+		  }
+		};
+		
+		var strName = dto.qnawriter
+		tdwriter.innerText = maskingName(strName)
+		tr.appendChild(tdwriter)
 		
 		tddate.innerText = dto.qnadate
 		tr.appendChild(tddate)
 		
-		
-		
 		return tr
 	}
-	
-	
 	
 	window.onload = getShowitem()
 	window.onload = getqnalist()
