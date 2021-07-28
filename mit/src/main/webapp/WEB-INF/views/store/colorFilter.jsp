@@ -1,24 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../header.jsp" %>
+
 <style>
 	.content:hover{
 		cursor: pointer;
 		background-color: silver;
 	}
-	.glasses {
+	.color {
 		margin: 150px;
 		padding: 100px 50px;
 		display: flex;
 		width: 100%;
 		height: auto;
 	}
-	#glassesItems{
-		width: 1250px;
+	#colorItems {
 		display: flex;
-		height: auto;
 	}
-	#glassesItems > .content{
+	#colorItems > .content{
 		width: 300px;
 		height: 400px;
 		fontSize: 100px;
@@ -32,25 +31,33 @@
 	}
 </style>
 
-<div class="glasses">
-	<div id="glassesItems"></div>
+
+<div class="color">
+	<div id="colorItems"></div>
 </div>
 
 <script>
-	const glassesItems = document.getElementById('glassesItems')
+	var params = {};
+	const link = document.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, 
+	    function(str, key, clicked_id) { 
+	    params = clicked_id; 
+	}
+	);
+	
+	console.log(params)
 	
 	// 객체를 받아서 배열형태로 저장 및 화면에 출력
-	function loaditems(){
-	const url = '${cpath}/store/GlassesItems'
-	const opt = {
-			method: 'GET',
-	}
+	function loaditems() {
+		const url = '${cpath}/store/colorItems/' + params
+		const opt = {
+				method: 'GET',
+		}
 	fetch(url, opt).then(resp => resp.json())
 	.then(arr =>{
 		for(let i = 0; i < arr.length; i++){
 			const dto = arr[i]
 			const div = createDiv(dto)
-			glassesItems.appendChild(div)
+			colorItems.appendChild(div)
 		}
 	})
 	
@@ -84,8 +91,8 @@
 		div.className = 'content'						
 		return div						
 	}
-
 	
 </script>
 
-<%@ include file="../footer.jsp" %>
+</body>
+</html>

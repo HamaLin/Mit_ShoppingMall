@@ -108,4 +108,10 @@ public interface StoreDAO {
 	
 	@Select("select * from pdtable where pdcode like '%가방%'")
 	List<StoreDTO> backpackItems();
+
+	@Select("select * from pdtable where pdcolor like '%{color}%'")
+	List<StoreDTO> colorItems(@Param("color") String color);
+
+	@Select("select * from pdtable where pdprice between #{price} and ( #{price} + 20000 ) ")
+	List<StoreDTO> priceItems(@Param("price") int price);
 }

@@ -405,4 +405,14 @@ public class StoreService {
 	      }
 		return wdao.deletereply(idx);
 	}
+
+
+	public List<StoreDTO> colorItems(String color) {
+		return dao.colorItems(color);
+	}
+
+
+	public List<StoreDTO> priceItems(int price) {
+		return dao.priceItems(price);
+	}
 }

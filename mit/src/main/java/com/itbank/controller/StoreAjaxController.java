@@ -165,4 +165,14 @@ public class StoreAjaxController {
 		return ss.deletereply(idx);
 	}
 	
+	@GetMapping("/colorItems/{color}")
+	public List<StoreDTO> colorItems(@PathVariable String color) {
+		return ss.colorItems(color);
+	}
+	
+	@GetMapping("/priceItems/{price}")
+	public List<StoreDTO> priceItems(@PathVariable int price) {
+		return ss.priceItems(price);
+	}
+	
 }

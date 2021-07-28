@@ -50,7 +50,7 @@
     	cursor: pointer;
     	color: grey;
     }
-    nav a {
+    .menu-nav a {
         margin-right: 30px;
         text-decoration: none;
         color: inherit;
@@ -120,7 +120,7 @@
 	.footerinfo > ul {
 	    list-style: none;
 	}
-	nav > .category {
+	.menu-nav > .category {
         all: unset;
     }
     .category > ul {
@@ -155,7 +155,7 @@
 	 <header>
         <div class="logo"><a href="${cpath }">MIT.</a></div>
         <div class="menu">
-            <nav>
+            <nav class="menu-nav">
                 <a href="${cpath }/store/best10">BEST</a>
                 <a href="${cpath }/store/new">NEW</a>
                 <li class="category">

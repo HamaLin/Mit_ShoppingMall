@@ -29,7 +29,6 @@
 		height: 300px;
 	}
 </style>
-<h1>상품 찾기</h1>
 
 <div class="store">
     <div id="SearchItems"></div>
@@ -43,19 +42,6 @@
     }
     );
 
-    function get2Showitem() {
-	        const url = '${cpath}/store/SearchItems/' + params.search
-	        const opt = {
-	                method: 'GET'
-        }
-        fetch(url, opt).then(resp => resp.text())
-        .then(text => {
-
-        })
-    }
-
-    window.onload = get2Showitem()
-	
 	// 객체를 받아서 배열형태로 저장 및 화면에 출력
 	function loaditems() {
     	console.log(params.search)

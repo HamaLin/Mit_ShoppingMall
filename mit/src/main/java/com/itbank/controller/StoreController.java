@@ -64,4 +64,10 @@ public class StoreController {
 	@GetMapping("/glasses")
 	public void glasses() {}
 	
+	@GetMapping("/colorFilter")
+	public void colorFilter() {}
+	
+	@GetMapping("/priceFilter")
+	public void priceFilter() {}
+	
 }

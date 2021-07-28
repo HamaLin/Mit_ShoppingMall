@@ -14,21 +14,21 @@
 		height: auto;
 	}
 	#backpackItems{
-		width: 300px;
-		height: 400px;
+		width: 1250px;
 		display: flex;
+		height: auto;
 	}
 	#backpackItems > .content{
-		
-		padding: 10px;
+		width: 300px;
+		height: 400px;
 		fontSize: 100px;
 		fontWeight: bold;
 		text-align: center;
-		margin: 0;
+		margin: 25px;
 	}
 	.content > a > img{
-		width: 290px;
-		
+		width: 250px;
+		height: 300px;
 	}
 </style>
 
