@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../header.jsp" %>
 <style>
-* {
+* .category:not(.disabled){
 	box-sizing: border-box;
 }
 

@@ -123,7 +123,7 @@
 	.menu-nav > .category {
         all: unset;
     }
-    .category > ul {
+    .category > .category-ul {
         padding: 10px;
         position: absolute;
         top: 40px;
@@ -137,7 +137,7 @@
         font-size: 13px;
         flex-flow: wrap;
     }
-    .category > ul > li {
+    .category > .category-ul > li {
         text-align: left;
         display: none;
         width: 90px;
@@ -146,7 +146,7 @@
         background-color: white;
         z-index: 6;
     }
-    .category:hover > ul > li {
+    .category:hover > .category-ul > li {
         display: block;
     }
 </style>
@@ -160,7 +160,7 @@
                 <a href="${cpath }/store/new">NEW</a>
                 <li class="category">
                     <a href="${cpath }/store/store">SHOP</a>
-                        <ul>
+                        <ul class="category-ul">
                             <li><a href="${cpath }/store/top">상의</a></li>
                             <li><a href="${cpath }/store/bottom">하의</a></li>
                             <li><a href="${cpath }/store/hat">모자</a></li>
