@@ -15,6 +15,9 @@ public interface StoreDAO {
 			+ "values (#{pdtitle}, #{pdprice}, #{pdcontent}, #{pdcode}, #{pdname}, #{pdcolor}, "
 			+ "#{pdimg} , #{pdwriter}, #{mainimg}, #{pdscount}, #{pdmcount}, #{pdlcount}, #{pdxlcount}, #{viewimg})")
 	int getInsertItem(StoreDTO dto);
+	
+	@Select("select count(*) from pdtable where pdtitle = #{pdtitle}")
+	int checkTitle(String pdtitle);
 
 	@Select("select * from pdtable order by idx")
 	List<StoreDTO> getList();

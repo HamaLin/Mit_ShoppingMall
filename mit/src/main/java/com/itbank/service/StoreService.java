@@ -415,4 +415,9 @@ public class StoreService {
 	public List<StoreDTO> priceItems(int price) {
 		return dao.priceItems(price);
 	}
+
+
+	public int checktitle(String pdtitle) {
+		return dao.checkTitle(pdtitle);
+	}
 }

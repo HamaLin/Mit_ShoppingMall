@@ -376,7 +376,7 @@ ol>li {
 }
 
 .adminbtn > button {
-	margin-left: 60px;
+	margin-left: 20px;
     width: 100px;
     height: 50px;
     background-color: white;

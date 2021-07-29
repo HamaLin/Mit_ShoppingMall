@@ -73,7 +73,7 @@
 	                <li id="neonblue" onClick="color_click(this.id)" style="background-color: rgb(28, 172, 255);"><a href="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
 	                <li id="blue" onClick="color_click(this.id)" style="background-color: blue;"><a href="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
 	                <li id="navy" onClick="color_click(this.id)" style="background-color: navy;"><a href="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
-	                <li id="white" onClick="color_click(this.id)" style="background-color: rgb(248, 248, 248);"><a href="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+	                <li id="white" onClick="color_click(this.id)" style="background-color: rgb(248, 248, 248); border: 1px solid"><a href="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
 	                <li id="grey" onClick="color_click(this.id)" style="background-color: grey;"><a href="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
 	                <li id="black" onClick="color_click(this.id)" style="background-color: black;"><a href="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
 	            </ul>

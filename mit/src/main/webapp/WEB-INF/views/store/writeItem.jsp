@@ -258,13 +258,13 @@ p:focus {
 				<div class="uploadmerchandice">
 					<div class="divwrap">
 						<div>상품명</div>
-						<input type="text" name="pdtitle" placeholder="상품명 제목 입력">
+						<input type="text" name="pdtitle" placeholder="상품명 제목 입력" required>
 					</div>
-
+					<p id ="checkTitleMsg" class="titlemsg hidden" style="text-align: center; color: red;"></p>
 					<div class="divwrap">
 						<div>상품 브랜드</div>
 						<input type="text" name="pdname"
-							placeholder="브랜드 이름 입력 (제품 코드 + 고유 명사)">
+							placeholder="브랜드 이름 입력 (제품 코드 + 고유 명사)" required>
 					</div>
 				</div>
 			</div>
@@ -277,25 +277,25 @@ p:focus {
 				<div class="uploadmerchandice">
 					<div class="divwrap">
 						<div>상품 가격 / 재고</div>
-						<input type="number" name="pdprice" placeholder="상품 가격">
+						<input type="number" name="pdprice" placeholder="상품 가격" required>
 
 					</div>
 
 					<div class="divwrap">
 						<div>s / 재고</div>
-						<input type="number" name="pdscount" placeholder="재고 수량">
+						<input type="number" name="pdscount" placeholder="재고 수량 " required>
 					</div>
 					<div class="divwrap">
 						<div>m / 재고</div>
-						<input type="number" name="pdmcount" placeholder="재고 수량">
+						<input type="number" name="pdmcount" placeholder="재고 수량" required>
 					</div>
 					<div class="divwrap">
 						<div>l / 재고</div>
-						<input type="number" name="pdlcount" placeholder="재고 수량">
+						<input type="number" name="pdlcount" placeholder="재고 수량" required>
 					</div>
 					<div class="divwrap">
 						<div>xl / 재고</div>
-						<input type="number" name="pdxlcount" placeholder="재고 수량">
+						<input type="number" name="pdxlcount" placeholder="재고 수량" required>
 					</div>
 				</div>
 			</div>
@@ -440,6 +440,10 @@ p:focus {
         const filelist = document.getElementById('filelist')
         const showmethefile = document.getElementById('showmethefile')
         const divcheckbox = document.getElementsByClassName('divcheckbox')
+        
+        const pdtitle = document.querySelector('input[name="pdtitle"]')
+        const checkTitleMsg = document.getElementById('checkTitleMsg')
+        const titlemsg = document.querySelector('.titlemsg')
         
         // 수정버튼을 눌렀을때 각 input에 value넣는 과정
         function getinfodto() {
@@ -613,7 +617,7 @@ p:focus {
         	}
         }
         
-  
+        console.log(writeItem.pdcode.value)
         element.checked = true;
         }
 
@@ -635,6 +639,30 @@ p:focus {
  
         // 수정으로 들어왔는지 확인하기 위해 로드 될때마다 체크
 		window.onload = getinfodto()
+		
+		pdtitle.oninput = function() {
+			console.log(pdtitle.value)
+			
+			titlemsg.classList.remove('hidden')
+			var url = '${cpath}/store/checktitle/'+pdtitle.value
+			var opt = {
+					method: 'GET'
+			}
+			fetch(url, opt).then(resp => resp.text())
+			.then(text => {
+				if(text == 1){
+					titlemsg.classList.remove('true')
+					titlemsg.classList.add('false')
+					checkTitleMsg.innerText = ''
+					checkTitleMsg.innerText = '이미 사용중인 제목입니다.'
+				}
+				else{
+					titlemsg.classList.remove('true')
+					titlemsg.classList.add('false')
+					checkTitleMsg.innerText = ''
+				}
+			})
+        }
         
 		// 이미지가 바뀔때 마다 이벤트 추가
         function getchanged(event){
@@ -791,6 +819,12 @@ p:focus {
             event.preventDefault()
             createcontent()
             createviewimglist()
+            
+            if(writeItem.pdcolor.value == ''){
+            	alert('색을 확인해주세요!')
+            	return
+            }
+            
             const formData = new FormData(event.target)
             
             for(let test of formData.entries()){

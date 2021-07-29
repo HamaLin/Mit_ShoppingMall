@@ -65,6 +65,11 @@ public class StoreAjaxController {
 		return (row >= 1) ? 1 : 0;
 	}
 	
+	@GetMapping("/checktitle/{pdtitle}")
+	public int checktitle(@PathVariable String pdtitle) {
+		return ss.checktitle(pdtitle);
+	}
+	
 	@GetMapping("/SearchItems/{search}")
 	public List<StoreDTO> SearchItems(@PathVariable String search) {
 		return ss.searchItems(search);
