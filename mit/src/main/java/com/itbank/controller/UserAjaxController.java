@@ -58,11 +58,11 @@ public class UserAjaxController {
 		// 등록한 파일이 있으면
 		if (!dto.getImg().isEmpty()) {
 			// 이전 프로필 사진이 default.jpg가 아니면 이전 프사는 삭제
-			if (!dto.getUserimg().equals("default.jpg")) {
+//			if (!dto.getUserimg().equals("default.jpg")) {
 				// 이전 프사 삭제
-				String oldImgName = dto.getUserimg();
-				tss.getDedleteimgToServer(oldImgName);
-			}
+//				UserDTO olddtoImgName = us.login(dto);
+//				tss.getDedleteimgToServer(olddtoImgName.getUserimg());
+//			}
 			// 새로운 프로필 사진으로 업데이트
 			MultipartFile file = dto.getImg();
 
