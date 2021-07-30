@@ -115,7 +115,6 @@
 		return div						
 	}
 
-	bestItems.onclick = getdivcontent
 	
 </script>
 

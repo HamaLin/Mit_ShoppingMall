@@ -110,7 +110,6 @@
 		return div						
 	}
 
-	newItems.onclick = getdivcontent
 	
 </script>
 
