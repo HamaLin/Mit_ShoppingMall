@@ -136,7 +136,7 @@
 	<h2>회원 정보</h2>
 	<div class="userInfo">
 		<div>
-			<img src="${cpath}/image/${login.userimg}" class="userImg" >
+			<img src="${login.userimg}" class="userImg" >
 		</div>
 		<div class="userInfoMenu">
 			<div>${login.username }님 안녕하세요</div>

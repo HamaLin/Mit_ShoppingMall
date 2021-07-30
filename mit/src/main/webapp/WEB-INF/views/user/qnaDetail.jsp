@@ -254,7 +254,7 @@
 			</div>
 			<div class="qnaImgs">
 				<c:forEach var="img" items="${imgs }">
-					<div><img src="${img }"/></div>
+					<div><img src="${img}"/></div>
 				</c:forEach>	
 			</div>
 			<div class="qnaText">
@@ -328,7 +328,7 @@
 				if(pdMainImg == null) {
 					mainImg.style.backgroundColor = 'grey'
 				}else {
-					mainImg.src = '${cpath}/image/'+ product.pdcode + product.pdwriter + '/'+ product.mainimg
+					mainImg.src = product.mainimg
 				}
 				pdimg.appendChild(mainImg)
 				

@@ -64,7 +64,7 @@
 
 <div class="userInfo">
 	<form id="userInfo" enctype="multipart/form-data">
-		<img src="${cpath}/image/${login.userimg} " class="userImg" >
+		<img src="${login.userimg} " class="userImg" >
 		<h3>${login.username }님의 회원 정보</h3>
 		<p><input type="file" name="img" accept="image/*"></p>
 		<p><input type="hidden" name="userimg" value="${login.userimg }"></p>

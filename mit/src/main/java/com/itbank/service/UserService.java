@@ -17,14 +17,14 @@ import com.itbank.model.UserDTO;
 public class UserService {
 	
 	@Autowired private UserDAO dao;
-	private final String uploadPath = "C:\\mitImg";
+//	private final String uploadPath = "C:\\mitImg";
 	
-	public UserService() {
-		File dir = new File(uploadPath);
-		if(dir.exists() == false) {
-			dir.mkdirs();
-		}
-	}
+//	public UserService() {
+//		File dir = new File(uploadPath);
+//		if(dir.exists() == false) {
+//			dir.mkdirs();
+//		}
+//	}
 
 	public int join(UserDTO dto) {
 		return dao.join(dto);
@@ -72,8 +72,8 @@ public class UserService {
 		if(!dto.getUserimg().equals("default.jpg")) {	
 			// 이전 프사 삭제
 			String oldImgName = dto.getUserimg();
-			File delete = new File(uploadPath, oldImgName);	
-			delete.delete();
+//			File delete = new File(uploadPath, oldImgName);	
+//			delete.delete();
 		}
 		return dao.userDelete(dto);
 	}

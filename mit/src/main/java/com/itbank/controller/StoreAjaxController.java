@@ -104,9 +104,6 @@ public class StoreAjaxController {
 		return ss.selectOne(idx);
 	}
 	
-	
-	
-	
 	@PostMapping("/modifyItem")
 	public int modify(StoreDTO dto) {
 		int row = ss.getModify(dto);
@@ -272,6 +269,8 @@ public class StoreAjaxController {
 	public int deletereply(@PathVariable int idx) {
 		return ss.deletereply(idx);
 	}
+	
+	
 	
 	@GetMapping("/colorItems/{color}")
 	public List<StoreDTO> colorItems(@PathVariable String color) throws JSchException, SftpException, IOException {

@@ -1,5 +1,8 @@
 package com.itbank.controller;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +17,17 @@ import org.springframework.web.servlet.ModelAndView;
 import com.itbank.model.QnaDTO;
 import com.itbank.model.UserDTO;
 import com.itbank.service.Hash;
+import com.itbank.service.ToSftpService;
 import com.itbank.service.UserService;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.SftpException;
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
 	
 	@Autowired private UserService us;
+	@Autowired private ToSftpService tss;
 	
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
@@ -72,7 +79,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/login")
-	public String login(Model model, UserDTO dto, HttpSession session) {
+	public String login(Model model, UserDTO dto, HttpSession session) throws JSchException, SftpException, IOException {
 		
 		if(dto.getUserid().length() <= 4) {	// 아이디가 4글자 이하이면 관리자
 			UserDTO adminLogin =  us.login(dto);
@@ -90,6 +97,7 @@ public class UserController {
 			dto.setUserpw(hashUserPw);
 			
 			UserDTO login =  us.login(dto);
+			login.setUserimg(tss.getimgToServer(login.getUserimg()));
 			if(login != null) {
 				model.addAttribute("loginResult", 1);			
 			}else {
@@ -102,11 +110,15 @@ public class UserController {
 	}
 	
 	@GetMapping("/qna/{idx}")
-	public ModelAndView qnaSelect(@PathVariable int idx,ModelAndView mav) {
+	public ModelAndView qnaSelect(@PathVariable int idx,ModelAndView mav) throws JSchException, SftpException, IOException {
 		QnaDTO qna = us.qnaSelect(idx);
 		if (qna.getQnaimg() != null) {
 			String[] imgs = qna.getQnaimg().split(",");
-			mav.addObject("imgs", imgs);
+			ArrayList<String> imglist= new ArrayList<String>();
+			for(String s : imgs) {
+				imglist.add(tss.getimgToServer(s));
+			}
+			mav.addObject("imgs", imglist);
 		}
 		mav.setViewName("user/qnaDetail");
 		mav.addObject("qna", qna);

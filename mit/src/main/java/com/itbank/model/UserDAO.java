@@ -14,10 +14,10 @@ public interface UserDAO {
 	@Select("select * from usertable where userid = #{userid} and userpw = #{userpw}")
 	UserDTO login(UserDTO dto);
 	
-	@Update("update usertable set useraddress = #{useraddress}, usernick = #{usernick}, usermail = #{usermail}, userphone = #{userphone}, userimg = #{userimg} where userid = #{userid}")
-	int userModify_file(UserDTO dto);
+//	@Update("update usertable set useraddress = #{useraddress}, usernick = #{usernick}, usermail = #{usermail}, userphone = #{userphone}, userimg = #{userimg} where userid = #{userid}")
+//	int userModify_file(UserDTO dto);
 	
-	@Update("update usertable set useraddress = #{useraddress}, usernick = #{usernick}, usermail = #{usermail}, userphone = #{userphone} where userid = #{userid}")
+	@Update("update usertable set useraddress = #{useraddress}, usernick = #{usernick}, usermail = #{usermail}, userphone = #{userphone}, userimg = #{userimg}  where userid = #{userid}")
 	int userModify(UserDTO dto);
 	
 	@Delete("delete from usertable where userid = #{userid}")

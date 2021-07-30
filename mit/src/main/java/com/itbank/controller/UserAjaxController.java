@@ -53,15 +53,16 @@ public class UserAjaxController {
 	public int userModify(UserDTO dto, String postcode, String address, HttpSession session)  throws IllegalStateException, IOException, JSchException, SftpException{
 		dto.setUseraddress(postcode+"/"+address);
 		
+		int row = 0;
+		
 		// 등록한 파일이 있으면
 		if (!dto.getImg().isEmpty()) {
 			// 이전 프로필 사진이 default.jpg가 아니면 이전 프사는 삭제
-//			if (!dto.getUserimg().equals("default.jpg")) {
-//				// 이전 프사 삭제
-//				String oldImgName = dto.getUserimg();
-//				File delete = new File(uploadPath, oldImgName);
-//				delete.delete();
-//			}
+			if (!dto.getUserimg().equals("default.jpg")) {
+				// 이전 프사 삭제
+				String oldImgName = dto.getUserimg();
+				tss.getDedleteimgToServer(oldImgName);
+			}
 			// 새로운 프로필 사진으로 업데이트
 			MultipartFile file = dto.getImg();
 
@@ -79,11 +80,24 @@ public class UserAjaxController {
 	         }
 	        
 			dto.setUserimg(fileName);
-			return us.userModify(dto);
+			
+			row = us.userModify(dto);
+			if(row == 1) {
+				UserDTO returndto = us.getReUser(dto.getUserid());
+				returndto.setUserimg(tss.getimgToServer(returndto.getUserimg()));
+				session.setAttribute("login", returndto);
+			}
+			return row;
 		}
 		// 등록한 파일이 없으면
 		else {
-			return us.userModify(dto);
+			row = us.userModify(dto);
+			if(row == 1) {
+				UserDTO returndto = us.getReUser(dto.getUserid());
+				returndto.setUserimg(tss.getimgToServer(returndto.getUserimg()));
+				session.setAttribute("login", returndto);
+			}
+			return row;
 		}
 		
 //		int row = us.userModify(dto);
@@ -198,15 +212,17 @@ public class UserAjaxController {
 	}
 	
 	@GetMapping("/getProduct/{pdidx}")
-	public HashMap<String, Object> getProduct(@PathVariable int pdidx) {
+	public HashMap<String, Object> getProduct(@PathVariable int pdidx) throws JSchException, SftpException, IOException {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		StoreDTO product = qs.getProduct(pdidx);
+		
 		if(product == null) {
 			Integer a = new Integer(0);
 			map.put("nullcheck", a);
 			return map;
 		} 
 		else {
+			product.setMainimg(tss.getimgToServer(product.getMainimg()));
 			Integer a = new Integer(1);
 			map.put("nullcheck", a);
 			map.put("product", product);

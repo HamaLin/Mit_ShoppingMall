@@ -69,5 +69,29 @@ public String transferToServer(File tmp) throws JSchException, SftpException, IO
 		
 		return fileName;
    }
+   
+   public void getDedleteimgToServer (String filename) throws JSchException, SftpException, IOException {
+	   Session sess = null;
+	   Channel channel = null;
+	   JSch jsch = new JSch();
+	   
+	   sess = jsch.getSession(serverUser, serverIP, serverPort);
+		sess.setPassword(serverPass);
+		sess.setConfig("StrictHostKeyChecking", "no");
+		
+		sess.connect();
+		System.out.println("sftp> Connected");
+		
+		channel = sess.openChannel("sftp");
+		channel.connect();
+		
+		chSftp = (ChannelSftp) channel;
+		chSftp.cd("/var/www/html");
+		// 삭제
+		System.out.println(filename);
+		chSftp.rm(filename);
+		chSftp.exit();
+		
+   }
 
 }

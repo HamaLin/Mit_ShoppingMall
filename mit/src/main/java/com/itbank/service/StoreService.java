@@ -101,27 +101,53 @@ public class StoreService {
 
 
    public int delete(int idx) throws JSchException, SftpException, IOException {
-      StoreDTO dto = selectOne(idx);
-      
-      int row = deleteallreply(dto.getIdx());
-      
-      if(row == 0) {
-    	  System.out.println("댓글 사진 지우기 실패!");
-    	  return 0;
-      }
-      
-      return dao.delete(idx);
-   }
+	      StoreDTO dto = selectOne(idx);
+	      
+	      int row = deleteallreply(dto.getIdx());
+	      
+	      if(row == 0) {
+	    	  System.out.println("댓글 사진 지우기 실패!");
+	    	  return 0;
+	      }
+	      
+	      ArrayList<String> list2 = new ArrayList<String>();
+	      
+	      if(dto.getPdimg() != null){
+	          String filelistname = dto.getPdimg();
+	          dto.setMainimg(tss.getimgToServer(dto.getMainimg()));
+	          
+	          for(int i = 0 ; i <  filelistname.length() ; i++) {
+	         	 if(filelistname.length() <= 0 ) {
+	        		  break;
+	        	  	}
+	         	String msg = filelistname.substring(0, filelistname.indexOf(","));
+	         	list2.add(msg);
+	         	filelistname = filelistname.substring(filelistname.indexOf(",")+1);        
+	          }
+	          dto.setFilename(list2);
+	       }
+	      
+	      for(String s : dto.getFilename()) {
+	    	  tss.getDedleteimgToServer(s);
+	      }
+	      
+	      return dao.delete(idx);
+	   }
 
 
-   private int deleteallreply(int idx)  {
+   private int deleteallreply(int idx) throws JSchException, SftpException, IOException  {
 	   List<writingDTO> list = wdao.getreplylist(idx);
+	   
 	   if(list.isEmpty()) {
 		   return 1;
 	   }
+	   
 	   int row = 0;
 	   
 	   for(writingDTO dto : list) {
+		   if(dto.getImg() != null) {
+			   tss.getDedleteimgToServer(dto.getImg());
+		   }
 		   row += wdao.deletereply(dto.getIdx());
 	   }
 	   return row;

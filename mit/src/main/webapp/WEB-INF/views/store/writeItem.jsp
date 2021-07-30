@@ -817,27 +817,33 @@ p:focus {
         // 글작성버튼을 클릭시
         writeItem.onsubmit = function(event){
             event.preventDefault()
-            createcontent()
-            createviewimglist()
             
             if(writeItem.pdcolor.value == ''){
             	alert('색을 확인해주세요!')
             	return
             }
             
-            const formData = new FormData(event.target)
+            const formDataTest = new FormData(event.target)
             
-            for(let test of formData.entries()){
-            	if(test.pdcode == null){
-            		alert('카테고리를 확인해주세요!')
-            		return
+            var flag = true
+            for(let test of formDataTest.entries()){
+            	if(test[0] == 'pdcode'){
+            		flag = false
             	}
-            	else if(test.mainimg == null){
+            	else if(test[0] == 'mainimg' && test[1] == ''){
             		alert('메인이미지를 설정해주세요!')
             		return
             	}
-                console.log(test)
             }
+            
+            if(flag){
+            	alert('카테고리를 설정해주세요!')
+        		return
+            }
+            
+            createcontent()
+            createviewimglist()
+            const formData = new FormData(event.target)
             
             const url = '${cpath}/store/writeItem'
             const opt = {
@@ -881,7 +887,6 @@ p:focus {
         }
      	
      	function createviewimglist() {
-     		console.log(showmethefile.childElementCount)
      		if(showmethefile.childElementCount == 0){
      			var input = document.createElement('input')
                 input.type = 'text'
