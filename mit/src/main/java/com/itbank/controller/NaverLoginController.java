@@ -16,7 +16,6 @@ import com.itbank.model.UserDTO;
 import com.itbank.service.UserService;
 
 @Controller
-@RequestMapping("/user")
 public class NaverLoginController {
 	/* NaverLoginBO */
 	private NaverLoginBO naverLoginBO;
@@ -30,7 +29,7 @@ public class NaverLoginController {
 	}
 	
 	//로그인 첫 화면 요청 메소드
-	@RequestMapping(value = "/naverLogin", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "/user/naverLogin", method = { RequestMethod.GET, RequestMethod.POST })
 	public String naverLogin(Model model, HttpSession session) {
 		/* 네이버아이디로 인증 URL을 생성하기 위하여 naverLoginBO클래스의 getAuthorizationUrl메소드 호출 */
 		String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
@@ -42,7 +41,7 @@ public class NaverLoginController {
 	}
 	
 	//네이버 로그인 성공시 callback호출 메소드
-	@RequestMapping(value = "/callback", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "/user/callback", method = { RequestMethod.GET, RequestMethod.POST })
 	public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws IOException, ParseException {
 		
 		OAuth2AccessToken oauthToken;
