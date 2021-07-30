@@ -93,7 +93,7 @@
 		
 		if(dto.mainimg != null){
 				const img = document.createElement('img')
-				div.innerHTML += '<a href="${cpath}/store/storeDetale/?id=' + dto.idx + '"><img src = "' + dto.mainimg + '"></a> ' ' + '<br>'
+				div.innerHTML += '<a href="${cpath}/store/storeDetale/?id=' + dto.idx + '"><img src = "' + dto.mainimg + '"></a> '
 		}
 		else{
 			const img = document.createElement('img')

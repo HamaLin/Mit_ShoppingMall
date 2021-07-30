@@ -79,6 +79,7 @@
 	
 	// 객체를 받아서 배열형태로 저장 및 화면에 출력
 	function loaditems() {
+		console.log(params)
 		const url = '${cpath}/store/colorItems/' + params
 		const opt = {
 				method: 'GET',
