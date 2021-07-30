@@ -234,7 +234,7 @@ textarea {
 #showgraph>li>span {
 	position: absolute;
 	width: 100px;
-	margin-bottom: 36px;
+	margin-bottom: 43px;
 }
 
 ol>li {
@@ -622,7 +622,8 @@ const idx = params.get('id')
 			
 			'원' +'</p>'+ '<br>'
 			jsoncontent.innerHTML += '<p>' + '적립금 : ' + '0%' +'</p>'
-			jsoncontent.innerHTML += '<p>' + '배송비 : ' + json.pdprice + '원' +'</p>'
+			jsoncontent.innerHTML += '<p>' + '배송비 : ' + (json.pdprice/10).toString().replace
+			(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + '원' +'</p>'
 			
 			selectSize.options[1].text = 's : ' + json.pdscount
             selectSize.options[2].text = 'm : ' + json.pdmcount
@@ -678,7 +679,7 @@ const idx = params.get('id')
 			if(${not empty login}){
 				SubmitUserInfo.pdidx.value = json.idx
 				SubmitUserInfo.price.value = json.pdprice
-				SubmitUserInfo.mainimg.value = json.pdcode + json.pdwriter + '/'+ json.mainimg
+				SubmitUserInfo.mainimg.value = json.mainimg
 				SubmitUserInfo.title.value = json.pdtitle
 				var age = ${login.userbirth}
 				SubmitUserInfo.userage.value = parseInt(2021 - age/10000)
@@ -876,12 +877,10 @@ const idx = params.get('id')
 		div.appendChild(divcontent)
 		
 		if(dto.img != null){
-// 			div.className = 'wrapReplyList'
 			divflex.className = 'wrapflexReplyList'
 			div.style.width = '100%'
 			divflex.appendChild(div)
 			
-// 			for(let i = 0 ; i < dto.writingfilename.length ; i++){
 				var imgdiv = document.createElement('div')
 				console.log(dto.writingfilename)
 				imgdiv.style.backgroundImage = 'url(' + dto.writingfilename + ')'
@@ -892,7 +891,6 @@ const idx = params.get('id')
 				imgdiv.style.backgroundPosition = 'center'
 				
 				divflex.appendChild(imgdiv)
-// 			}
 			divflex.style.display = 'flex'
 			return divflex
 		}

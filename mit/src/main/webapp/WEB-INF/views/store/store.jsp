@@ -57,6 +57,9 @@
 	background-color: white;
 	font-size: 18px;
 }
+img {
+	transition-duration: 1s;
+}
 </style>
 
 	
@@ -71,6 +74,8 @@
 </div>
 <script>
 	const getItems = document.getElementById('getItems')
+	
+	
 	
 	// 객체를 받아서 배열형태로 저장 및 화면에 출력
 	function loaditems(){
@@ -100,7 +105,6 @@
 		
 		if(dto.mainimg != null){
 				const img = document.createElement('img')
-				console.log(dto.mainimg)
 				div.innerHTML += '<a href="${cpath}/store/storeDetale/?id=' + dto.idx + '"><img src = "' + dto.mainimg + '"></a> '						
 		}
 		else{
@@ -119,10 +123,6 @@
 		div.className = 'content'						
 		return div						
 	}
-	
-	
-
-	
 </script>
 
 <%@ include file="../footer.jsp"%>
