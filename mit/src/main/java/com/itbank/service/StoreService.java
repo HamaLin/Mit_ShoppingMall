@@ -204,11 +204,15 @@ public class StoreService {
 		return dao.resetidset(userid);
 	}
    
-	public List<StoreDTO> bestItems() {
+	public List<StoreDTO> bestItems() throws JSchException, SftpException, IOException {
 		List<BuyTableDTO> buylist = dao.bestList();
 		ArrayList<StoreDTO> dto = new ArrayList<StoreDTO>();
 		for(BuyTableDTO buy : buylist) {
 			dto.add(dao.SelecOne(buy.getPdidx()));
+		}
+		
+		for(StoreDTO d : dto) {
+			d.setMainimg(tss.getimgToServer(d.getMainimg()));
 		}
 		return dto;
 	}

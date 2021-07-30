@@ -157,7 +157,7 @@ public class StoreAjaxController {
 	}
 	
 	@GetMapping("/BestItems")
-	public List<StoreDTO> bestItems() {
+	public List<StoreDTO> bestItems() throws JSchException, SftpException, IOException {
 		return ss.bestItems();
 	}
 	
