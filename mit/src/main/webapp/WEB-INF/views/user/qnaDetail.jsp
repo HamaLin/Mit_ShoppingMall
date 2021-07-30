@@ -254,7 +254,7 @@
 			</div>
 			<div class="qnaImgs">
 				<c:forEach var="img" items="${imgs }">
-					<div><img src="${cpath}/image/${qna.qnawriter}/${img}"/></div>
+					<div><img src="${img }"/></div>
 				</c:forEach>	
 			</div>
 			<div class="qnaText">
