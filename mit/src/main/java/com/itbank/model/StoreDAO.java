@@ -43,6 +43,7 @@ public interface StoreDAO {
 			+ "")
 	List<StoreDTO> searchItems(@Param("search") String search);
 
+	
 	@Insert("insert into wltable (pdidx, userid, usergender, count, price, mainimg, usersize, title, userage) values "
 			+ "(#{pdidx}, #{userid}, #{usergender}, #{count}, #{price}, #{mainimg}, #{usersize}, #{title}, #{userage})")
 	int wishInsert(WishListDTO dto);

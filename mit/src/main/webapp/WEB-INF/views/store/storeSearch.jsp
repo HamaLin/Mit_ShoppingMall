@@ -96,6 +96,7 @@ img {
 	
 	}
 	
+	
 	window.onload = loaditems
 	
 	// div의 스타일 및 내용을 추가

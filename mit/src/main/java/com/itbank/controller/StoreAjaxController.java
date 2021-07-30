@@ -105,6 +105,8 @@ public class StoreAjaxController {
 	}
 	
 	
+	
+	
 	@PostMapping("/modifyItem")
 	public int modify(StoreDTO dto) {
 		int row = ss.getModify(dto);
