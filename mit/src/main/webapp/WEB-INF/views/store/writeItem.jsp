@@ -828,6 +828,14 @@ p:focus {
             const formData = new FormData(event.target)
             
             for(let test of formData.entries()){
+            	if(test.pdcode == null){
+            		alert('카테고리를 확인해주세요!')
+            		return
+            	}
+            	else if(test.mainimg == null){
+            		alert('메인이미지를 설정해주세요!')
+            		return
+            	}
                 console.log(test)
             }
             
