@@ -163,7 +163,7 @@ public class StoreAjaxController {
 	}
 	
 	@GetMapping("/NewItems")
-	public List<StoreDTO> newItems() {
+	public List<StoreDTO> newItems() throws JSchException, SftpException, IOException {
 		return ss.newItems();
 	}
 	
@@ -209,27 +209,27 @@ public class StoreAjaxController {
 	}
 	
 	@GetMapping("/TopItems")
-	public List<StoreDTO> topItems() {
+	public List<StoreDTO> topItems() throws JSchException, SftpException, IOException {
 		return ss.topItems();
 	}
 	
 	@GetMapping("/BottomItems")
-	public List<StoreDTO> bottomItems() {
+	public List<StoreDTO> bottomItems() throws JSchException, SftpException, IOException {
 		return ss.bottomItems();
 	}
 	
 	@GetMapping("/HatItems")
-	public List<StoreDTO> hatItems() {
+	public List<StoreDTO> hatItems() throws JSchException, SftpException, IOException {
 		return ss.hatItems();
 	}
 	
 	@GetMapping("/GlassesItems")
-	public List<StoreDTO> glassesItems() {
+	public List<StoreDTO> glassesItems() throws JSchException, SftpException, IOException {
 		return ss.glassesItems();
 	}
 	
 	@GetMapping("/BackpackItems")
-	public List<StoreDTO> backpackItems() {
+	public List<StoreDTO> backpackItems() throws JSchException, SftpException, IOException {
 		return ss.backpackItems();
 	}
 	
@@ -272,12 +272,12 @@ public class StoreAjaxController {
 	}
 	
 	@GetMapping("/colorItems/{color}")
-	public List<StoreDTO> colorItems(@PathVariable String color) {
+	public List<StoreDTO> colorItems(@PathVariable String color) throws JSchException, SftpException, IOException {
 		return ss.colorItems(color);
 	}
 	
 	@GetMapping("/priceItems/{price}")
-	public List<StoreDTO> priceItems(@PathVariable int price) {
+	public List<StoreDTO> priceItems(@PathVariable int price) throws JSchException, SftpException, IOException {
 		return ss.priceItems(price);
 	}
 	

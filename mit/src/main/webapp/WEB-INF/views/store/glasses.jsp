@@ -3,37 +3,68 @@
 <%@ include file="../header.jsp" %>
 <%@ include file="../filter.jsp" %>
 <style>
-	.content:hover{
-		cursor: pointer;
-		background-color: silver;
-	}
-	.glasses {
-		margin: 150px;
-		padding: 100px 50px;
-		display: flex;
-		width: 100%;
-		height: auto;
-	}
-	#glassesItems{
-		width: 1250px;
-		display: flex;
-		height: auto;
-	}
-	#glassesItems > .content{
-		width: 300px;
-		height: 400px;
-		fontSize: 100px;
-		fontWeight: bold;
-		text-align: center;
-		margin: 25px;
-	}
-	.content > a > img{
-		width: 250px;
-		height: 300px;
-	}
+	.content:hover {
+	cursor: pointer;
+	background-color: silver;
+}
+
+.glasses {
+	margin: 150px;
+    display: flex;
+    width: 80%;
+    height: 950px;
+    position: relative;
+}
+
+#glassesItems {
+	width: 100%;
+    display: flex;
+    height: auto;
+    flex-wrap: wrap;
+}
+
+#glassesItems>.content {
+    width: 30%;
+    height: 400px;
+    text-align: center;
+    margin-bottom: 75px;
+    margin-right: 40px;
+}
+.content > a {
+	font-size: 20px;
+}
+.content > p {
+	color: grey;
+	margin-top: -10px;
+}
+.content>a>img {
+	width: 80%;
+    height: 80%;
+}
+.content > a > p {
+	margin-top: 10px;
+}
+
+.adminbtn {
+	position: absolute;
+	right: -11%;
+    top: -20%;
+}
+
+.adminbtn>a>button {
+	width: 100px;
+	height: 50px;
+	background-color: white;
+	font-size: 18px;
+}
 </style>
 
 <div class="glasses">
+<c:if test="${not empty admin }"> 
+	<div class="adminbtn">
+	<a href="${cpath}/store/writeItem"><button>상품 등록</button></a>
+	</div>
+</c:if>
 	<div id="glassesItems"></div>
 </div>
 
@@ -68,8 +99,7 @@
 		
 		if(dto.mainimg != null){
 				const img = document.createElement('img')
-				div.innerHTML += '<a href="${cpath}/store/storeDetale/?id=' + dto.idx + '"><img src = ' + 
-								'${cpath}/image/'+ dto.pdcode + dto.pdwriter + '/' + dto.mainimg+' "></a> ' + '<br>'
+				div.innerHTML += '<a href="${cpath}/store/storeDetale/?id=' + dto.idx + '"><img src = "' + dto.mainimg + '"></a> ' ' + '<br>'
 		}
 		else{
 			const img = document.createElement('img')

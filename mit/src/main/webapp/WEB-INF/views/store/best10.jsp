@@ -2,37 +2,68 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../header.jsp" %>
 <style>
-	.content:hover{
-		cursor: pointer;
-		background-color: silver;
-	}
-	.best {
-		margin: 150px;
-		padding: 100px 50px;
-		display: flex;
-		width: 100%;
-		height: auto;
-	}
-	#bestItems{
-		width: 300px;
-		height: 400px;
-		display: flex;
-	}
-	#bestItems > .content{
-		
-		padding: 10px;
-		fontSize: 100px;
-		fontWeight: bold;
-		text-align: center;
-		margin: 0;
-	}
-	.content > a > img{
-		width: 290px;
-		
-	}
+	.content:hover {
+	cursor: pointer;
+	background-color: silver;
+}
+
+.best {
+	margin: 150px;
+    display: flex;
+    width: 80%;
+    height: 950px;
+    position: relative;
+}
+
+#bestItems {
+	width: 100%;
+    display: flex;
+    height: auto;
+    flex-wrap: wrap;
+}
+
+#bestItems>.content {
+    width: 30%;
+    height: 400px;
+    text-align: center;
+    margin-bottom: 75px;
+    margin-right: 40px;
+}
+.content > a {
+	font-size: 20px;
+}
+.content > p {
+	color: grey;
+	margin-top: -10px;
+}
+.content>a>img {
+	width: 80%;
+    height: 80%;
+}
+.content > a > p {
+	margin-top: 10px;
+}
+
+.adminbtn {
+	position: absolute;
+	right: -11%;
+    top: -20%;
+}
+
+.adminbtn>a>button {
+	width: 100px;
+	height: 50px;
+	background-color: white;
+	font-size: 18px;
+}
 </style>
 
 <div class="best">
+<c:if test="${not empty admin }"> 
+	<div class="adminbtn">
+	<a href="${cpath}/store/writeItem"><button>상품 등록</button></a>
+	</div>
+</c:if>
 	<div id="bestItems"></div>
 </div>
 
@@ -67,8 +98,7 @@
 		
 		if(dto.mainimg != null){
 				const img = document.createElement('img')
-				div.innerHTML += '<a href="${cpath}/store/storeDetale/?id=' + dto.idx + '"><img src = ' + 
-								'${cpath}/image/'+ dto.pdcode + dto.pdwriter + '/' + dto.mainimg+' "></a> ' + '<br>'
+				div.innerHTML += '<a href="${cpath}/store/storeDetale/?id=' + dto.idx + '"><img src = "' + dto.mainimg + '"></a> ' ' + '<br>'
 		}
 		else{
 			const img = document.createElement('img')

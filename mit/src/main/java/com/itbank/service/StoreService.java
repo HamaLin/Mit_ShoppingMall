@@ -213,8 +213,13 @@ public class StoreService {
 	}
 
 
-	public List<StoreDTO> newItems() {
-	      return dao.newList();
+	public List<StoreDTO> newItems() throws JSchException, SftpException, IOException {
+		List<StoreDTO> list = dao.newList();
+	     
+	      for(StoreDTO dto : list) {
+	    	  dto.setMainimg(tss.getimgToServer(dto.getMainimg()));
+	      }
+	      return list;
 	}
 	
 	public int purchase(BuyTableDTO dto) {
@@ -252,28 +257,53 @@ public class StoreService {
 		return list;
 	}
 	
-	public List<StoreDTO> topItems() {
-		return dao.topItems();
+	public List<StoreDTO> topItems() throws JSchException, SftpException, IOException {
+		List<StoreDTO> list = dao.topItems();
+	     
+	      for(StoreDTO dto : list) {
+	    	  dto.setMainimg(tss.getimgToServer(dto.getMainimg()));
+	      }
+	      return list;
 	}
 
 
-	public List<StoreDTO> bottomItems() {
-		return dao.bottomItems();
+	public List<StoreDTO> bottomItems() throws JSchException, SftpException, IOException {
+		List<StoreDTO> list = dao.bottomItems();
+	     
+	      for(StoreDTO dto : list) {
+	    	  dto.setMainimg(tss.getimgToServer(dto.getMainimg()));
+	      }
+	      return list;
 	}
 
 
-	public List<StoreDTO> hatItems() {
-		return dao.hatItems();
+	public List<StoreDTO> hatItems() throws JSchException, SftpException, IOException {
+		List<StoreDTO> list = dao.hatItems();
+	     
+	      for(StoreDTO dto : list) {
+	    	  dto.setMainimg(tss.getimgToServer(dto.getMainimg()));
+	      }
+	      return list;
 	}
 
 
-	public List<StoreDTO> glassesItems() {
-		return dao.glassesItems();
+	public List<StoreDTO> glassesItems() throws JSchException, SftpException, IOException {
+		List<StoreDTO> list = dao.glassesItems();
+	     
+	      for(StoreDTO dto : list) {
+	    	  dto.setMainimg(tss.getimgToServer(dto.getMainimg()));
+	      }
+	      return list;
 	}
 
 
-	public List<StoreDTO> backpackItems() {
-		return dao.backpackItems();
+	public List<StoreDTO> backpackItems() throws JSchException, SftpException, IOException {
+		List<StoreDTO> list = dao.backpackItems();
+	     
+	      for(StoreDTO dto : list) {
+	    	  dto.setMainimg(tss.getimgToServer(dto.getMainimg()));
+	      }
+	      return list;
 	}
 
 
@@ -287,13 +317,23 @@ public class StoreService {
 	}
 
 
-	public List<StoreDTO> colorItems(String color) {
-		return dao.colorItems(color);
+	public List<StoreDTO> colorItems(String color) throws JSchException, SftpException, IOException {
+		List<StoreDTO> list = dao.colorItems(color);
+	     
+	      for(StoreDTO dto : list) {
+	    	  dto.setMainimg(tss.getimgToServer(dto.getMainimg()));
+	      }
+	      return list;
 	}
 
 
-	public List<StoreDTO> priceItems(int price) {
-		return dao.priceItems(price);
+	public List<StoreDTO> priceItems(int price) throws JSchException, SftpException, IOException {
+		List<StoreDTO> list = dao.priceItems(price);
+	     
+	      for(StoreDTO dto : list) {
+	    	  dto.setMainimg(tss.getimgToServer(dto.getMainimg()));
+	      }
+	      return list;
 	}
 
 
