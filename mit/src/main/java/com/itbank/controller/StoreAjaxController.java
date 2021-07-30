@@ -117,7 +117,7 @@ public class StoreAjaxController {
 	}
 	
 	@GetMapping("/SearchItems/{search}")
-	public List<StoreDTO> SearchItems(@PathVariable String search) {
+	public List<StoreDTO> SearchItems(@PathVariable String search) throws JSchException, SftpException, IOException {
 		return ss.searchItems(search);
 	}
 	

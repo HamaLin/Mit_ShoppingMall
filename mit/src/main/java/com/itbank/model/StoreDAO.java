@@ -36,7 +36,7 @@ public interface StoreDAO {
 			+ "pdname = #{pdname}, pdcolor = #{pdcolor} where idx = #{idx}")
 	int getModify(StoreDTO dto);
 	
-	@Select("select idx, mainimg, pdtitle, pdprice, pdcode, pdwriter from pdtable"
+	@Select("select * from pdtable"
 			+ " where pdtitle like '%'||#{search}||'%'"
 			+ " or pdname like '%'||#{search}||'%'"
 			+ " or pdcolor like '%'||#{search}||'%'"

@@ -133,8 +133,13 @@ public class StoreService {
       return row;
    }
    
-   public List<StoreDTO> searchItems(String search) {
-		return dao.searchItems(search);
+   public List<StoreDTO> searchItems(String search) throws JSchException, SftpException, IOException {
+	   List<StoreDTO> list = dao.searchItems(search);
+	     
+	      for(StoreDTO dto : list) {
+	    	  dto.setMainimg(tss.getimgToServer(dto.getMainimg()));
+	      }
+	      return list;
 	}
    
 
