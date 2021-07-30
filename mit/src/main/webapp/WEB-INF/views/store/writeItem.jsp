@@ -143,7 +143,6 @@ p:focus {
     align-content: center;
     justify-content: center;
     overflow-x: hidden;
-    overflow-y: hidden;
 }
 
 #showBox {

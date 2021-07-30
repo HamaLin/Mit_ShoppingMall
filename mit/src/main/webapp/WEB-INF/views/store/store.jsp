@@ -38,7 +38,7 @@
 	margin-top: -10px;
 }
 .content>a>img {
-	width: 80%;
+	width: 70%;
     height: 80%;
 }
 .content > a > p {

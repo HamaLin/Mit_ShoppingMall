@@ -907,10 +907,10 @@ const idx = params.get('id')
 				mainImg.style.opacity = 0
 				
 				setTimeout(function() { 
-                	mainImg.style.opacity = 1
-                	mainImg.style.backgroundImage = 'url(' + e.src + ')'
-				}, 1000);
-				
+					mainImg.style.backgroundImage = 'url(' + e.src + ')'
+                	
+                	setTimeout(function() {mainImg.style.opacity = 1 }, 1000);
+				}, 500);
 			}
 		}
 	}
