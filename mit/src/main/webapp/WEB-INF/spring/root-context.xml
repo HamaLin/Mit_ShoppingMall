@@ -13,8 +13,8 @@
 		
 	<bean id="multipartResolver"
 			class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<property name="maxUploadSize" value="10485760" />	
-		<property name="maxInMemorySize" value="10485760" />
+		<property name="maxUploadSize" value="104857600" />	
+		<property name="maxInMemorySize" value="104857600" />
 		<property name="defaultEncoding" value="utf-8" />	
 	</bean>	
 	
@@ -23,7 +23,7 @@
 			destroy-method="close">
 		<!-- 스프링 빈으로 객체를 선언하고, property 태그로 setter를 통해 값을 지정할 수 있다 -->
 		<property name="driverClass" value="oracle.jdbc.driver.OracleDriver" />		
-		<property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521:xe" />		
+		<property name="jdbcUrl" value="jdbc:oracle:thin:@221.164.9.200:31521:xe" />		
 		<property name="user" value="c##itbank" />		
 		<property name="password" value="it" />		
 		<property name="maxPoolSize" value="30" />
