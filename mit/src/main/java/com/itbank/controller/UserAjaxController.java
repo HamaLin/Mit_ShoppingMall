@@ -134,7 +134,7 @@ public class UserAjaxController {
 	}
 	
 	@PostMapping("/qnaWrite")
-	public int qnaWrite(QnaDTO dto) {
+	public int qnaWrite(QnaDTO dto) throws IllegalStateException, IOException, JSchException, SftpException {
 		// 줄바꿈 처리
 		dto.setQnacontent(dto.getQnacontent().replace("\r\n", "<br>"));
 		int row = 0;
@@ -189,7 +189,7 @@ public class UserAjaxController {
 	}
 	
 	@PostMapping("/qnaModify")
-	public int qnaModify(QnaDTO dto) {
+	public int qnaModify(QnaDTO dto) throws IllegalStateException, IOException, JSchException, SftpException {
 		// 줄바꿈 처리
 		dto.setQnacontent(dto.getQnacontent().replace("\r\n", "<br>"));
 		int row = 0;

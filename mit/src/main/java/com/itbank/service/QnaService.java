@@ -16,59 +16,46 @@ import com.itbank.model.QnaReplyDAO;
 import com.itbank.model.QnaReplyDTO;
 import com.itbank.model.StoreDTO;
 import com.itbank.model.WishListDTO;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.SftpException;
 
 @Service
 public class QnaService {
 	
 	@Autowired QnaDAO dao;
 	@Autowired QnaReplyDAO replyDao;
-	
-	private final String uploadPath = "C:\\mitImg";
-	
-	public QnaService() {
-      File dir = new File(uploadPath);
-      if(dir.exists() == false) {
-         dir.mkdirs();
-      }
-   }
-	   
-	public int qnaWrite(QnaDTO dto) {
+	@Autowired private ToSftpService tss;
+		   
+	public int qnaWrite(QnaDTO dto) throws IllegalStateException, IOException, JSchException, SftpException {
+		  
 		List<MultipartFile> files = dto.getFiles();
 	      
 	      if (files.get(0).getSize() == 0) {	// 파일이 없으면
 	    	  dto.setQnaimg("");
 		      return dao.qnaWrite(dto);
 	      }
-	      
-	      // 문의글 글쓴이 폴더 생성
-	      String newdir = uploadPath + "\\" + dto.getQnawriter();
-	      String fileName = "";
-	      
-	      for (MultipartFile f : files) {
-	         if(f.getSize() == 0) {
-	            break;
-	         }
-	         
-	        // 랜덤 파일명 
-			UUID uuid = UUID.randomUUID();
-			String fileName2 = uuid.toString() + "_" + f.getOriginalFilename();
-	       
-	         File dest = new File(newdir, fileName2);   // 파일 객체를 생성
-	         fileName += fileName2 + ",";
-	         
-	         if(dest.exists() == false) {
-	            dest.mkdirs();
-	         }
-	         try {
-	            f.transferTo(dest);
-	         } catch (IllegalStateException | IOException e) {
-	            e.printStackTrace();
-	         } 
-	            
-	      }
-	      
-	      dto.setQnaimg(fileName);
-	      return dao.qnaWrite(dto);
+			
+			String fileName = "";
+		      
+			for(MultipartFile f : files) {
+				if(f.getSize() == 0) {
+		            break;
+		         }
+				
+				UUID uuid = UUID.randomUUID();
+		        String fileName2 = uuid.toString() + "_" + f.getOriginalFilename();
+		        
+		        File dest = new File(fileName2);
+		        f.transferTo(dest);
+		         
+		        String s = tss.transferToServer(dest);
+		        if(s == null) {
+		        	return 0;
+		        }
+		        fileName = fileName2;
+			}
+			dto.setQnaimg(fileName);
+		    return dao.qnaWrite(dto);
 	}
 
 	public List<QnaDTO> myqnalist(String userid) {
@@ -79,7 +66,7 @@ public class QnaService {
 		return dao.qnaDelete(idx);
 	}
 
-	public int qnaModify(QnaDTO dto) {
+	public int qnaModify(QnaDTO dto) throws IllegalStateException, IOException, JSchException, SftpException {
 		List<MultipartFile> files = dto.getFiles();
 	      
 		  // 파일이 없으면
@@ -87,34 +74,31 @@ public class QnaService {
 		      return dao.qnaModify(dto);
 	      }
 	      
-	      // 새로 등록한 사진 넣어주기
-	      String newdir = uploadPath + "\\" + dto.getQnawriter();
 	      String fileName = "";
-	      
+	       
 	      for (MultipartFile f : files) {
 	         if(f.getSize() == 0) {
 	            break;
 	         }
 	         
-	        // 랜덤 파일명 
-			UUID uuid = UUID.randomUUID();
-			String fileName2 = uuid.toString() + "_" + f.getOriginalFilename();
-	       
-	         File dest = new File(newdir, fileName2);   // 파일 객체를 생성
-	         fileName += fileName2 + ",";
-	         
-	         if(dest.exists() == false) {
-	            dest.mkdirs();
-	         }
-	         try {
-	            f.transferTo(dest);
-	         } catch (IllegalStateException | IOException e) {
-	            e.printStackTrace();
-	         } 
-	            
+	         if(f.getSize() == 0) {
+		            break;
+		         }
+				
+				UUID uuid = UUID.randomUUID();
+		        String fileName2 = uuid.toString() + "_" + f.getOriginalFilename();
+		        
+		        File dest = new File(fileName2);
+		        f.transferTo(dest);
+		         
+		        String s = tss.transferToServer(dest);
+		        if(s == null) {
+		        	return 0;
+		        }
+		        fileName = fileName2;   
 	      }
-	      dto.setQnaimg(fileName);
 	      
+	      dto.setQnaimg(fileName);
 	      return dao.qnaModify(dto);
 	}
 
