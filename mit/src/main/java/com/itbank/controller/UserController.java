@@ -79,35 +79,36 @@ public class UserController {
 	}
 	
 	@PostMapping("/login")
-	public String login(Model model, UserDTO dto, HttpSession session) throws JSchException, SftpException, IOException {
-		
-		if(dto.getUserid().length() <= 4) {	// 아이디가 4글자 이하이면 관리자
-			UserDTO adminLogin =  us.login(dto);
-			if(adminLogin != null) {
-				model.addAttribute("loginResult", 1);			
-			}else {
-				model.addAttribute("loginResult", 0);
-			}
-			session.setAttribute("admin", adminLogin);
-			return "user/login";
-			
-		} else { // 아이디가 5글자 이상이면 일반 유저
-			// 로그인 창에서 입력한 비밀번호 해쉬로 만들기
-			String hashUserPw = Hash.getHash(dto.getUserpw());
-			dto.setUserpw(hashUserPw);
-			
-			UserDTO login =  us.login(dto);
-			login.setUserimg(tss.getimgToServer(login.getUserimg()));
-			if(login != null) {
-				model.addAttribute("loginResult", 1);			
-			}else {
-				model.addAttribute("loginResult", 0);
-			}
-			session.setAttribute("login", login);
-			return "user/login";
-		}
-		
-	}
+	   public String login(Model model, UserDTO dto, HttpSession session) throws JSchException, SftpException, IOException {
+	      
+	      if(dto.getUserid().length() <= 4) {   // 아이디가 4글자 이하이면 관리자
+	         UserDTO adminLogin =  us.login(dto);
+	         if(adminLogin != null) {
+	            model.addAttribute("loginResult", 1);         
+	         }else {
+	            model.addAttribute("loginResult", 0);
+	         }
+	         session.setAttribute("admin", adminLogin);
+	         return "user/login";
+	         
+	      } else { // 아이디가 5글자 이상이면 일반 유저
+	         // 로그인 창에서 입력한 비밀번호 해쉬로 만들기
+	         String hashUserPw = Hash.getHash(dto.getUserpw());
+	         dto.setUserpw(hashUserPw);
+	         
+	         UserDTO login =  us.login(dto);
+	         if(login != null) {
+	            model.addAttribute("loginResult", 1);         
+	            login.setUserimg(tss.getimgToServer(login.getUserimg()));
+	         }else {
+	            model.addAttribute("loginResult", 0);
+	         }
+	         
+	         session.setAttribute("login", login);
+	         return "user/login";
+	      }
+	      
+	   }
 	
 	@GetMapping("/qna/{idx}")
 	public ModelAndView qnaSelect(@PathVariable int idx,ModelAndView mav) throws JSchException, SftpException, IOException {
