@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../header.jsp" %>
 <style>
-* .category:not(.disabled){
+*{
 	box-sizing: border-box;
 }
 
@@ -231,7 +231,7 @@ textarea {
 #showgraph>li>span {
 	position: absolute;
 	width: 100px;
-	margin-bottom: 40px;
+	margin-bottom: 36px;
 }
 
 ol>li {
@@ -382,6 +382,9 @@ ol>li {
     background-color: white;
     font-size: 18px;
 }
+.barnumber{
+	position: absolute;
+}
 </style>
 
 <div class="store">
@@ -468,7 +471,7 @@ ol>li {
 			<option value="2">★★☆☆☆</option>
 			<option value="1">★☆☆☆☆</option>
 		</select>
-		<input type="file" name="Writingfiles" multiple="multiple" accept="image/*">
+		<input type="file" name="Writingfiles" accept="image/*">
 		<input type="submit" value="저장하기">
 		</div>
 		</form>
@@ -629,7 +632,7 @@ const idx = params.get('id')
             selectSize.children[4].value = json.pdxlcount
 			
 			if(json.mainimg != ''){
-				mainImg.style.backgroundImage = 'url(${cpath}/image/'+ json.pdcode + json.pdwriter + '/'+ json.mainimg + ')'
+				mainImg.style.backgroundImage = 'url(' + json.mainimg + ')'
 				mainImg.style.backgroundRepeat = 'no-repeat'
 				mainImg.style.backgroundSize = '100%'
 				mainImg.style.backgroundPosition = 'center'
@@ -644,7 +647,7 @@ const idx = params.get('id')
 			if(json.viewimglist != null){
 				for(let i = 0 ; i < json.viewimglist.length; i++){
 					var img = document.createElement('img')
-					img.src = '${cpath}/image/'+ json.pdcode + json.pdwriter + '/'+ json.viewimglist[i]
+					img.src = json.viewimglist[i]
 					img.style.width = '100px'
 					img.id = Math.random()
 					img.setAttribute('onclick', 'changemainimg(this)')
@@ -658,7 +661,7 @@ const idx = params.get('id')
 			while(msg.length > 0){
 				if(msg.indexOf('<img src="">') == 0) {
 					var img = document.createElement('img')
-					img.src = '${cpath}/image/'+ json.pdcode + json.pdwriter + '/' + json.filename[idx]
+					img.src = json.filename[idx]
 					mainContent.appendChild(img)
 					msg = msg.substr(msg.indexOf('<img src="">')+12)
 					idx += 1
@@ -718,6 +721,7 @@ const idx = params.get('id')
 				var li = drawingbar(array[i], totalcount, i)
 				showgraph.appendChild(li)
 			}
+			
 		})
 	}
 	
@@ -745,6 +749,13 @@ const idx = params.get('id')
 		span.className = 'bar'
 		span.style.width = '30px'
 		span.style.height = (age/total)*100 + '%'
+		
+		var divpercentnumber = document.createElement('div')
+		divpercentnumber.innerText = parseInt((age/total)*100) + '%'
+		divpercentnumber.className = 'barnumber'
+		divpercentnumber.style.height = ((age/total)*100)+30 + '%'
+		li.appendChild(divpercentnumber)
+		
 		li.appendChild(span)
 		return li
 	}
@@ -865,9 +876,10 @@ const idx = params.get('id')
 			div.style.width = '100%'
 			divflex.appendChild(div)
 			
-			for(let i = 0 ; i < dto.writingfilename.length ; i++){
+// 			for(let i = 0 ; i < dto.writingfilename.length ; i++){
 				var imgdiv = document.createElement('div')
-				imgdiv.style.backgroundImage = 'url(${cpath}/image/store' + dto.writer + dto.pdidx + '/' + dto.writingfilename[i] + ')'
+				console.log(dto.writingfilename)
+				imgdiv.style.backgroundImage = 'url(' + dto.writingfilename + ')'
 				imgdiv.style.height = '100px'
 				imgdiv.style.width = '100px'
 				imgdiv.style.backgroundRepeat = 'no-repeat'
@@ -875,7 +887,7 @@ const idx = params.get('id')
 				imgdiv.style.backgroundPosition = 'center'
 				
 				divflex.appendChild(imgdiv)
-			}
+// 			}
 			divflex.style.display = 'flex'
 			return divflex
 		}
@@ -1328,7 +1340,6 @@ function qnaform_check(event) {
 			var inputfile = document.createElement('input')
 			inputfile.name = 'Writingfiles'
 			inputfile.type = 'file'
-			inputfile.multiple = 'multiple'
 			
 			var divwrap = document.createElement('div')
 			

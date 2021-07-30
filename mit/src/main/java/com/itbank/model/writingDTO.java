@@ -9,7 +9,7 @@ public class writingDTO {
 	private int idx, scope, pdidx, getidx;
 	private String writer,wr, img;
 	private List<MultipartFile> Writingfiles;
-	private List<String> writingfilename;
+	private String writingfilename;
 	
 	public int getGetidx() {
 		return getidx;
@@ -17,10 +17,10 @@ public class writingDTO {
 	public void setGetidx(int getidx) {
 		this.getidx = getidx;
 	}
-	public List<String> getWritingfilename() {
+	public String getWritingfilename() {
 		return writingfilename;
 	}
-	public void setWritingfilename(List<String> writingfilename) {
+	public void setWritingfilename(String writingfilename) {
 		this.writingfilename = writingfilename;
 	}
 	public int getPdidx() {

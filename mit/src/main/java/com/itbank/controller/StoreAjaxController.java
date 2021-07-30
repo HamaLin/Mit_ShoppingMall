@@ -1,7 +1,10 @@
 package com.itbank.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Update;
@@ -25,36 +28,79 @@ import com.itbank.model.WishListDTO;
 import com.itbank.model.writingDAO;
 import com.itbank.model.writingDTO;
 import com.itbank.service.StoreService;
+import com.itbank.service.ToSftpService;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.SftpException;
 
 @RestController
 @RequestMapping("/store")
 public class StoreAjaxController {
 
 	@Autowired private StoreService ss;
+	@Autowired private ToSftpService tss;
 	
 	@PostMapping("/writeItem")
-	public int write(StoreDTO dto) {
+	public int write(StoreDTO dto) throws IllegalStateException, IOException, JSchException, SftpException {
+		List<MultipartFile> files = dto.getFiles();
+		
+		if (files.get(0).getSize() == 0) {
+	         dto.setPdimg("");
+	         dto.setViewimg("");
+	         return ss.getInsert(dto);
+	    }
+		
+		String fileName = "";
+	    String viewimgname = "";
+	    List<String> viewimglist = dto.getViewimglist();
+	      
+		for(MultipartFile f : dto.getFiles()) {
+			if(f.getSize() == 0) {
+	            break;
+	         }
+			UUID uuid = UUID.randomUUID();
+	        String fileName2 = uuid.toString() + "_" + f.getOriginalFilename();
+	        
+			if(dto.getMainimg().equals(f.getOriginalFilename())) {
+	        	 dto.setMainimg(fileName2);
+	         }
+	         for(String s : viewimglist) {
+	        	 if(s.equals(f.getOriginalFilename())) {
+	        		 viewimgname += fileName2 + ",";
+	        		 break;
+	        	 }
+	         }
+	         File dest = new File(fileName2);
+	         f.transferTo(dest);
+	         String s = tss.transferToServer(dest);
+	         if(s == null) {
+	        	 return 0;
+	         }
+	         fileName += fileName2 + ",";
+		}
+		dto.setViewimg(viewimgname);
+	    dto.setPdimg(fileName);
+		
 		int row = ss.getInsert(dto);
 		return (row >= 1) ? 1 : 0;
 	}
 	
 	@GetMapping("/getinfo/{idx}")
-	public StoreDTO getinfo(@PathVariable int idx) {
+	public StoreDTO getinfo(@PathVariable int idx) throws IllegalStateException, IOException, JSchException, SftpException{
 		return ss.selectOne(idx);
 	}
 	
 	@GetMapping("/GetItems")
-	public List<StoreDTO> getItems() {
+	public List<StoreDTO> getItems() throws IllegalStateException, IOException, JSchException, SftpException{
 		return ss.getList();
 	}
 	
 	@DeleteMapping("/deleteitem/{idx}")
-	public int delete(@PathVariable int idx) {
+	public int delete(@PathVariable int idx) throws IllegalStateException, IOException, JSchException, SftpException{
 		return ss.delete(idx);
 	}
 	
 	@GetMapping("/showitem/{idx}")
-	public StoreDTO showitem(@PathVariable int idx) {
+	public StoreDTO showitem(@PathVariable int idx) throws IllegalStateException, IOException, JSchException, SftpException{
 		return ss.selectOne(idx);
 	}
 	
@@ -106,7 +152,7 @@ public class StoreAjaxController {
 		return list;
 	}
 	@GetMapping("/getreply/{idx}")
-	public List<writingDTO> getreply(@PathVariable int idx) {
+	public List<writingDTO> getreply(@PathVariable int idx)throws JSchException, SftpException, IOException {
 		List<writingDTO> list = ss.getreplylist(idx);
 		return list;
 	}
@@ -131,7 +177,34 @@ public class StoreAjaxController {
 	}
 	
 	@PostMapping("/writing")
-	public int writing(writingDTO dto) {
+	public int writing(writingDTO dto) throws IllegalStateException, IOException, JSchException, SftpException{
+		List<MultipartFile> files = dto.getWritingfiles();
+		
+		if (files == null) {
+			dto.setImg("");
+		    return ss.insert(dto);
+	    }
+		
+		String fileName = "";
+	      
+		for(MultipartFile f : files) {
+			if(f.getSize() == 0) {
+	            break;
+	         }
+			
+			UUID uuid = UUID.randomUUID();
+	        String fileName2 = uuid.toString() + "_" + f.getOriginalFilename();
+	        
+	        File dest = new File(fileName2);
+	        f.transferTo(dest);
+	         
+	        String s = tss.transferToServer(dest);
+	        if(s == null) {
+	        	return 0;
+	        }
+	        fileName = fileName2;
+		}
+		dto.setImg(fileName);
 		return ss.insert(dto);
 	}
 	
@@ -161,7 +234,35 @@ public class StoreAjaxController {
 	}
 	
 	@PostMapping("/modifyreply")
-	public int modifyreply(writingDTO dto) {
+	public int modifyreply(writingDTO dto) throws IllegalStateException, IOException, JSchException, SftpException{
+		List<MultipartFile> files = dto.getWritingfiles();
+		
+		if (files == null) {
+		    dto.setImg("");
+		    return ss.modifyreply(dto);
+		}
+		
+		String fileName = "";
+	      
+		for(MultipartFile f : files) {
+			if(f.getSize() == 0) {
+	            break;
+	         }
+			
+			UUID uuid = UUID.randomUUID();
+	        String fileName2 = uuid.toString() + "_" + f.getOriginalFilename();
+	        
+	        File dest = new File(fileName2);
+	        f.transferTo(dest);
+	         
+	        String s = tss.transferToServer(dest);
+	        if(s == null) {
+	        	return 0;
+	        }
+	        fileName = fileName2;
+		}
+		dto.setImg(fileName);
+		
 		return ss.modifyreply(dto);
 	}
 	

@@ -1,7 +1,10 @@
 package com.itbank.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.itbank.model.BuyTableDTO;
 import com.itbank.model.QnaDTO;
@@ -22,7 +26,10 @@ import com.itbank.model.UserDTO;
 import com.itbank.model.WishListDTO;
 import com.itbank.service.Hash;
 import com.itbank.service.QnaService;
+import com.itbank.service.ToSftpService;
 import com.itbank.service.UserService;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.SftpException;
 
 @RestController
 @RequestMapping("/user")
@@ -30,6 +37,7 @@ public class UserAjaxController {
 	 
 	@Autowired private UserService us;
 	@Autowired private QnaService qs;
+	@Autowired private ToSftpService tss;
 	
 	@GetMapping("/checkId/")
 	public int checkIdNull() {
@@ -42,14 +50,47 @@ public class UserAjaxController {
 	}
 	
 	@PostMapping("/userInfo")
-	public int userModify(UserDTO dto, String postcode, String address, HttpSession session) {
+	public int userModify(UserDTO dto, String postcode, String address, HttpSession session)  throws IllegalStateException, IOException, JSchException, SftpException{
 		dto.setUseraddress(postcode+"/"+address);
 		
-		int row = us.userModify(dto);
-		if (row == 1) {
-			session.setAttribute("login", us.getReUser(dto.getUserid()));
+		// 등록한 파일이 있으면
+		if (!dto.getImg().isEmpty()) {
+			// 이전 프로필 사진이 default.jpg가 아니면 이전 프사는 삭제
+//			if (!dto.getUserimg().equals("default.jpg")) {
+//				// 이전 프사 삭제
+//				String oldImgName = dto.getUserimg();
+//				File delete = new File(uploadPath, oldImgName);
+//				delete.delete();
+//			}
+			// 새로운 프로필 사진으로 업데이트
+			MultipartFile file = dto.getImg();
+
+			// 랜덤 파일명 만들기
+			UUID uuid = UUID.randomUUID();
+			String fileName = uuid.toString() + "_" + file.getOriginalFilename();
+
+			// 파일 객체를 생성 후 등록
+			File dest = new File(fileName);
+			file.transferTo(dest);
+			
+	        String s = tss.transferToServer(dest);
+	        if(s == null) {
+	        	 return 0;
+	         }
+	        
+			dto.setUserimg(fileName);
+			return us.userModify(dto);
 		}
-		return row;
+		// 등록한 파일이 없으면
+		else {
+			return us.userModify(dto);
+		}
+		
+//		int row = us.userModify(dto);
+//		if (row == 1) {
+//			session.setAttribute("login", us.getReUser(dto.getUserid()));
+//		}
+//		return row;
 	}
 	
 	@PostMapping("/userDelete")

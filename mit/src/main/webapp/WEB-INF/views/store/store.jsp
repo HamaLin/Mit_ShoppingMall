@@ -12,7 +12,7 @@
 	margin: 150px;
     display: flex;
     width: 80%;
-    height: auto;
+    height: 950px;
     position: relative;
 }
 
@@ -100,8 +100,8 @@
 		
 		if(dto.mainimg != null){
 				const img = document.createElement('img')
-				div.innerHTML += '<a href="${cpath}/store/storeDetale/?id=' + dto.idx + '"><img src = ' + 
-								'${cpath}/image/'+ dto.pdcode + dto.pdwriter + '/' + dto.mainimg+' "></a> '
+				console.log(dto.mainimg)
+				div.innerHTML += '<a href="${cpath}/store/storeDetale/?id=' + dto.idx + '"><img src = "' + dto.mainimg + '"></a> '						
 		}
 		else{
 			const img = document.createElement('img')
