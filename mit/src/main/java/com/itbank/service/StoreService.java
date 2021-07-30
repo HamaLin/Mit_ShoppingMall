@@ -37,8 +37,12 @@ public class StoreService {
 
    public List<StoreDTO> getList() throws JSchException, SftpException, IOException {
       List<StoreDTO> list = dao.getList();
+      List<String> viewlist2 = new ArrayList<String>();
      
       for(StoreDTO dto : list) {
+    	  String viewlist = tss.getimgToServer(dto.getViewimg());
+    	  viewlist2.add(viewlist);
+    	  dto.setViewimglist(viewlist2);
     	  dto.setMainimg(tss.getimgToServer(dto.getMainimg()));
       }
       return list;
@@ -112,11 +116,9 @@ public class StoreService {
 
    private int deleteallreply(int idx)  {
 	   List<writingDTO> list = wdao.getreplylist(idx);
-	   
-	   if(list == null) {
+	   if(list.isEmpty()) {
 		   return 1;
 	   }
-	   
 	   int row = 0;
 	   
 	   for(writingDTO dto : list) {
@@ -137,39 +139,6 @@ public class StoreService {
    
 
 	public int insert(writingDTO dto) {
-//		List<MultipartFile> files = dto.getWritingfiles();
-//	      
-//	    if (files == null) {
-//	       dto.setImg("");
-//	       return wdao.insert(dto);
-//	    }
-//	    
-//	    String newdir = uploadPath + "\\store" + dto.getWriter() + dto.getPdidx();
-//	    String fileName = "";
-//	      
-//	      for (MultipartFile f : files) {
-//	         if(f.getSize() == 0) {
-//	            break;
-//	         }
-//	         
-//	        // 랜덤 파일명 
-//			UUID uuid = UUID.randomUUID();
-//			String fileName2 = uuid.toString() + "_" + f.getOriginalFilename();
-//	       
-//	         File dest = new File(newdir, fileName2);   // 파일 객체를 생성
-//	         fileName += fileName2 + ",";
-//	         
-//	         if(dest.exists() == false) {
-//	            dest.mkdirs();
-//	         }
-//	         try {
-//	            f.transferTo(dest);
-//	         } catch (IllegalStateException | IOException e) {
-//	            e.printStackTrace();
-//	         } 
-//	            
-//	      }
-//	    dto.setImg(fileName);
 		return wdao.insert(dto);
 	}
 

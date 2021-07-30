@@ -481,7 +481,7 @@ p:focus {
         				if(msg.indexOf('<img src="">') == 0) {
         					var div = document.createElement('div')
         					var img = document.createElement('img')
-        					img.src = '${cpath}/image/' + json.pdcode + json.pdwriter + '/' + json.filename[idx2]
+        					img.src = json.filename[idx2]
         					div.id = Math.random()
         					div.setAttribute('onclick', 'getthisfocus(this)')
                         	div.setAttribute('onkeydown', 'getthiskeys(this)')

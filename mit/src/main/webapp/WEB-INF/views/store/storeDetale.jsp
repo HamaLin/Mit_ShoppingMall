@@ -62,6 +62,7 @@
 
 #mainImg {
 	height: 100%;
+	transition-duration: 1s;
 }
 
 img {
@@ -199,12 +200,14 @@ textarea {
 	margin-top: 150px;
 	margin-bottom: 300px;
 	width: 60%;
+	
 }
 
 #drawingchartdiv {
 	display: flex;
 	position: relative;
 	height: 200px;
+	justify-content: center;
 }
 
 #showpercent {
@@ -898,50 +901,17 @@ const idx = params.get('id')
 		return div
 	}
 	
-	var opacity =0;
-	var intervalID=0;
-	
-	function hide(){
-		opacity = Number(window.getComputedStyle(mainImg).getPropertyValue("opacity"));
-		
-		if(opacity>0){
-            //Fade out 핵심 부분
-			opacity = opacity-0.2
-			mainImg.style.opacity=opacity
-		}
-		else{
-			clearInterval(intervalID);
-            return
-		}
-	}
-	
-	function show(){
-		opacity = Number(window.getComputedStyle(mainImg).getPropertyValue("opacity"));
-		
-		if(opacity<1){
-        	//Fade in 핵심 부분
-			opacity = opacity+0.2
-			mainImg.style.opacity=opacity
-		}
-		else{
-			clearInterval(intervalID);
-            return
-		}
-	}
-	
 	function changemainimg(e) {
-		
-		intervalID = setInterval(hide,200)
-		
 		
 		
 		for(let i = 0; i < viewimglist.childElementCount; i++){
 			if(viewimglist.children[i].id == e.id){
+				mainImg.style.opacity = 0
 				
 				setTimeout(function() { 
-					intervalID = setInterval(show,200);
+                	mainImg.style.opacity = 1
                 	mainImg.style.backgroundImage = 'url(' + e.src + ')'
-				}, 2000);
+				}, 1000);
 				
 			}
 		}

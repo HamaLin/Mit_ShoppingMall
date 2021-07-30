@@ -151,7 +151,7 @@ h2 {
 		var divcount = document.createElement('p')
 		var divprice = document.createElement('p')
 		
-		divimg.src = '${cpath}/image/'+ dto.mainimg
+		divimg.src = dto.mainimg
 		divimg.style.height = '100px'
 		divItem.appendChild(divimg)
 		
@@ -164,10 +164,10 @@ h2 {
 		divcount.innerText = '수량 : '+dto.count
 		divItem.appendChild(divcount)
 		
-		divprice.innerText = '금액 : '+dto.price
+		divprice.innerText = '금액 : '+dto.price.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") +' 원'
 		divItem.appendChild(divprice)
 		
-		totalprice.innerText = '주문 합계 : ' + dto.count * dto.price
+		totalprice.innerText = '주문 합계 : ' + (dto.count * dto.price).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") +' 원'
 		
 		divItem.classList.add('oneLine')
 		

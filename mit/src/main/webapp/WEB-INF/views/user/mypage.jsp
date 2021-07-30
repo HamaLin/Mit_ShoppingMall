@@ -299,7 +299,7 @@ function getMyCart() {
 	 		if(pdMainImg == null) {
 	 			mainImg.style.backgroundColor = 'grey'
 	 		}else {
-	 			mainImg.src = '${cpath}/image/'+ pdMainImg
+	 			mainImg.src = pdMainImg
 	 		}
 	 		
 			const pdimg = document.createElement('div')

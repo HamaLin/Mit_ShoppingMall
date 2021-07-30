@@ -5,7 +5,7 @@
 <style>
 .content:hover {
 	cursor: pointer;
-	background-color: silver;
+/* 	background-color: silver; */
 }
 
 .store {
