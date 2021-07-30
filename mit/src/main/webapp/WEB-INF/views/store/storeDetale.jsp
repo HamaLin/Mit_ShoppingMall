@@ -618,8 +618,8 @@ const idx = params.get('id')
 			json.pdprice.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + 
 			
 			'원' +'</p>'+ '<br>'
-			jsoncontent.innerHTML += '<p>' + '적립금' + '0%' +'</p>'
-			jsoncontent.innerHTML += '<p>' + '배송비' + json.pdprice + '원' +'</p>'
+			jsoncontent.innerHTML += '<p>' + '적립금 : ' + '0%' +'</p>'
+			jsoncontent.innerHTML += '<p>' + '배송비 : ' + json.pdprice + '원' +'</p>'
 			
 			selectSize.options[1].text = 's : ' + json.pdscount
             selectSize.options[2].text = 'm : ' + json.pdmcount
@@ -753,8 +753,10 @@ const idx = params.get('id')
 		var divpercentnumber = document.createElement('div')
 		divpercentnumber.innerText = parseInt((age/total)*100) + '%'
 		divpercentnumber.className = 'barnumber'
+		if(total != 0) {
 		divpercentnumber.style.height = ((age/total)*100)+30 + '%'
-		li.appendChild(divpercentnumber)
+		li.appendChild(divpercentnumber)			
+		}	
 		
 		li.appendChild(span)
 		return li
