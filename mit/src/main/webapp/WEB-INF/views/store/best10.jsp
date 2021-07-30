@@ -4,19 +4,19 @@
 <style>
 	.content:hover {
 	cursor: pointer;
-	background-color: silver;
 }
 
 .best {
-	margin: 150px;
+	margin-top: 250px;
     display: flex;
-    width: 80%;
+    width: 100%;
     height: 950px;
     position: relative;
+    justify-content: center;
 }
 
 #bestItems {
-	width: 100%;
+	width: 80%;
     display: flex;
     height: auto;
     flex-wrap: wrap;
@@ -37,7 +37,7 @@
 	margin-top: -10px;
 }
 .content>a>img {
-	width: 80%;
+	width: 60%;
     height: 80%;
 }
 .content > a > p {
@@ -98,21 +98,23 @@
 		
 		if(dto.mainimg != null){
 				const img = document.createElement('img')
-				div.innerHTML += '<a href="${cpath}/store/storeDetale/?id=' + dto.idx + '"><img src = "' + dto.mainimg + '"></a> '
+				div.innerHTML += '<a href="${cpath}/store/storeDetale/?id=' + dto.idx + '"><img src = "' + dto.mainimg + '"></a> '						
 		}
 		else{
 			const img = document.createElement('img')
 			div.innerHTML += '<a href="${cpath}/store/storeDetale/?id=' + dto.idx + '"><img src = ' + 
-							'${cpath}/image/Default.jpg "></a> ' + '<br>'
+							'${cpath}/image/Default.jpg "></a> '
 		}
 		
-		div.innerHTML += '<br>' + '<a href="${cpath}/store/storeDetale/?id=' + dto.idx + '">' + dto.pdtitle +'</a> ' + 
-		'<br>' + '<br>' +
-		dto.pdprice + '원'
+		div.innerHTML += '<a href="${cpath}/store/storeDetale/?id=' + dto.idx + '"><p>' + dto.pdtitle +'</p></a> '
+		
+		
+		div.innerHTML += '<p>' + dto.pdprice.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")
+		+ '원 </p>'
 		
 		
 		div.className = 'content'						
-		return div						
+		return div									
 	}
 
 	

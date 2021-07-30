@@ -5,19 +5,19 @@
 <style>
 	.content:hover {
 	cursor: pointer;
-	background-color: silver;
 }
 
 .hat {
-	margin: 150px;
+	margin-top: 150px;
     display: flex;
-    width: 80%;
+    width: 100%;
     height: 950px;
     position: relative;
+    justify-content: center;
 }
 
 #hatItems {
-	width: 100%;
+	width: 80%;
     display: flex;
     height: auto;
     flex-wrap: wrap;
@@ -38,7 +38,7 @@
 	margin-top: -10px;
 }
 .content>a>img {
-	width: 80%;
+	width: 60%;
     height: 80%;
 }
 .content > a > p {

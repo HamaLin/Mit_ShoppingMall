@@ -4,19 +4,19 @@
 <style>
 	.content:hover {
 	cursor: pointer;
-/* 	background-color: silver; */
 }
 
 .store {
-	margin: 150px;
+	margin-top: 250px;
     display: flex;
-    width: 80%;
+    width: 100%;
     height: 950px;
     position: relative;
+    justify-content: center;
 }
 
 #SearchItems {
-	width: 100%;
+	width: 80%;
     display: flex;
     height: auto;
     flex-wrap: wrap;
@@ -37,7 +37,7 @@
 	margin-top: -10px;
 }
 .content>a>img {
-	width: 80%;
+	width: 60%;
     height: 80%;
 }
 .content > a > p {
@@ -55,9 +55,6 @@
 	height: 50px;
 	background-color: white;
 	font-size: 18px;
-}
-img {
-	transition-duration: 1s;
 }
 </style>
 
