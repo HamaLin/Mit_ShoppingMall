@@ -12,7 +12,7 @@
 	margin-top: 150px;
     display: flex;
     width: 100%;
-    height: 950px;
+    height: auto;
     position: relative;
     justify-content: center;
 }
@@ -48,8 +48,8 @@
 
 .adminbtn {
 	position: absolute;
-	right: -11%;
-    top: -20%;
+	right: 1%;
+    top: -13%%;
 }
 
 .adminbtn>a>button {

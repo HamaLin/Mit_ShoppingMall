@@ -11,7 +11,7 @@
 	margin-top: 150px;
     display: flex;
     width: 100%;
-    height: 950px;
+    height: auto;
     position: relative;
     justify-content: center;
 }

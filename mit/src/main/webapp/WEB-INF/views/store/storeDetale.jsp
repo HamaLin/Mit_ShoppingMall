@@ -66,7 +66,7 @@
 }
 
 img {
-	width: 40%;
+	width: 60%;
 }
 
 .selectoption {
@@ -699,7 +699,7 @@ const idx = params.get('id')
 			var array = new Array(0,0,0,0,0,0)
 
 			for(let i = 0 ; i < arr.length ; i++){
-				totalcount += arr[i].count
+				totalcount += arr[i].countS
 				
 				if(arr[i].userage < 18){
 					array[0] += arr[i].count
