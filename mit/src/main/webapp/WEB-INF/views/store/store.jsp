@@ -28,8 +28,9 @@
     width: 30%;
     height: 400px;
     text-align: center;
-    margin-bottom: 75px;
-    margin-right: 40px;
+    margin-bottom: 20%;
+    margin-right: auto;
+    margin-left: auto;
 }
 .content > a {
 	font-size: 20px;
@@ -39,8 +40,8 @@
 	margin-top: -10px;
 }
 .content>a>img {
-	width: 60%;
-    height: 80%;
+	width: 300px;
+    height: 400px;
 }
 .content > a > p {
 	margin-top: 10px;
@@ -49,7 +50,7 @@
 .adminbtn {
 	position: absolute;
 	right: 1%;
-    top: -13%%;
+    bottom: 5%;
 }
 
 .adminbtn>a>button {

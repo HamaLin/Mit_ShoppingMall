@@ -27,8 +27,9 @@
     width: 30%;
     height: 400px;
     text-align: center;
-    margin-bottom: 75px;
-    margin-right: 40px;
+    margin-bottom: 20%;
+    margin-right: auto;
+    margin-left: auto;
 }
 .content > a {
 	font-size: 20px;
@@ -38,8 +39,8 @@
 	margin-top: -10px;
 }
 .content>a>img {
-	width: 60%;
-    height: 80%;
+	width: 300px;
+    height: 400px;
 }
 .content > a > p {
 	margin-top: 10px;
@@ -107,9 +108,11 @@
 							'${cpath}/image/Default.jpg "></a> ' + '<br>'
 		}
 		
-		div.innerHTML += '<br>' + '<a href="${cpath}/store/storeDetale/?id=' + dto.idx + '">' + dto.pdtitle +'</a> ' + 
-		'<br>' + '<br>' +
-		dto.pdprice + '원'
+		
+		div.innerHTML += '<a href="${cpath}/store/storeDetale/?id=' + dto.idx + '"><p>' + dto.pdtitle +'</p></a> '
+		
+		div.innerHTML += '<p>' + dto.pdprice.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")
+		+ '원 </p>'
 		
 		
 		div.className = 'content'						

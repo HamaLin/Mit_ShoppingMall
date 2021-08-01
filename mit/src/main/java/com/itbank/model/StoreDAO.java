@@ -19,7 +19,7 @@ public interface StoreDAO {
 	@Select("select count(*) from pdtable where pdtitle = #{pdtitle}")
 	int checkTitle(String pdtitle);
 
-	@Select("select * from pdtable order by idx")
+	@Select("select * from pdtable order by idx desc")
 	List<StoreDTO> getList();
 
 	@Select("select filename from pdtable_files  where tidx = #{idx}")

@@ -625,15 +625,47 @@ const idx = params.get('id')
 			jsoncontent.innerHTML += '<p>' + '배송비 : ' + (json.pdprice/10).toString().replace
 			(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + '원' +'</p>'
 			
-			selectSize.options[1].text = 's : ' + json.pdscount
-            selectSize.options[2].text = 'm : ' + json.pdmcount
-            selectSize.options[3].text = 'l : ' + json.pdlcount
-            selectSize.options[4].text = 'xl : ' + json.pdxlcount
+			if(json.pdscount != 0){
+				selectSize.options[1].text = 's : ' + json.pdscount
+				selectSize.children[1].value = json.pdscount
+			}
+			else{
+				selectSize.options[1].remove()
+			}
+
+			if(json.pdmcount != 0){
+				selectSize.options[2].text = 'm : ' + json.pdmcount
+				selectSize.children[2].value = json.pdmcount
+			}
+			else{
+				selectSize.options[2].remove()
+			}
+
+			if(json.pdlcount != 0){
+				selectSize.options[3].text = 'l : ' + json.pdlcount
+				selectSize.children[3].value = json.pdlcount
+			}
+			else{
+				selectSize.options[3].remove()
+			}
+
+			if(json.pdxlcount != 0){
+				selectSize.options[4].text = 'xl : ' + json.pdxlcount
+				selectSize.children[4].value = json.pdxlcount
+			}
+			else{
+				selectSize.options[4].remove()
+			}
+			
+// 			selectSize.options[1].text = 's : ' + json.pdscount
+//             selectSize.options[2].text = 'm : ' + json.pdmcount
+//             selectSize.options[3].text = 'l : ' + json.pdlcount
+//             selectSize.options[4].text = 'xl : ' + json.pdxlcount
             
-            selectSize.children[1].value = json.pdscount
-            selectSize.children[2].value = json.pdmcount
-            selectSize.children[3].value = json.pdlcount
-            selectSize.children[4].value = json.pdxlcount
+//             selectSize.children[1].value = json.pdscount
+//             selectSize.children[2].value = json.pdmcount
+//             selectSize.children[3].value = json.pdlcount
+//             selectSize.children[4].value = json.pdxlcount
 			
 			if(json.mainimg != ''){
 				mainImg.style.backgroundImage = 'url(' + json.mainimg + ')'
@@ -699,7 +731,7 @@ const idx = params.get('id')
 			var array = new Array(0,0,0,0,0,0)
 
 			for(let i = 0 ; i < arr.length ; i++){
-				totalcount += arr[i].countS
+				totalcount += arr[i].count
 				
 				if(arr[i].userage < 18){
 					array[0] += arr[i].count
@@ -856,6 +888,7 @@ const idx = params.get('id')
 			
 			divtotla2.innerText = '( ' + totalreviews + '개 후기 )'
 			divwrap2.appendChild(divtotla2)
+			
 			document.getElementById('title').appendChild(divwrap2)
 			}
 		})

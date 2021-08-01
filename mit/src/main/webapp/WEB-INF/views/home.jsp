@@ -66,8 +66,8 @@
 <div class="slideWrapper">
         <ul class="slide">
             <li style="background-image: url('https://www.covernat.net/SkinImg/img/main_ban01_2021_12_210712_1.jpg')"></li>
-            <li style="background-image: url('https://m.diamondlayla.com/file_data/diamondlayla/gallery/2021/02/03/5ad782c19fd21e9c06b88ed5730978a3.jpg');"></li>
-            <li style="background-image: url('https://m.diamondlayla.com/file_data/diamondlayla/gallery/2020/04/21/c8838d9aeff3c9eea0dd1a458f6fc93b.jpg')"></li>
+            <li style="background-image: url('https://fitandelegant.com/wp-content/uploads/2020/06/How-to-Wear-Denim-Jacket-00141.jpg')"></li>
+            <li style="background-image: url('https://m.diamondlayla.com/file_data/diamondlayla/gallery/2021/02/03/5ad782c19fd21e9c06b88ed5730978a3.jpg')"></li>
         </ul>
 	    <div class="bannerBtn">
 	        <div class="prev"></div>
@@ -78,11 +78,8 @@
 <div class="article">
         <h2>BEST PRODUCTS</h2>
     </div>
-    <div class="banner2">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
+    <div id="banner2">
+    	
     </div>
     
 <script>
@@ -170,6 +167,50 @@
     prevBtn.onmouseover = stopSlide
     nextBtn.onmouseover = stopSlide
 
+</script>
+
+<script>
+function loaditems(){
+	
+	const url = '${cpath}/store/GetItems'
+	const opt = {
+			method: 'GET',
+	}
+	fetch(url, opt).then(resp => resp.json())
+	.then(arr =>{
+		for(let i = 0; i < arr.length && i < 4; i++){
+			const dto = arr[i]
+			const div = createDiv(dto)
+			document.getElementById('banner2').appendChild(div)
+		}
+	})
+	
+	}
+	
+window.onload = loaditems
+
+
+// div의 스타일 및 내용을 추가
+function createDiv(dto) {
+	const div = document.createElement('div')
+	
+	div.innerHTML = '<input type="hidden" name="idx" value="' + dto.idx + '">'
+	
+	if(dto.mainimg != null){
+			const img = document.createElement('img')
+			div.innerHTML += '<a href="${cpath}/store/storeDetale/?id=' + dto.idx + '"><img src = "' + dto.mainimg + '"></a> '						
+	}
+	
+	div.innerHTML += '<a href="${cpath}/store/storeDetale/?id=' + dto.idx + '"><p>' + dto.pdtitle +'</p></a> '
+	
+	
+	div.innerHTML += '<p>' + dto.pdprice.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")
+	+ '원 </p>'
+	
+	
+	div.className = 'content'						
+	return div						
+}
 </script>
 
 <%@ include file="footer.jsp" %>

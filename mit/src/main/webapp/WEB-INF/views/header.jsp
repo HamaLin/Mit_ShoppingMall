@@ -103,17 +103,25 @@
 	    text-align: center;
 	    font-weight: 400;
 	}
-	.banner2 {
+	#banner2 {
 	    display: flex;
 	    justify-content: center;
 	}
-	.banner2 div{
+	#banner2 div{
 	    width: 300px;
 	    height: 400px;
 	    background-color: gray;
 	    margin: 0 10px 200px 10px;
-	}      
-	footer {
+	    text-align: center;
+	} 
+	#banner2 div > a > img{
+	   	width: 300px;
+    	height: 400px;
+	}
+	#banner2 div > a > p {
+		font-weight: bold;
+	}
+ 	footer {
 	    border-top: 1px solid black;
 	    text-align: center;
 	}

@@ -370,6 +370,10 @@ p:focus {
 					<input type="checkbox" name="pdcode" id="glasses" value="안경"
 						onclick="checkOnlyOne(this)"> <label for="glasses">안경</label>
 				</div>
+				<div name="categorydiv" class="categorydivclass">
+					<input type="checkbox" name="pdcode" id="hat" value="모자"
+						onclick="checkOnlyOne(this)"> <label for="glasses">모자</label>
+				</div>
 			</div>
 
 			<input type="hidden" name="mainimg" value="">
